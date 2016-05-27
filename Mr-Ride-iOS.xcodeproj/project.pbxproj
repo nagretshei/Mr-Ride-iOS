@@ -33,7 +33,10 @@
 		8922A9D41CF423170010B66D /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9C91CF423170010B66D /* RobotoMono-Regular.ttf */; };
 		8922A9D51CF423170010B66D /* RobotoMono-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9CA1CF423170010B66D /* RobotoMono-Thin.ttf */; };
 		8922A9D61CF423170010B66D /* RobotoMono-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9CB1CF423170010B66D /* RobotoMono-ThinItalic.ttf */; };
+		893741A41CF68088001EEB52 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893741A31CF68088001EEB52 /* StatisticsViewController.swift */; };
+		8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */; };
 		899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */; };
+		899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B51CF5A093009A16DF /* RecordViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,7 +95,10 @@
 		8922A9C91CF423170010B66D /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		8922A9CA1CF423170010B66D /* RobotoMono-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Thin.ttf"; sourceTree = "<group>"; };
 		8922A9CB1CF423170010B66D /* RobotoMono-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-ThinItalic.ttf"; sourceTree = "<group>"; };
+		893741A31CF68088001EEB52 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
+		8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+YBKAdditions (1).swift"; sourceTree = "<group>"; };
+		899082B51CF5A093009A16DF /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,7 @@
 		8922A96E1CF40D800010B66D = {
 			isa = PBXGroup;
 			children = (
+				8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */,
 				8922A9791CF40D800010B66D /* Mr-Ride-iOS */,
 				8922A9911CF40D800010B66D /* Mr-Ride-iOSTests */,
 				8922A99C1CF40D800010B66D /* Mr-Ride-iOSUITests */,
@@ -149,6 +156,8 @@
 				8922A97E1CF40D800010B66D /* Main.storyboard */,
 				8922A9BC1CF415710010B66D /* MenuTableViewCell.swift */,
 				8922A9BE1CF41A020010B66D /* HistoryViewController.swift */,
+				893741A31CF68088001EEB52 /* StatisticsViewController.swift */,
+				899082B51CF5A093009A16DF /* RecordViewController.swift */,
 				8922A9AB1CF40F0F0010B66D /* SideMenuViewController.swift */,
 				8922A97C1CF40D800010B66D /* ViewController.swift */,
 				8922A9841CF40D800010B66D /* Assets.xcassets */,
@@ -365,7 +374,9 @@
 			files = (
 				8922A9AC1CF40F0F0010B66D /* SideMenuViewController.swift in Sources */,
 				8922A97D1CF40D800010B66D /* ViewController.swift in Sources */,
+				8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */,
 				8922A9B81CF40F6B0010B66D /* MMDrawerBarButtonItem.m in Sources */,
+				899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */,
 				8922A9BF1CF41A020010B66D /* HistoryViewController.swift in Sources */,
 				8922A9BB1CF40F6B0010B66D /* UIViewController+MMDrawerController.m in Sources */,
 				8922A97B1CF40D800010B66D /* AppDelegate.swift in Sources */,
@@ -374,6 +385,7 @@
 				8922A9B91CF40F6B0010B66D /* MMDrawerController.m in Sources */,
 				8922A9831CF40D800010B66D /* Mr_Ride_iOS.xcdatamodeld in Sources */,
 				8922A9BA1CF40F6B0010B66D /* MMDrawerVisualState.m in Sources */,
+				893741A41CF68088001EEB52 /* StatisticsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

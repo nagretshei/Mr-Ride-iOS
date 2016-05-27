@@ -8,15 +8,18 @@
 
 import UIKit
 
-class HistoryViewController: UIViewController {
+class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+    var isPresented = false
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
         
-
-        // Do any additional setup after loading the view.
     }
+    
+
 
     @IBAction func MenuButtonTapped(sender: AnyObject) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -28,10 +31,32 @@ class HistoryViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
+        
+        return Cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+
+       let statisticsViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
+        
+        statisticsViewController?.isPresented = false
+        self.navigationController?.pushViewController(statisticsViewController!, animated: true)
+    }
+    
+    
     func setView(){
         setNavigationBar()
 
     }
+    
     func setNavigationBar(){
         //set navBar color
         self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
@@ -44,7 +69,7 @@ class HistoryViewController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
         
     }
-
+// HistoryCell
     /*
     // MARK: - Navigation
 

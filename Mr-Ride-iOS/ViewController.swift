@@ -39,35 +39,21 @@ class ViewController: UIViewController {
     }
 
     
+    @IBAction func letsRideButtonTapped(sender: UIButton) {
+        let recordPage = storyboard?.instantiateViewControllerWithIdentifier("RecordViewController") as! RecordViewController
+        let recordNavController = UINavigationController(rootViewController: recordPage)
+        presentViewController(recordNavController, animated: true, completion: nil)
+    }
 
-    
-    
-//    func addTextSpacing(){
-//        let attributedString = NSMutableAttributedString(string: self.text!)
-//        attributedString.addAttribute(NSKernAttributeName, value: CGFloat(1.2), range: NSRange(location: 0, length: self.text!.characters.count))
-//        self.attributedText = attributedString
-//    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-//    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-//        return .LightContent
-//    }
+
     func setView(){
         setLabelAndButton()
         setNavigationBar()
-        
-        
-        
-        
-        //        let attributedString = totalDistanceLabel.attributedText as! NSMutableAttributedString
-        //        attributedString.addAttribute(NSKernAttributeName, value: 1.9, range: NSMakeRange(0, attributedString.length))
-        //        totalDistanceLabel.attributedText = attributedString
-        
-        
         
     }
     func setNavigationBar(){
@@ -122,7 +108,19 @@ class ViewController: UIViewController {
         letsRideButton.titleLabel!.shadowOffset = CGSizeMake(0, 1.0);
         
     }
-
+    
+    
+    
+    //    func addTextSpacing(){
+    //        let attributedString = NSMutableAttributedString(string: self.text!)
+    //        attributedString.addAttribute(NSKernAttributeName, value: CGFloat(1.2), range: NSRange(location: 0, length: self.text!.characters.count))
+    //        self.attributedText = attributedString
+    //    }
+    
+    //        let attributedString = totalDistanceLabel.attributedText as! NSMutableAttributedString
+    //        attributedString.addAttribute(NSKernAttributeName, value: 1.9, range: NSMakeRange(0, attributedString.length))
+    //        totalDistanceLabel.attributedText = attributedString
+    
 
 
 

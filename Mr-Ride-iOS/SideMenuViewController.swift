@@ -12,29 +12,36 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
 
 
     @IBOutlet weak var menuTableView: UITableView!
-
-   
-
     
+    var currectSelected = NSIndexPath(forRow: 0, inSection: 0)
+   
     let menuItems = ["Home", "History"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
+      
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        menuTableView.selectRowAtIndexPath(currectSelected, animated: false, scrollPosition: .None)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }
     
-
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let myCell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as! MenuTableViewCell
         
+        myCell.dot.hidden = true
+        
         myCell.menuItemLebel.text = menuItems[indexPath.row]
         myCell.backgroundColor = UIColor.clearColor()
+
         
         myCell.menuItemLebel.layer.shadowOpacity = 2.0
         myCell.menuItemLebel.layer.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.25).CGColor;
@@ -44,17 +51,18 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
         myCell.dot.layer.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.25).CGColor;
         myCell.dot.layer.shadowOffset = CGSizeMake(0.0, 2.0);
         
-        
         return myCell
         
     }
     
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
+        
+        currectSelected = indexPath
         
         switch (indexPath.row) {
             
         case 0:
-            //addDotSubView(111)
             let centerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
             
             let centerNavController = UINavigationController(rootViewController: centerViewController)
@@ -63,10 +71,10 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
             
             appDelegate.centerContainer!.centerViewController = centerNavController
             appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
+         
             break
             
         case 1:
-            //addDotSubView(170)
             let historyViewController = self.storyboard?.instantiateViewControllerWithIdentifier("HistoryViewController") as! HistoryViewController
             
             let historyNavController = UINavigationController(rootViewController: historyViewController)
@@ -95,6 +103,8 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
     
 
     /*
