@@ -244,9 +244,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eyb-Hv-bMu" userLabel="distance">
-                                        <rect key="frame" x="38" y="21" width="54" height="14"/>
+                                        <rect key="frame" x="38" y="21" width="54" height="15"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="14" id="WuS-f6-QwN"/>
+                                            <constraint firstAttribute="height" constant="15" id="WuS-f6-QwN"/>
                                             <constraint firstAttribute="width" constant="54" id="fVy-Wx-igW"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -264,10 +264,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOk-lG-OUv" userLabel="averageSpeed">
-                                        <rect key="frame" x="38" y="86" width="122" height="14"/>
+                                        <rect key="frame" x="38" y="86" width="122" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="122" id="O77-Im-0W0"/>
-                                            <constraint firstAttribute="height" constant="14" id="VHl-17-uyd"/>
+                                            <constraint firstAttribute="height" constant="15" id="VHl-17-uyd"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -284,10 +284,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNr-zy-uCx" userLabel="calories">
-                                        <rect key="frame" x="38" y="151" width="82" height="14"/>
+                                        <rect key="frame" x="38" y="151" width="82" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="82" id="hAu-V0-EDK"/>
-                                            <constraint firstAttribute="height" constant="14" id="jav-2T-9X8"/>
+                                            <constraint firstAttribute="height" constant="15" id="jav-2T-9X8"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -328,6 +328,11 @@
                                             <constraint firstAttribute="width" constant="345" id="W4r-dS-Idp"/>
                                             <constraint firstAttribute="height" constant="200" id="l8K-LV-8KK"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <integer key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oub-XA-Sdv" userLabel="time">
                                         <rect key="frame" x="190" y="216" width="221" height="36"/>

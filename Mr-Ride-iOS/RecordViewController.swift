@@ -72,6 +72,40 @@ class RecordViewController: UIViewController  {
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
     }
     
+
+    func setMap(){
+        let camera = GMSCameraPosition.cameraWithLatitude(25.048215, longitude: 121.517123, zoom: 17)
+        mapView.myLocationEnabled = true
+        mapView.camera = camera
+        mapView.layer.cornerRadius = 10
+        //mapView.settings.myLocationButton = true
+        
+        
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
+        marker.title = "Taipei"
+        marker.snippet = "Taiwan"
+        marker.map = mapView
+        
+        
+    }
+    
+    func setView(){
+        setLabel()
+    }
+    
+    func setLabel(){
+        distance.text = "Distance"
+        distanceNum.text = "109 m"
+        averageSpeed.text = "Average Speed"
+        averageSpeedNum.text = "12 km / h"
+        calories.text = "Calories"
+        caloriesNum.text = "910 kcal"
+        time.text = "00:00:00.00"
+        time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+        
+    }
+    
     func setGradientBackground(){
         self.view.backgroundColor = UIColor.mrLightblueColor()
         gradientLayer.frame = self.view.bounds
@@ -81,39 +115,9 @@ class RecordViewController: UIViewController  {
         gradientLayer.colors = [color1, color2]
         gradientLayer.locations = [0.0, 1.0]
         self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
-      
-    }
-    
-    func setView(){
-        setLabel()
-    }
-    
-    func setLabel(){
-        distance.text = "distance"
-        distanceNum.text = "109 m"
-        averageSpeed.text = "Average Speed"
-        averageSpeedNum.text = "12 km / h"
-        calories.text = "Calories"
-        caloriesNum.text = "910 kcal"
-        time.text = "01:10:23.00"
         
     }
-    
-    func setMap(){
-        let camera = GMSCameraPosition.cameraWithLatitude(-33.86, longitude: 151.20, zoom: 6)
-        mapView.myLocationEnabled = true
-        mapView.camera = camera
-        //mapView.settings.myLocationButton = true
-        
-        
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
-        marker.title = "Sydney"
-        marker.snippet = "Australia"
-        marker.map = mapView
-        
-        
-    }
+
     
     /*
     // MARK: - Navigation
