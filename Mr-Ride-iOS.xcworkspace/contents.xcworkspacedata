@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:buttonPlayAndPause.swift">
+   </FileRef>
+   <FileRef
       location = "group:Mr-Ride-iOS.xcodeproj">
    </FileRef>
    <FileRef

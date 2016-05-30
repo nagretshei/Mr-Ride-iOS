@@ -21,6 +21,10 @@ class RecordViewController: UIViewController  {
     @IBOutlet weak var calories: UILabel!
     @IBOutlet weak var caloriesNum: UILabel!
     @IBOutlet weak var time: UILabel!
+   
+    var startTime = NSTimeInterval()
+    var timer = NSTimer()
+    var pause = false
     
     @IBOutlet weak var recordButton: UIButton!
     
@@ -44,23 +48,7 @@ class RecordViewController: UIViewController  {
     var cllat =  Double ()
     var cllng = Double ()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setView()
-        setMap()
 
-
-    }
-    
-    override func viewDidLayoutSubviews() {
-        setGradientBackground()
-        
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
 
@@ -68,10 +56,47 @@ class RecordViewController: UIViewController  {
     }
 
     @IBAction func FinishButtonTapped(sender: UIBarButtonItem) {
+        timer.invalidate()
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
     }
     
+    @IBAction func startRecording(sender: UIButton) {
+        if !timer.valid {
+            let aSelector : Selector = "updateTime"
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
+            if pause == false {
+                
+                startTime = NSDate.timeIntervalSinceReferenceDate()
+            }
+            else if pause == true {
+                
+            }
+            
+        }
+    
+    }
+
+    @IBAction func pauseRecording(sender: UIButton) {
+        timer.invalidate()
+        pause = true
+        
+    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setView()
+        setMap()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        setGradientBackground()
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 
     func setMap(){
         let camera = GMSCameraPosition.cameraWithLatitude(25.048215, longitude: 121.517123, zoom: 17)
@@ -87,9 +112,52 @@ class RecordViewController: UIViewController  {
         marker.snippet = "Taiwan"
         marker.map = mapView
         
-        
     }
     
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
+        //need to check TimeStamp
+        //NSTime for not checking the location so many times so that we can save space in core data
+        // 三軸感應來算速度
+    }
+    
+    func updateTime() {
+        let currentTime = NSDate.timeIntervalSinceReferenceDate()
+        
+        //Find the difference between current time and start time.
+        
+        var elapsedTime: NSTimeInterval = currentTime - startTime
+        //calculate the hours in elapsed time.
+        let hours = UInt8(elapsedTime / 360.0)
+        
+        elapsedTime -= (NSTimeInterval(hours) * 360)
+        //calculate the minutes in elapsed time.
+        
+        let minutes = UInt8(elapsedTime / 60.0)
+        
+        elapsedTime -= (NSTimeInterval(minutes) * 60)
+        
+        //calculate the seconds in elapsed time.
+        
+        let seconds = UInt8(elapsedTime)
+        
+        elapsedTime -= NSTimeInterval(seconds)
+        
+        //find out the fraction of milliseconds to be displayed.
+        
+        let fraction = UInt8(elapsedTime * 100)
+        
+        //add the leading zero for minutes, seconds and millseconds and store them as string constants
+        let strHours = String(format: "%02d", hours)
+        let strMinutes = String(format: "%02d", minutes)
+        let strSeconds = String(format: "%02d", seconds)
+        let strFraction = String(format: "%02d", fraction)
+        
+        //concatenate minuets, seconds and milliseconds as assign it to the UILabel
+        time.text = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
+        
+    }
+ 
+
     func setView(){
         setLabel()
     }
