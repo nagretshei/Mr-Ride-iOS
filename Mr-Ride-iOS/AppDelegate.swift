@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var centerContainer: MMDrawerController?
 
+    let googleMapsApiKey = "AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc"
+        
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //UINavigationBar.appearance().tintColor = UIColor.mrLightblueColor()
@@ -38,7 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window!.rootViewController = centerContainer
         window!.makeKeyAndVisible()
-        
+
+        GMSServices.provideAPIKey(googleMapsApiKey)
+ 
         return true
     }
 

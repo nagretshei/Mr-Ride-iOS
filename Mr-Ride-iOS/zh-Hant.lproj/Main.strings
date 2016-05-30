@@ -1,0 +1,33 @@
+
+/* Class = "UILabel"; text = "Total Distance"; ObjectID = "3LM-ir-BoQ"; */
+"3LM-ir-BoQ.text" = "總距離";
+
+/* Class = "UIBarButtonItem"; title = "Finish"; ObjectID = "3ku-4Q-vDz"; */
+"3ku-4Q-vDz.title" = "完成";
+
+/* Class = "UIButton"; normalTitle = "Let's Ride"; ObjectID = "9nI-5O-xdM"; */
+"9nI-5O-xdM.normalTitle" = "開始騎乘吧";
+
+/* Class = "UILabel"; text = "14 times"; ObjectID = "B45-RE-Fdo"; */
+"B45-RE-Fdo.text" = "14 次";
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "CM2-Od-Xb9"; */
+"CM2-Od-Xb9.title" = "取消";
+
+/* Class = "UILabel"; text = "Average Speed"; ObjectID = "UIn-kE-c7F"; */
+"UIn-kE-c7F.text" = "平均速率";
+
+/* Class = "UILabel"; text = "8 km / h"; ObjectID = "c6P-wX-Vr6"; */
+"c6P-wX-Vr6.text" = "8 公里/時";
+
+/* Class = "UILabel"; text = "Total Count"; ObjectID = "gCz-bK-dmJ"; */
+"gCz-bK-dmJ.text" = "總次數";
+
+/* Class = "UILabel"; text = "Statistics"; ObjectID = "jG0-dt-G4v"; */
+"jG0-dt-G4v.text" = "Statistics";
+
+/* Class = "UILabel"; text = "Record Page"; ObjectID = "kGZ-BX-S59"; */
+"kGZ-BX-S59.text" = "Record Page";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "rEi-uk-BYa"; */
+"rEi-uk-BYa.text" = "Label";

@@ -61,8 +61,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         //set navBar color
         self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
         self.navigationController?.navigationBar.translucent = false
-        // delete the shadow
         
+        // delete the shadow
         //self.navigationController!.navigationBar.backgroundColor = UIColor.mrLightblueColor()
         let shadowImg = UIImage()
         self.navigationController?.navigationBar.shadowImage = shadowImg
