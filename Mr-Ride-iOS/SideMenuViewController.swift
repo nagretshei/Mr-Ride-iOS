@@ -11,11 +11,11 @@ import UIKit
 class SideMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 
-    @IBOutlet weak var menuTableView: UITableView!
+    @IBOutlet private weak var menuTableView: UITableView!
     
-    var currectSelected = NSIndexPath(forRow: 0, inSection: 0)
+    private var currectSelected = NSIndexPath(forRow: 0, inSection: 0)
    
-    let menuItems = ["Home", "History"]
+    private let menuItems = ["Home", "History"]
     
     override func viewDidLoad() {
         super.viewDidLoad()

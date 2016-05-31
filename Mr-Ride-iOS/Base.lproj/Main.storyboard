@@ -313,19 +313,23 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="◯" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XC6-cP-tgi" userLabel="circle">
-                                        <rect key="frame" x="260" y="260" width="80" height="80"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="80"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="◯" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XC6-cP-tgi" userLabel="circle">
+                                        <rect key="frame" x="252" y="263" width="96" height="96"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="96" id="7lH-Ho-iuD"/>
+                                            <constraint firstAttribute="width" constant="96" id="s1g-HL-vy5"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="85"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atS-86-LA9">
-                                        <rect key="frame" x="260" y="260" width="80" height="80"/>
+                                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="atS-86-LA9">
+                                        <rect key="frame" x="270" y="281" width="60" height="60"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="80" id="07I-u3-te8"/>
-                                            <constraint firstAttribute="width" constant="80" id="h6Y-lo-mpC"/>
+                                            <constraint firstAttribute="width" constant="60" id="U4E-WF-ELH"/>
+                                            <constraint firstAttribute="height" constant="60" id="bPK-m1-KSt"/>
                                         </constraints>
-                                        <state key="normal" title="start"/>
                                         <connections>
                                             <action selector="startRecording:" destination="dcT-V1-7Ks" eventType="touchUpInside" id="g2O-l2-2QY"/>
                                         </connections>
@@ -343,42 +347,46 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZe-Pg-TQH">
+                                        <rect key="frame" x="285" y="296" width="30" height="30"/>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="qL5-cv-Ev0"/>
+                                            <constraint firstAttribute="width" constant="30" id="x3f-v6-lzH"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="pauseRecording:" destination="dcT-V1-7Ks" eventType="touchUpInside" id="djL-OS-W2Q"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="atS-86-LA9" firstAttribute="centerY" secondItem="XC6-cP-tgi" secondAttribute="centerY" id="2Da-dT-F7Q"/>
                                     <constraint firstItem="eyb-Hv-bMu" firstAttribute="leading" secondItem="RKe-zP-Bdv" secondAttribute="leading" constant="38" id="2KI-qf-qDp"/>
                                     <constraint firstItem="XC6-cP-tgi" firstAttribute="centerX" secondItem="RKe-zP-Bdv" secondAttribute="centerX" id="3S1-ae-pkz"/>
                                     <constraint firstItem="CaU-2K-a75" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="380" id="56B-Ar-wgP"/>
                                     <constraint firstItem="oub-XA-Sdv" firstAttribute="centerX" secondItem="RKe-zP-Bdv" secondAttribute="centerX" id="5Bb-NV-3hW"/>
-                                    <constraint firstItem="atS-86-LA9" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="260" id="7IM-My-Rvf"/>
                                     <constraint firstItem="h5c-iG-aeG" firstAttribute="leading" secondItem="RKe-zP-Bdv" secondAttribute="leading" constant="38" id="A0i-rs-t23"/>
                                     <constraint firstItem="h5c-iG-aeG" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="165" id="D3M-vr-w6d"/>
-                                    <constraint firstItem="atS-86-LA9" firstAttribute="centerX" secondItem="RKe-zP-Bdv" secondAttribute="centerX" id="H0X-fz-N96"/>
-                                    <constraint firstItem="atS-86-LA9" firstAttribute="centerX" secondItem="XC6-cP-tgi" secondAttribute="centerX" id="Hep-Fn-tfU"/>
                                     <constraint firstItem="ho1-AM-O6m" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="35" id="Ljr-ve-xN5"/>
                                     <constraint firstItem="Mod-Hm-b7m" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="100" id="MpX-EC-LHs"/>
+                                    <constraint firstItem="FZe-Pg-TQH" firstAttribute="centerY" secondItem="XC6-cP-tgi" secondAttribute="centerY" id="NDg-NW-zar"/>
                                     <constraint firstAttribute="width" constant="600" id="OoT-t0-vAS"/>
                                     <constraint firstAttribute="trailing" secondItem="CaU-2K-a75" secondAttribute="trailing" constant="127" id="QBZ-hO-qAi"/>
                                     <constraint firstAttribute="bottom" secondItem="CaU-2K-a75" secondAttribute="bottom" constant="-44" id="Ryp-f2-u8q"/>
                                     <constraint firstItem="rOk-lG-OUv" firstAttribute="leading" secondItem="RKe-zP-Bdv" secondAttribute="leading" constant="38" id="V6Y-Xb-pNG"/>
                                     <constraint firstItem="ho1-AM-O6m" firstAttribute="leading" secondItem="RKe-zP-Bdv" secondAttribute="leading" constant="38" id="V88-yl-Osa"/>
                                     <constraint firstItem="eyb-Hv-bMu" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="21" id="Ye0-EO-dNn"/>
-                                    <constraint firstItem="atS-86-LA9" firstAttribute="centerY" secondItem="XC6-cP-tgi" secondAttribute="centerY" id="Yok-cN-mAu"/>
-                                    <constraint firstItem="XC6-cP-tgi" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="260" id="ay9-1W-b5e"/>
                                     <constraint firstItem="qNr-zy-uCx" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="151" id="eCR-69-rJ4"/>
                                     <constraint firstItem="qNr-zy-uCx" firstAttribute="leading" secondItem="RKe-zP-Bdv" secondAttribute="leading" constant="38" id="hW1-gG-WKR"/>
                                     <constraint firstItem="CaU-2K-a75" firstAttribute="centerX" secondItem="RKe-zP-Bdv" secondAttribute="centerX" id="ivm-av-kjd"/>
+                                    <constraint firstItem="atS-86-LA9" firstAttribute="centerX" secondItem="XC6-cP-tgi" secondAttribute="centerX" id="nxB-eR-B77"/>
+                                    <constraint firstItem="FZe-Pg-TQH" firstAttribute="centerX" secondItem="XC6-cP-tgi" secondAttribute="centerX" id="vKd-Jr-g42"/>
                                     <constraint firstItem="rOk-lG-OUv" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="86" id="wMl-re-egJ"/>
                                     <constraint firstItem="oub-XA-Sdv" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="216" id="xyM-ks-LDS"/>
+                                    <constraint firstItem="XC6-cP-tgi" firstAttribute="top" secondItem="RKe-zP-Bdv" secondAttribute="top" constant="263" id="yNl-IM-xbW"/>
                                     <constraint firstItem="Mod-Hm-b7m" firstAttribute="leading" secondItem="RKe-zP-Bdv" secondAttribute="leading" constant="38" id="zud-u1-b30"/>
                                 </constraints>
                             </scrollView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FZe-Pg-TQH">
-                                <rect key="frame" x="352" y="285" width="42" height="30"/>
-                                <state key="normal" title="pause"/>
-                                <connections>
-                                    <action selector="pauseRecording:" destination="dcT-V1-7Ks" eventType="touchUpInside" id="djL-OS-W2Q"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.57647061347961426" green="0.88235294818878174" blue="0.96470588445663452" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
@@ -408,11 +416,12 @@
                     <connections>
                         <outlet property="averageSpeed" destination="rOk-lG-OUv" id="wPd-jm-yNB"/>
                         <outlet property="averageSpeedNum" destination="Mod-Hm-b7m" id="DYn-jl-ABp"/>
-                        <outlet property="calories" destination="qNr-zy-uCx" id="LPe-X2-GBg"/>
+                        <outlet property="calories" destination="qNr-zy-uCx" id="aXL-9Z-jwt"/>
                         <outlet property="caloriesNum" destination="h5c-iG-aeG" id="xdm-8d-GBo"/>
                         <outlet property="distance" destination="eyb-Hv-bMu" id="MtG-A7-gLh"/>
                         <outlet property="distanceNum" destination="ho1-AM-O6m" id="7mF-Ka-Wc7"/>
                         <outlet property="mapView" destination="CaU-2K-a75" id="CkI-68-FUs"/>
+                        <outlet property="pauseButton" destination="FZe-Pg-TQH" id="gW1-JI-C1w"/>
                         <outlet property="recordButton" destination="atS-86-LA9" id="YlP-KD-fq2"/>
                         <outlet property="time" destination="oub-XA-Sdv" id="sh3-oN-Bm5"/>
                     </connections>

@@ -11,9 +11,8 @@ import GoogleMaps
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
 class RecordViewController: UIViewController  {
-    
+    // variables for view
     let gradientLayer = CAGradientLayer()
-    
     @IBOutlet weak var distance: UILabel!
     @IBOutlet weak var distanceNum: UILabel!
     @IBOutlet weak var averageSpeed: UILabel!
@@ -21,34 +20,14 @@ class RecordViewController: UIViewController  {
     @IBOutlet weak var calories: UILabel!
     @IBOutlet weak var caloriesNum: UILabel!
     @IBOutlet weak var time: UILabel!
-   
+    @IBOutlet weak var recordButton: UIButton!
+    @IBOutlet weak var mapView: GMSMapView!
+    @IBOutlet weak var pauseButton: UIButton!
+    
+    // variables for model
     var startTime = NSTimeInterval()
     var timer = NSTimer()
     var pause = false
-    
-    @IBOutlet weak var recordButton: UIButton!
-    
-   
-    
-    @IBOutlet weak var mapView: GMSMapView!
-    
-  
-
-    
-    // Set for Current Location
-  
-    
-    
-    // variables for map view part
-    var locLat : Double = 10.0
-    var locLng : Double = 25.0
-    
-    
-    // current location
-    var cllat =  Double ()
-    var cllng = Double ()
-    
-
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
 
@@ -62,8 +41,10 @@ class RecordViewController: UIViewController  {
     }
     
     @IBAction func startRecording(sender: UIButton) {
+        pauseButton.hidden = false
+        recordButton.hidden = true
         if !timer.valid {
-            let aSelector : Selector = "updateTime"
+            let aSelector : Selector = #selector(RecordViewController.updateTime)
             timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
             if pause == false {
                 
@@ -78,6 +59,8 @@ class RecordViewController: UIViewController  {
     }
 
     @IBAction func pauseRecording(sender: UIButton) {
+        pauseButton.hidden = true
+        recordButton.hidden = false
         timer.invalidate()
         pause = true
         
@@ -105,7 +88,6 @@ class RecordViewController: UIViewController  {
         mapView.layer.cornerRadius = 10
         //mapView.settings.myLocationButton = true
         
-        
         let marker = GMSMarker()
         marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
         marker.title = "Taipei"
@@ -113,6 +95,16 @@ class RecordViewController: UIViewController  {
         marker.map = mapView
         
     }
+//    class buttonPlayAndPause: UIButton {
+//        override func drawRect(rect: CGRect) {
+//            let path = UIBezierPath(ovalInRect: rect)
+//            UIColor.redColor().setFill()
+//            path.fill()
+//        }
+//    }
+
+    
+    //MARK: - Model Part
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
         //need to check TimeStamp
@@ -120,7 +112,46 @@ class RecordViewController: UIViewController  {
         // 三軸感應來算速度
     }
     
-    func updateTime() {
+    
+    
+    // MARK: - View Part
+    
+    func setView(){
+        setLabel()
+        setButtons()
+        pauseButton.hidden = true
+        
+    }
+    
+    func setLabel(){
+        distance.text = "Distance"
+        distanceNum.text = "109 m"
+        averageSpeed.text = "Average Speed"
+        averageSpeedNum.text = "12 km / h"
+        calories.text = "Calories"
+        caloriesNum.text = "910 kcal"
+        time.text = "00:00:00.00"
+        time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+    }
+    
+    func setButtons(){
+        recordButton.layer.cornerRadius = 30
+        pauseButton.layer.cornerRadius = 4
+    }
+    
+    func setGradientBackground(){
+        self.view.backgroundColor = UIColor.mrLightblueColor()
+        gradientLayer.frame = self.view.bounds
+        
+        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
+        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
+        gradientLayer.colors = [color1, color2]
+        gradientLayer.locations = [0.0, 1.0]
+        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
+        
+    }
+
+    func updateTime(){
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
         //Find the difference between current time and start time.
@@ -154,35 +185,6 @@ class RecordViewController: UIViewController  {
         
         //concatenate minuets, seconds and milliseconds as assign it to the UILabel
         time.text = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
-        
-    }
- 
-
-    func setView(){
-        setLabel()
-    }
-    
-    func setLabel(){
-        distance.text = "Distance"
-        distanceNum.text = "109 m"
-        averageSpeed.text = "Average Speed"
-        averageSpeedNum.text = "12 km / h"
-        calories.text = "Calories"
-        caloriesNum.text = "910 kcal"
-        time.text = "00:00:00.00"
-        time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
-        
-    }
-    
-    func setGradientBackground(){
-        self.view.backgroundColor = UIColor.mrLightblueColor()
-        gradientLayer.frame = self.view.bounds
-        
-        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
-        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
-        gradientLayer.colors = [color1, color2]
-        gradientLayer.locations = [0.0, 1.0]
-        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
     }
 
