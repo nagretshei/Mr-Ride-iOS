@@ -24,10 +24,14 @@ class RecordViewController: UIViewController  {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var pauseButton: UIButton!
     
-    // variables for model
     var startTime = NSTimeInterval()
     var timer = NSTimer()
     var pause = false
+    // for map
+    let locationManager = CLLocationManager()
+    var myRoute = [[]]
+    
+    
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
 
@@ -43,6 +47,7 @@ class RecordViewController: UIViewController  {
     @IBAction func startRecording(sender: UIButton) {
         pauseButton.hidden = false
         recordButton.hidden = true
+                //setMap()
         if !timer.valid {
             let aSelector : Selector = #selector(RecordViewController.updateTime)
             timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
@@ -62,6 +67,7 @@ class RecordViewController: UIViewController  {
         pauseButton.hidden = true
         recordButton.hidden = false
         timer.invalidate()
+        locationManager.stopUpdatingLocation()
         pause = true
         
     }
@@ -69,6 +75,7 @@ class RecordViewController: UIViewController  {
         super.viewDidLoad()
         setView()
         setMap()
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -80,38 +87,6 @@ class RecordViewController: UIViewController  {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    func setMap(){
-        let camera = GMSCameraPosition.cameraWithLatitude(25.048215, longitude: 121.517123, zoom: 17)
-        mapView.myLocationEnabled = true
-        mapView.camera = camera
-        mapView.layer.cornerRadius = 10
-        //mapView.settings.myLocationButton = true
-        
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
-        marker.title = "Taipei"
-        marker.snippet = "Taiwan"
-        marker.map = mapView
-        
-    }
-//    class buttonPlayAndPause: UIButton {
-//        override func drawRect(rect: CGRect) {
-//            let path = UIBezierPath(ovalInRect: rect)
-//            UIColor.redColor().setFill()
-//            path.fill()
-//        }
-//    }
-
-    
-    //MARK: - Model Part
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
-        //need to check TimeStamp
-        //NSTime for not checking the location so many times so that we can save space in core data
-        // 三軸感應來算速度
-    }
-    
     
     
     // MARK: - View Part
@@ -199,4 +174,71 @@ class RecordViewController: UIViewController  {
     }
     */
 
+}
+
+
+//MARK: - Model Part
+
+//func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
+//    //need to check TimeStamp
+//    //NSTime for not checking the location so many times so that we can save space in core data
+//    // 三軸感應來算速度
+//}
+
+// MARK: - CLLocationManagerDelegate
+
+extension RecordViewController: CLLocationManagerDelegate {
+    
+    func setMap(){
+        setMapDelegation()
+        
+    }
+//        //let camera = GMSCameraPosition.cameraWithLatitude(25.048215, longitude: 121.517123, zoom: 17)
+//        //mapView.myLocationEnabled = true
+//        //mapView.camera = camera
+//        mapView.layer.cornerRadius = 10
+//        //mapView.settings.myLocationButton = true
+//        
+//        let marker = GMSMarker()
+//        //marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
+//        //marker.position = camera.target
+////        marker.title = "Taipei"
+////        marker.snippet = "Taiwan"
+//        marker.appearAnimation = kGMSMarkerAnimationPop
+//        marker.map = mapView
+//    
+    
+    func setMapDelegation(){
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = true
+            mapView.settings.myLocationButton = true
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        if let location = locations.first {
+            
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            
+            if let clocation = locations.last {
+                print("%%%%%%%")
+                //print (clocation)
+                var myRouteCoordinate = [clocation.coordinate.latitude, clocation.coordinate.longitude]
+                myRoute.append(myRouteCoordinate)
+                print (myRouteCoordinate)
+                print (myRoute)
+            let currentLocation = CLLocationCoordinate2DMake(clocation.coordinate.latitude, clocation.coordinate.longitude)
+            let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
+           // mapView.animateWithCameraUpdate(vancouverCam)
+            mapView.moveCamera(vancouverCam)
+            }
+        }
+    }
 }
