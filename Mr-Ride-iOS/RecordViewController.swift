@@ -29,9 +29,9 @@ class RecordViewController: UIViewController {
     var startTime = NSTimeInterval()
     var timer = NSTimer()
     var pause = false
+    
     // for map
     let locationManager = CLLocationManager()
-   
     var myPath = GMSMutablePath()
     var myTotalPath = [GMSMutablePath]()
     var startToRecordMyPath = false
@@ -48,7 +48,6 @@ class RecordViewController: UIViewController {
     var height = 175.3 //cm
     var weight = 65.6 //kg
     var totalCal = 0.0
-    
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
@@ -96,9 +95,6 @@ class RecordViewController: UIViewController {
         savingDataForMultiplePaths()
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
-        
-        
-        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,8 +120,8 @@ class RecordViewController: UIViewController {
         setButtons()
         setNavigationBar()
         pauseButton.hidden = true
-        
     }
+    
     func setNavigationBar(){
         //set navBar color
         self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
@@ -142,7 +138,7 @@ class RecordViewController: UIViewController {
     func setLabel(){
         distance.text = "Distance"
         distanceNum.text = "0 m"
-        averageSpeed.text = "Average Speed"
+        averageSpeed.text = "Current Speed"
         averageSpeedNum.text = "0 km / h"
         calories.text = "Calories"
         caloriesNum.text = "0 kcal"
@@ -256,8 +252,6 @@ extension RecordViewController: CLLocationManagerDelegate {
                 let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
                 mapView.moveCamera(vancouverCam)
                 
-                
-                
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation 
@@ -308,34 +302,11 @@ extension RecordViewController: CLLocationManagerDelegate {
     
 
     func calculateCarolies(){
-        //.Bike is of enum Exercise
-        //speed's unit: km/hr
-        //timeSpent's unit: s
-        //weight unit: kg
-        //kCalBurned's unit: kcal
-        //kcalBurnedLabel is the UIkit to display
-        //DataCalCulatingModel
-        
         let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime/3600)
         totalCal += kCalBurned
         //print(totalCal)
         caloriesNum.text = String(format:"%.2f kcal",totalCal)
     }
-    
-    
-    
-    // Model Part
-    
-//    func calculatePolylineDistance(path: [CLLocation]) -> Double {
-//        var distance = 0.0
-//        for spot in 0 ..< (path.count - 1) {
-//            let sectionDistance = path[spot].distanceFromLocation(path[(spot + 1)])
-//            distance += sectionDistance
-//        }
-//        
-//        return distance
-//    }
-    
     
 
 }
