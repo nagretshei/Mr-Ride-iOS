@@ -36,10 +36,12 @@ class RecordViewController: UIViewController {
     var myTotalPath = [GMSMutablePath]()
     var startToRecordMyPath = false
     
+    
+    var distanceOfAPath = 0.0
     var totalDistance = 0.0
     var myCurrentCoordinate = CLLocation()
     var myPathInCoordinate = [CLLocation]()
-    //var myTotalPathInCoordinate: [[CLLocation]]()
+    //var myTotalPathInCoordinate = [[CLLocation]]()
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         
@@ -56,8 +58,8 @@ class RecordViewController: UIViewController {
         pauseButton.hidden = false
         recordButton.hidden = true
         startToRecordMyPath = true
+        distanceOfAPath = 0.0
         
-        //setMap()
         if !timer.valid {
             let aSelector : Selector = #selector(RecordViewController.updateTime)
             timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
@@ -68,9 +70,7 @@ class RecordViewController: UIViewController {
             else if pause == true {
                 
             }
-            
         }
-        
     }
     
     @IBAction func pauseRecording(sender: UIButton) {
@@ -80,16 +80,16 @@ class RecordViewController: UIViewController {
         
         pause = true
         startToRecordMyPath = false
+        savingDataForMultiplePaths()
         myPath.removeAllCoordinates()
-        myPathInCoordinate = []
+        myPathInCoordinate = [CLLocation]()
+        
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
         setMap()
-        
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -180,20 +180,10 @@ class RecordViewController: UIViewController {
     
 
 }
-/*
- // MARK: - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
- // Get the new view controller using segue.destinationViewController.
- // Pass the selected object to the new view controller.
- }
- */
 
 
 
 
-//MARK: - Model Part
 
 //func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
 //    //need to check TimeStamp
@@ -233,7 +223,6 @@ extension RecordViewController: CLLocationManagerDelegate {
             //set camera moves
             if let lastLocation = locations.last {
                 
-                
                 let currentLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
                 let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
                 mapView.moveCamera(vancouverCam)
@@ -241,24 +230,28 @@ extension RecordViewController: CLLocationManagerDelegate {
                 //set drawing polylines
                 
                 if startToRecordMyPath == true {
+                    //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation 
                     myPathInCoordinate.append(myCurrentCoordinate)
-                    //myTotalPathInCoordinate.append(myPathInCoordinate)
+                    distanceOfAPath = calculatePolylineDistance(myPathInCoordinate)
                     
+                    //for drawing polyline
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
-                    myTotalPath.append(myPath)
                     
-                    print (calculatePolylineDistance(myPathInCoordinate ))
                     
                     for p in myTotalPath {
                         addPolyLine(p)
+                    
                     }
+                    
+                    print("distance")
+                    print(distanceOfAPath)
+                    print(totalDistance)
                 }
             }
         }
     }
-    
-    
+
     
     func addPolyLine(path: GMSMutablePath) {
         let polyline = GMSPolyline(path: path)
@@ -266,15 +259,19 @@ extension RecordViewController: CLLocationManagerDelegate {
         polyline.strokeColor = UIColor.mrBubblegumColor()
         polyline.geodesic = true
         polyline.map = mapView
-        
+    }
+   
+    
+    func savingDataForMultiplePaths(){
+        myTotalPath.append(myPath)
+        totalDistance = calculateTotalDistance(totalDistance, distanceAPath: distanceOfAPath)
     }
     
-//    func calculateTotalDistance(TotalPathInCoordinate: [[CLLocation]]){
-//        for aPath in myTotalPathInCoordinate {
-//            let distance = calculatePolylineDistance(aPath)
-//            totalDistance += distance
-//        }
-//    }
+    // Model Part
+    func calculateTotalDistance(overallDistance: Double, distanceAPath: Double) -> Double {
+            let distance = overallDistance + distanceAPath
+            return distance
+        }
     
     func calculatePolylineDistance(path: [CLLocation]) -> Double {
         var distance = 0.0
@@ -285,6 +282,6 @@ extension RecordViewController: CLLocationManagerDelegate {
         
         return distance
     }
-}
 
+}
 
