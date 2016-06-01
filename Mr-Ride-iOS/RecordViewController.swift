@@ -31,12 +31,15 @@ class RecordViewController: UIViewController {
     var pause = false
     // for map
     let locationManager = CLLocationManager()
-//    var myCurrentCoordinate: (latitude: Double, longitude: Double)
-    var myPathInCoordinate: [(latitude: Double, longitude: Double)] = []
+   
     var myPath = GMSMutablePath()
     var myTotalPath = [GMSMutablePath]()
     var startToRecordMyPath = false
     
+    var totalDistance = 0.0
+    var myCurrentCoordinate = CLLocation()
+    var myPathInCoordinate = [CLLocation]()
+    //var myTotalPathInCoordinate: [[CLLocation]]()
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         
@@ -78,12 +81,14 @@ class RecordViewController: UIViewController {
         pause = true
         startToRecordMyPath = false
         myPath.removeAllCoordinates()
+        myPathInCoordinate = []
         
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
         setMap()
+        
         
     }
     
@@ -233,16 +238,17 @@ extension RecordViewController: CLLocationManagerDelegate {
                 let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
                 mapView.moveCamera(vancouverCam)
                 
-                //myCurrentCoordinate =  (lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
-                
                 //set drawing polylines
                 
                 if startToRecordMyPath == true {
+                    myCurrentCoordinate = lastLocation 
+                    myPathInCoordinate.append(myCurrentCoordinate)
+                    //myTotalPathInCoordinate.append(myPathInCoordinate)
                     
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
                     myTotalPath.append(myPath)
                     
-                    
+                    print (calculatePolylineDistance(myPathInCoordinate ))
                     
                     for p in myTotalPath {
                         addPolyLine(p)
@@ -262,15 +268,23 @@ extension RecordViewController: CLLocationManagerDelegate {
         polyline.map = mapView
         
     }
-    //    func calculatePolylineDistance(path: GMSMutablePath){
-    //
-    //        for spot in myRoute {
-    //            //spot.distanceFromLocation(location: myRoute)
-    //        }
-    //
-    //
-    //        
-    //    }
+    
+//    func calculateTotalDistance(TotalPathInCoordinate: [[CLLocation]]){
+//        for aPath in myTotalPathInCoordinate {
+//            let distance = calculatePolylineDistance(aPath)
+//            totalDistance += distance
+//        }
+//    }
+    
+    func calculatePolylineDistance(path: [CLLocation]) -> Double {
+        var distance = 0.0
+        for spot in 0 ..< (path.count - 1) {
+            let sectionDistance = path[spot].distanceFromLocation(path[(spot + 1)])
+            distance += sectionDistance
+        }
+        
+        return distance
+    }
 }
 
 
