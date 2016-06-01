@@ -41,7 +41,7 @@ class RecordViewController: UIViewController {
     var totalDistance = 0.0
     var myCurrentCoordinate = CLLocation()
     var myPathInCoordinate = [CLLocation]()
-    //var myTotalPathInCoordinate = [[CLLocation]]()
+    let dataCalCulatingModel = DataCalCulatingModel()
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         
@@ -50,6 +50,11 @@ class RecordViewController: UIViewController {
     
     @IBAction func FinishButtonTapped(sender: UIBarButtonItem) {
         timer.invalidate()
+        startToRecordMyPath = false
+        savingDataForMultiplePaths()
+        myPath.removeAllCoordinates()
+        myPathInCoordinate = [CLLocation]()
+        
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
     }
@@ -83,7 +88,7 @@ class RecordViewController: UIViewController {
         savingDataForMultiplePaths()
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
-        previousDistance += distanceOfAPath
+        
         
         
     }
@@ -109,7 +114,20 @@ class RecordViewController: UIViewController {
     func setView(){
         setLabel()
         setButtons()
+        setNavigationBar()
         pauseButton.hidden = true
+        
+    }
+    func setNavigationBar(){
+        //set navBar color
+        self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
+        self.navigationController?.navigationBar.translucent = false
+        // delete the shadow
+        
+        //self.navigationController!.navigationBar.backgroundColor = UIColor.mrLightblueColor()
+        let shadowImg = UIImage()
+        self.navigationController?.navigationBar.shadowImage = shadowImg
+        self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
         
     }
     
@@ -235,7 +253,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation 
                     myPathInCoordinate.append(myCurrentCoordinate)
-                    distanceOfAPath = calculatePolylineDistance(myPathInCoordinate)
+                    distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)
                     totalDistance = previousDistance + distanceOfAPath
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
@@ -265,28 +283,48 @@ extension RecordViewController: CLLocationManagerDelegate {
    
     
     func savingDataForMultiplePaths(){
+        // saving multi polyline drawing
         myTotalPath.append(myPath)
         for p in myTotalPath {
             addPolyLine(p)
-            
         }
+        
+        // saving total duration time
+        
+        // saving total distance
+        previousDistance += distanceOfAPath
+        totalDistance = previousDistance + distanceOfAPath
+        
+        
         
     }
     
 
+//    func calculateCarolies(){
+//        //.Bike is of enum Exercise
+//        //speed's unit: km/hr
+//        //timeSpent's unit: s
+//        //weight unit: kg
+//        //kCalBurned's unit: kcal
+//        //kcalBurnedLabel is the UIkit to display
+//        let calorieCalculator = CalorieCalculator()
+//        let kCalBurned = calorieCalculator.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: spentTime/3600)
+//        kcalBurnedLabel.text = String(format:"%.2f kcal",kCalBurned)
+//    }
+    
+    
     
     // Model Part
-
     
-    func calculatePolylineDistance(path: [CLLocation]) -> Double {
-        var distance = 0.0
-        for spot in 0 ..< (path.count - 1) {
-            let sectionDistance = path[spot].distanceFromLocation(path[(spot + 1)])
-            distance += sectionDistance
-        }
-        
-        return distance
-    }
+//    func calculatePolylineDistance(path: [CLLocation]) -> Double {
+//        var distance = 0.0
+//        for spot in 0 ..< (path.count - 1) {
+//            let sectionDistance = path[spot].distanceFromLocation(path[(spot + 1)])
+//            distance += sectionDistance
+//        }
+//        
+//        return distance
+//    }
     
     
 

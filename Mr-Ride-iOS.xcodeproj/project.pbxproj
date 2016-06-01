@@ -170,6 +170,7 @@
 				8922A9BE1CF41A020010B66D /* HistoryViewController.swift */,
 				893741A31CF68088001EEB52 /* StatisticsViewController.swift */,
 				899082B51CF5A093009A16DF /* RecordViewController.swift */,
+				8931B1F21CFD300700017D01 /* RecordViewModel.swift */,
 				8922A9AB1CF40F0F0010B66D /* SideMenuViewController.swift */,
 				8922A97C1CF40D800010B66D /* ViewController.swift */,
 				8922A9841CF40D800010B66D /* Assets.xcassets */,
@@ -235,7 +236,6 @@
 		8922A9D71CF423280010B66D /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				8931B1F21CFD300700017D01 /* RecordViewModel.swift */,
 				899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */,
 				8922A9C01CF423170010B66D /* Roboto_Mono */,
 			);
