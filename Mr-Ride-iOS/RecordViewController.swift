@@ -36,7 +36,7 @@ class RecordViewController: UIViewController {
     var myTotalPath = [GMSMutablePath]()
     var startToRecordMyPath = false
     
-    
+    var previousDistance = 0.0
     var distanceOfAPath = 0.0
     var totalDistance = 0.0
     var myCurrentCoordinate = CLLocation()
@@ -83,6 +83,7 @@ class RecordViewController: UIViewController {
         savingDataForMultiplePaths()
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
+        previousDistance += distanceOfAPath
         
         
     }
@@ -243,7 +244,8 @@ extension RecordViewController: CLLocationManagerDelegate {
                         addPolyLine(p)
                     
                     }
-                    
+                    totalDistance = previousDistance + distanceOfAPath
+
                     print("distance")
                     print(distanceOfAPath)
                     print(totalDistance)
@@ -264,14 +266,11 @@ extension RecordViewController: CLLocationManagerDelegate {
     
     func savingDataForMultiplePaths(){
         myTotalPath.append(myPath)
-        totalDistance = calculateTotalDistance(totalDistance, distanceAPath: distanceOfAPath)
+//        totalDistance = calculateTotalDistance(totalDistance, distanceAPath: distanceOfAPath)
     }
     
     // Model Part
-    func calculateTotalDistance(overallDistance: Double, distanceAPath: Double) -> Double {
-            let distance = overallDistance + distanceAPath
-            return distance
-        }
+
     
     func calculatePolylineDistance(path: [CLLocation]) -> Double {
         var distance = 0.0
