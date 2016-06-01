@@ -254,14 +254,21 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ho1-AM-O6m" userLabel="Distance">
-                                        <rect key="frame" x="38" y="35" width="92" height="36"/>
+                                        <rect key="frame" x="38" y="35" width="223" height="36"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="223" id="IvN-ET-3tv"/>
                                             <constraint firstAttribute="width" constant="92" id="LER-AM-PRk"/>
                                             <constraint firstAttribute="height" constant="36" id="WnL-cu-aM4"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="144" id="zUT-4t-Qtl"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="LER-AM-PRk"/>
+                                            </mask>
+                                        </variation>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOk-lG-OUv" userLabel="averageSpeed">
                                         <rect key="frame" x="38" y="86" width="122" height="15"/>

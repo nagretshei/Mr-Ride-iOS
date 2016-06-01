@@ -115,13 +115,14 @@ class RecordViewController: UIViewController {
     
     func setLabel(){
         distance.text = "Distance"
-        distanceNum.text = "109 m"
+        distanceNum.text = "0 m"
         averageSpeed.text = "Average Speed"
-        averageSpeedNum.text = "12 km / h"
+        averageSpeedNum.text = "0 km / h"
         calories.text = "Calories"
         caloriesNum.text = "910 kcal"
         time.text = "00:00:00.00"
         time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+        
     }
 
     
@@ -228,27 +229,26 @@ extension RecordViewController: CLLocationManagerDelegate {
                 let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
                 mapView.moveCamera(vancouverCam)
                 
-                //set drawing polylines
+                
                 
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation 
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = calculatePolylineDistance(myPathInCoordinate)
+                    totalDistance = previousDistance + distanceOfAPath
+                    distanceNum.text = "\(Int(round(totalDistance))) m"
+                    
+                    // get average speed
+                    var speed: CLLocationSpeed = CLLocationSpeed()
+                    speed = locationManager.location!.speed
+                    averageSpeedNum.text = "\(Int(round(speed))) km / h"
                     
                     //for drawing polyline
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
-                    
-                    
-                    for p in myTotalPath {
-                        addPolyLine(p)
-                    
-                    }
-                    totalDistance = previousDistance + distanceOfAPath
+                    addPolyLine(myPath)
 
-                    print("distance")
-                    print(distanceOfAPath)
-                    print(totalDistance)
+
                 }
             }
         }
@@ -266,8 +266,14 @@ extension RecordViewController: CLLocationManagerDelegate {
     
     func savingDataForMultiplePaths(){
         myTotalPath.append(myPath)
-//        totalDistance = calculateTotalDistance(totalDistance, distanceAPath: distanceOfAPath)
+        for p in myTotalPath {
+            addPolyLine(p)
+            
+        }
+        
     }
+    
+
     
     // Model Part
 
@@ -281,6 +287,8 @@ extension RecordViewController: CLLocationManagerDelegate {
         
         return distance
     }
+    
+    
 
 }
 
