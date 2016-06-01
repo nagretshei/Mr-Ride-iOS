@@ -12,7 +12,7 @@ import GoogleMaps
 
 class RecordViewController: UIViewController {
     
-    
+    let dataCalCulatingModel = DataCalCulatingModel()
     // variables for view
     let gradientLayer = CAGradientLayer()
     @IBOutlet weak var distance: UILabel!
@@ -41,7 +41,15 @@ class RecordViewController: UIViewController {
     var totalDistance = 0.0
     var myCurrentCoordinate = CLLocation()
     var myPathInCoordinate = [CLLocation]()
-    let dataCalCulatingModel = DataCalCulatingModel()
+    var speed: CLLocationSpeed = CLLocationSpeed()
+    var elapsedTime = NSTimeInterval()
+    
+    // for calculating carolies
+    var height = 175.3 //cm
+    var weight = 65.6 //kg
+    var totalCal = 0.0
+    
+    
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         
@@ -137,7 +145,7 @@ class RecordViewController: UIViewController {
         averageSpeed.text = "Average Speed"
         averageSpeedNum.text = "0 km / h"
         calories.text = "Calories"
-        caloriesNum.text = "910 kcal"
+        caloriesNum.text = "0 kcal"
         time.text = "00:00:00.00"
         time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
         
@@ -166,7 +174,7 @@ class RecordViewController: UIViewController {
         
         //Find the difference between current time and start time.
         
-        var elapsedTime: NSTimeInterval = currentTime - startTime
+        elapsedTime = currentTime - startTime
         //calculate the hours in elapsed time.
         let hours = UInt8(elapsedTime / 360.0)
         
@@ -218,6 +226,7 @@ extension RecordViewController: CLLocationManagerDelegate {
     func setMap(){
         setMapDelegation()
         
+        
     }
     
     
@@ -258,13 +267,13 @@ extension RecordViewController: CLLocationManagerDelegate {
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
                     // get average speed
-                    var speed: CLLocationSpeed = CLLocationSpeed()
                     speed = locationManager.location!.speed
                     averageSpeedNum.text = "\(Int(round(speed))) km / h"
                     
                     //for drawing polyline
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
                     addPolyLine(myPath)
+                    calculateCarolies()
 
 
                 }
@@ -295,22 +304,23 @@ extension RecordViewController: CLLocationManagerDelegate {
         previousDistance += distanceOfAPath
         totalDistance = previousDistance + distanceOfAPath
         
-        
-        
     }
     
 
-//    func calculateCarolies(){
-//        //.Bike is of enum Exercise
-//        //speed's unit: km/hr
-//        //timeSpent's unit: s
-//        //weight unit: kg
-//        //kCalBurned's unit: kcal
-//        //kcalBurnedLabel is the UIkit to display
-//        let calorieCalculator = CalorieCalculator()
-//        let kCalBurned = calorieCalculator.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: spentTime/3600)
-//        kcalBurnedLabel.text = String(format:"%.2f kcal",kCalBurned)
-//    }
+    func calculateCarolies(){
+        //.Bike is of enum Exercise
+        //speed's unit: km/hr
+        //timeSpent's unit: s
+        //weight unit: kg
+        //kCalBurned's unit: kcal
+        //kcalBurnedLabel is the UIkit to display
+        //DataCalCulatingModel
+        
+        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime/3600)
+        totalCal += kCalBurned
+        //print(totalCal)
+        caloriesNum.text = String(format:"%.2f kcal",totalCal)
+    }
     
     
     
