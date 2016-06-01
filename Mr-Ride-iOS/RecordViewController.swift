@@ -10,7 +10,9 @@ import UIKit
 import GoogleMaps
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
-class RecordViewController: UIViewController  {
+class RecordViewController: UIViewController {
+    
+    
     // variables for view
     let gradientLayer = CAGradientLayer()
     @IBOutlet weak var distance: UILabel!
@@ -29,15 +31,18 @@ class RecordViewController: UIViewController  {
     var pause = false
     // for map
     let locationManager = CLLocationManager()
-    var myRoute = [[]]
-    
+//    var myCurrentCoordinate: (latitude: Double, longitude: Double)
+    var myPathInCoordinate: [(latitude: Double, longitude: Double)] = []
+    var myPath = GMSMutablePath()
+    var myTotalPath = [GMSMutablePath]()
+    var startToRecordMyPath = false
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
-
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
-
+    
     @IBAction func FinishButtonTapped(sender: UIBarButtonItem) {
         timer.invalidate()
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
@@ -47,7 +52,9 @@ class RecordViewController: UIViewController  {
     @IBAction func startRecording(sender: UIButton) {
         pauseButton.hidden = false
         recordButton.hidden = true
-                //setMap()
+        startToRecordMyPath = true
+        
+        //setMap()
         if !timer.valid {
             let aSelector : Selector = #selector(RecordViewController.updateTime)
             timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
@@ -60,15 +67,17 @@ class RecordViewController: UIViewController  {
             }
             
         }
-    
+        
     }
-
+    
     @IBAction func pauseRecording(sender: UIButton) {
         pauseButton.hidden = true
         recordButton.hidden = false
         timer.invalidate()
-        locationManager.stopUpdatingLocation()
+        
         pause = true
+        startToRecordMyPath = false
+        myPath.removeAllCoordinates()
         
     }
     override func viewDidLoad() {
@@ -108,6 +117,7 @@ class RecordViewController: UIViewController  {
         time.text = "00:00:00.00"
         time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
     }
+
     
     func setButtons(){
         recordButton.layer.cornerRadius = 30
@@ -125,7 +135,7 @@ class RecordViewController: UIViewController  {
         self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
     }
-
+    
     func updateTime(){
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
@@ -162,19 +172,20 @@ class RecordViewController: UIViewController  {
         time.text = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
         
     }
-
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
+/*
+ // MARK: - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+ // Get the new view controller using segue.destinationViewController.
+ // Pass the selected object to the new view controller.
+ }
+ */
+
+
 
 
 //MARK: - Model Part
@@ -193,20 +204,7 @@ extension RecordViewController: CLLocationManagerDelegate {
         setMapDelegation()
         
     }
-//        //let camera = GMSCameraPosition.cameraWithLatitude(25.048215, longitude: 121.517123, zoom: 17)
-//        //mapView.myLocationEnabled = true
-//        //mapView.camera = camera
-//        mapView.layer.cornerRadius = 10
-//        //mapView.settings.myLocationButton = true
-//        
-//        let marker = GMSMarker()
-//        //marker.position = CLLocationCoordinate2DMake(-33.86, 151.20)
-//        //marker.position = camera.target
-////        marker.title = "Taipei"
-////        marker.snippet = "Taiwan"
-//        marker.appearAnimation = kGMSMarkerAnimationPop
-//        marker.map = mapView
-//    
+    
     
     func setMapDelegation(){
         locationManager.delegate = self
@@ -227,18 +225,52 @@ extension RecordViewController: CLLocationManagerDelegate {
             
             mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             
-            if let clocation = locations.last {
-                print("%%%%%%%")
-                //print (clocation)
-                var myRouteCoordinate = [clocation.coordinate.latitude, clocation.coordinate.longitude]
-                myRoute.append(myRouteCoordinate)
-                print (myRouteCoordinate)
-                print (myRoute)
-            let currentLocation = CLLocationCoordinate2DMake(clocation.coordinate.latitude, clocation.coordinate.longitude)
-            let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
-           // mapView.animateWithCameraUpdate(vancouverCam)
-            mapView.moveCamera(vancouverCam)
+            //set camera moves
+            if let lastLocation = locations.last {
+                
+                
+                let currentLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
+                let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
+                mapView.moveCamera(vancouverCam)
+                
+                //myCurrentCoordinate =  (lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
+                
+                //set drawing polylines
+                
+                if startToRecordMyPath == true {
+                    
+                    myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
+                    myTotalPath.append(myPath)
+                    
+                    
+                    
+                    for p in myTotalPath {
+                        addPolyLine(p)
+                    }
+                }
             }
         }
     }
+    
+    
+    
+    func addPolyLine(path: GMSMutablePath) {
+        let polyline = GMSPolyline(path: path)
+        polyline.strokeWidth = 10.0
+        polyline.strokeColor = UIColor.mrBubblegumColor()
+        polyline.geodesic = true
+        polyline.map = mapView
+        
+    }
+    //    func calculatePolylineDistance(path: GMSMutablePath){
+    //
+    //        for spot in myRoute {
+    //            //spot.distanceFromLocation(location: myRoute)
+    //        }
+    //
+    //
+    //        
+    //    }
 }
+
+
