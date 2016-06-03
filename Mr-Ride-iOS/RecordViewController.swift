@@ -30,12 +30,10 @@ class RecordViewController: UIViewController {
     var timer = NSTimer()
     var startTime = NSTimeInterval()
     var currentTime = NSDate.timeIntervalSinceReferenceDate()
-//    var elapsedTime = NSTimeInterval()
+    var elapsedTime = NSTimeInterval()
     var pause = false
     var previousStopTime: NSTimeInterval = 0.0
     var totalStopTime: NSTimeInterval = 0.0
-    //var omitTime: NSTimeInterval = 0
-    
     
     // for map
     let locationManager = CLLocationManager()
@@ -54,6 +52,7 @@ class RecordViewController: UIViewController {
     var height = 175.3 //cm
     var weight = 65.6 //kg
     var totalCal = 0.0
+    var averageSpeedNumber = 0.0
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
@@ -104,6 +103,7 @@ class RecordViewController: UIViewController {
         recordButton.hidden = false
         previousStopTime = NSDate.timeIntervalSinceReferenceDate()
         timer.invalidate()
+        calculateAverageSpeed()
         
         pause = true
         startToRecordMyPath = false
@@ -187,8 +187,7 @@ class RecordViewController: UIViewController {
         
         //Find the difference between current time and start time.
         
-        var elapsedTime = (currentTime - startTime) - totalStopTime
-        print("updateTime elapsedTime: \(elapsedTime)")
+        elapsedTime = (currentTime - startTime) - totalStopTime
     
         //calculate the minutes in elapsed time.
         
@@ -269,8 +268,10 @@ extension RecordViewController: CLLocationManagerDelegate {
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation
+                    //print (myCurrentCoordinate)
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)
+                    
                     totalDistance = previousRouteDistance + distanceOfAPath
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
@@ -282,7 +283,8 @@ extension RecordViewController: CLLocationManagerDelegate {
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
                     addPolyLine(myPath)
                     calculateCarolies()
-                    calculateAverageSpeed()
+                    //myPathInCoordinate = []
+                    //calculateAverageSpeed()
 
                 }
             }
@@ -307,21 +309,24 @@ extension RecordViewController: CLLocationManagerDelegate {
         
         // saving total distance
         previousRouteDistance += distanceOfAPath
-        totalDistance = previousRouteDistance + distanceOfAPath
+        distanceOfAPath = 0.0
+        print (myTotalPath)
+
+        
+       // totalDistance = previousRouteDistance + distanceOfAPath
         
     }
     
     func calculateAverageSpeed(){
-        
-        //print  (duration)
-        //averageSpeedNumber = totalDistance/(elapsedTime/3600)
+        print (totalDistance)
+        averageSpeedNumber = (totalDistance) / (elapsedTime * 3.6)
         //print (averageSpeedNumber)
     }
 
     func calculateCarolies(){
-//        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: duration/3600)
-//        totalCal += kCalBurned
-//        caloriesNum.text = String(format:"%.2f kcal",totalCal)
+        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime / 3600)
+        totalCal += kCalBurned
+        caloriesNum.text = String(format:"%.2f kcal",totalCal)
     }
     
 
