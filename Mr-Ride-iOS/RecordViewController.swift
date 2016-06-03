@@ -26,9 +26,16 @@ class RecordViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var pauseButton: UIButton!
     
-    var startTime = NSTimeInterval()
+    //var startTime = NSTimeInterval()
     var timer = NSTimer()
+    var startTime = NSTimeInterval()
+    var currentTime = NSDate.timeIntervalSinceReferenceDate()
+//    var elapsedTime = NSTimeInterval()
     var pause = false
+    var previousStopTime: NSTimeInterval = 0.0
+    var totalStopTime: NSTimeInterval = 0.0
+    //var omitTime: NSTimeInterval = 0
+    
     
     // for map
     let locationManager = CLLocationManager()
@@ -36,13 +43,12 @@ class RecordViewController: UIViewController {
     var myTotalPath = [GMSMutablePath]()
     var startToRecordMyPath = false
     
-    var previousDistance = 0.0
-    var distanceOfAPath = 0.0
+    private var previousRouteDistance = 0.0
+    private var distanceOfAPath = 0.0
     var totalDistance = 0.0
-    var myCurrentCoordinate = CLLocation()
-    var myPathInCoordinate = [CLLocation]()
-    var speed: CLLocationSpeed = CLLocationSpeed()
-    var elapsedTime = NSTimeInterval()
+    private var myCurrentCoordinate = CLLocation()
+    private var myPathInCoordinate = [CLLocation]()
+    private var speed: CLLocationSpeed = CLLocationSpeed()
     
     // for calculating carolies
     var height = 175.3 //cm
@@ -61,6 +67,7 @@ class RecordViewController: UIViewController {
         savingDataForMultiplePaths()
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
+        calculateAverageSpeed()
         
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
@@ -73,21 +80,29 @@ class RecordViewController: UIViewController {
         distanceOfAPath = 0.0
         
         if !timer.valid {
-            let aSelector : Selector = #selector(RecordViewController.updateTime)
-            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
+            
             if pause == false {
-                
                 startTime = NSDate.timeIntervalSinceReferenceDate()
             }
-            else if pause == true {
+            else {
+                
+                let currentTime = NSDate.timeIntervalSinceReferenceDate()
+                let stopTime = currentTime - previousStopTime
+                
+                totalStopTime += stopTime
                 
             }
+
+            let aSelector : Selector = #selector(RecordViewController.updateTime)
+            timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
+    
         }
     }
     
     @IBAction func pauseRecording(sender: UIButton) {
         pauseButton.hidden = true
         recordButton.hidden = false
+        previousStopTime = NSDate.timeIntervalSinceReferenceDate()
         timer.invalidate()
         
         pause = true
@@ -166,30 +181,37 @@ class RecordViewController: UIViewController {
     }
     
     func updateTime(){
+        
+        //Find the difference between current time and start time.
         let currentTime = NSDate.timeIntervalSinceReferenceDate()
         
         //Find the difference between current time and start time.
         
-        elapsedTime = currentTime - startTime
-        //calculate the hours in elapsed time.
-        let hours = UInt8(elapsedTime / 360.0)
-        
-        elapsedTime -= (NSTimeInterval(hours) * 360)
+        var elapsedTime = (currentTime - startTime) - totalStopTime
+        print("updateTime elapsedTime: \(elapsedTime)")
+    
         //calculate the minutes in elapsed time.
         
-        let minutes = UInt8(elapsedTime / 60.0)
+        let hours = Int(floor(elapsedTime / 3600.0))
+        
+        elapsedTime -= (NSTimeInterval(hours) * 3600)
+        
+        //calculate the minutes in elapsed time.
+        
+        let minutes = Int(floor(elapsedTime / 60.0))
         
         elapsedTime -= (NSTimeInterval(minutes) * 60)
         
         //calculate the seconds in elapsed time.
         
-        let seconds = UInt8(elapsedTime)
+        let seconds = Int(elapsedTime)
         
         elapsedTime -= NSTimeInterval(seconds)
         
         //find out the fraction of milliseconds to be displayed.
         
-        let fraction = UInt8(elapsedTime * 100)
+        let fraction = Int(elapsedTime * 100)
+        
         
         //add the leading zero for minutes, seconds and millseconds and store them as string constants
         let strHours = String(format: "%02d", hours)
@@ -199,14 +221,8 @@ class RecordViewController: UIViewController {
         
         //concatenate minuets, seconds and milliseconds as assign it to the UILabel
         time.text = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
-        
     }
-    
-
 }
-
-
-
 
 
 //func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
@@ -221,8 +237,6 @@ extension RecordViewController: CLLocationManagerDelegate {
     
     func setMap(){
         setMapDelegation()
-        
-        
     }
     
     
@@ -254,10 +268,10 @@ extension RecordViewController: CLLocationManagerDelegate {
                 
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
-                    myCurrentCoordinate = lastLocation 
+                    myCurrentCoordinate = lastLocation
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)
-                    totalDistance = previousDistance + distanceOfAPath
+                    totalDistance = previousRouteDistance + distanceOfAPath
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
                     // get average speed
@@ -268,7 +282,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
                     addPolyLine(myPath)
                     calculateCarolies()
-
+                    calculateAverageSpeed()
 
                 }
             }
@@ -283,7 +297,6 @@ extension RecordViewController: CLLocationManagerDelegate {
         polyline.geodesic = true
         polyline.map = mapView
     }
-   
     
     func savingDataForMultiplePaths(){
         // saving multi polyline drawing
@@ -292,20 +305,23 @@ extension RecordViewController: CLLocationManagerDelegate {
             addPolyLine(p)
         }
         
-        // saving total duration time
-        
         // saving total distance
-        previousDistance += distanceOfAPath
-        totalDistance = previousDistance + distanceOfAPath
+        previousRouteDistance += distanceOfAPath
+        totalDistance = previousRouteDistance + distanceOfAPath
         
     }
     
+    func calculateAverageSpeed(){
+        
+        //print  (duration)
+        //averageSpeedNumber = totalDistance/(elapsedTime/3600)
+        //print (averageSpeedNumber)
+    }
 
     func calculateCarolies(){
-        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime/3600)
-        totalCal += kCalBurned
-        //print(totalCal)
-        caloriesNum.text = String(format:"%.2f kcal",totalCal)
+//        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: duration/3600)
+//        totalCal += kCalBurned
+//        caloriesNum.text = String(format:"%.2f kcal",totalCal)
     }
     
 
