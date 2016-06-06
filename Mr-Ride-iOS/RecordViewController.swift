@@ -8,11 +8,27 @@
 
 import UIKit
 import GoogleMaps
+import CoreData
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
+
+class Record: NSManagedObject {
+    @NSManaged var averageSpeed: Double
+    @NSManaged var calories: Double
+    @NSManaged var count: Int32
+    @NSManaged var date: NSDate
+    @NSManaged var distance: Double
+    @NSManaged var height: Double
+    @NSManaged var weight: Double
+    @NSManaged var id: String
+    @NSManaged var timeDuration: Double
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+}
 
 class RecordViewController: UIViewController {
     
     let dataCalCulatingModel = DataCalCulatingModel()
+    var record: Record!
     // variables for view
     let gradientLayer = CAGradientLayer()
     @IBOutlet weak var distance: UILabel!
@@ -34,6 +50,7 @@ class RecordViewController: UIViewController {
     var pause = false
     var previousStopTime: NSTimeInterval = 0.0
     var totalStopTime: NSTimeInterval = 0.0
+    var totalTime = NSTimeInterval()
     
     // for map
     let locationManager = CLLocationManager()
@@ -188,6 +205,7 @@ class RecordViewController: UIViewController {
         //Find the difference between current time and start time.
         
         elapsedTime = (currentTime - startTime) - totalStopTime
+        totalTime = elapsedTime
     
         //calculate the minutes in elapsed time.
         
@@ -268,7 +286,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation
-                    //print (myCurrentCoordinate)
+                    print (myCurrentCoordinate)
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)
                     
@@ -277,7 +295,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                     
                     // get average speed
                     speed = locationManager.location!.speed
-                    averageSpeedNum.text = "\(Int(round(speed))) km / h"
+                    averageSpeedNum.text = "\(Int(round(speed * 1.609344 / 1000 * 3600))) km / h"
                     
                     //for drawing polyline
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
@@ -310,17 +328,54 @@ extension RecordViewController: CLLocationManagerDelegate {
         // saving total distance
         previousRouteDistance += distanceOfAPath
         distanceOfAPath = 0.0
-        print (myTotalPath)
+        
+    }
+    
 
-        
-       // totalDistance = previousRouteDistance + distanceOfAPath
-        
+    
+    // Model
+//    //    @NSManaged var averageSpeed: Double
+//    @NSManaged var calories: Double
+//    @NSManaged var count: Int32
+//    @NSManaged var date: NSDate
+//    @NSManaged var distance: Double
+//    @NSManaged var height: Double
+//    @NSManaged var weight: Double
+//    @NSManaged var id: String
+//    @NSManaged var timeDuration: Double
+//    @NSManaged var latitude: Double
+//    @NSManaged var longitude: Double
+    func saveCoreData(){
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
+            record.averageSpeed = averageSpeedNumber
+            record.calories = totalCal
+            record.distance = totalDistance
+            record.weight = weight
+            record.height = height
+            record.timeDuration = totalTime
+            record.date = NSDate()
+        }
+    }
+    
+    func fetchCoreData(){
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            let fetchRequest = NSFetchRequest(entityName: "Record")
+            do {
+                records = try
+                    managedObjectContext.executeFetchRequest(fetchRequest) as! [Record]
+                
+                
+            } catch {
+            }
+        }
     }
     
     func calculateAverageSpeed(){
         print (totalDistance)
-        averageSpeedNumber = (totalDistance) / (elapsedTime * 3.6)
-        //print (averageSpeedNumber)
+        print (totalTime)
+        averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
+        print (averageSpeedNumber)
     }
 
     func calculateCarolies(){
