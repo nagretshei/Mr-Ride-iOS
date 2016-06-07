@@ -358,18 +358,7 @@ extension RecordViewController: CLLocationManagerDelegate {
         }
     }
     
-    func fetchCoreData(){
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
-            let fetchRequest = NSFetchRequest(entityName: "Record")
-            do {
-                records = try
-                    managedObjectContext.executeFetchRequest(fetchRequest) as! [Record]
-                
-                
-            } catch {
-            }
-        }
-    }
+
     
     func calculateAverageSpeed(){
         print (totalDistance)
