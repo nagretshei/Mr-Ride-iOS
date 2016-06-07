@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
-class StatisticsViewController: UIViewController {
+class StatisticsViewController: UIViewController, NSFetchedResultsControllerDelegate {
+    // variables for CorDate
+    var fetchResultController: NSFetchedResultsController!
+    var record: Record!
+    var records: [Record] = []
 
     // variables for view
     let gradientLayer = CAGradientLayer()
@@ -31,7 +36,11 @@ class StatisticsViewController: UIViewController {
     
     @IBOutlet weak var mapView: GMSMapView!
     
+    // variables for controller
+    
     var isPresented = true
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +49,7 @@ class StatisticsViewController: UIViewController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(close(_:)))
             
         }
-        
+        fetchCoreData()
         setView()
 
         // Do any additional setup after loading the view.
@@ -65,7 +74,6 @@ class StatisticsViewController: UIViewController {
     
     func setView(){
         setLabel()
-        //setButtons()
         setNavigationBar()
         
     }
@@ -107,20 +115,31 @@ class StatisticsViewController: UIViewController {
         self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
     }
-
-    //    func fetchCoreData(){
-    //        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
-    //            let fetchRequest = NSFetchRequest(entityName: "Record")
-    //            do {
-    //                var records = try
-    //                    managedObjectContext.executeFetchRequest(fetchRequest) as! [Record]
-    //
-    //
-    //            } catch {
-    //                print(error)
-    //            }
-    //        }
-    //    }
+    
+    func fetchCoreData(){
+        print("#######")
+        let fetchRequest = NSFetchRequest(entityName: "Record")
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            print("will fetch")
+            
+            do {
+                
+                //performBlockAndWait
+                try fetchResultController.performFetch()
+                records = fetchResultController.fetchedObjects as! [Record]
+                print("$$$$$$")
+                print(records)
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
    
     
     /*

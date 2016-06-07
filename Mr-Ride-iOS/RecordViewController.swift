@@ -21,14 +21,15 @@ class Record: NSManagedObject {
     @NSManaged var weight: Double
     @NSManaged var id: String
     @NSManaged var timeDuration: Double
-    @NSManaged var latitude: Double
-    @NSManaged var longitude: Double
+//    @NSManaged var latitude: Double
+//    @NSManaged var longitude: Double
 }
 
 class RecordViewController: UIViewController {
     
     let dataCalCulatingModel = DataCalCulatingModel()
     var record: Record!
+    //var records: [Record] = []
     // variables for view
     let gradientLayer = CAGradientLayer()
     @IBOutlet weak var distance: UILabel!
@@ -84,6 +85,7 @@ class RecordViewController: UIViewController {
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
         calculateAverageSpeed()
+        saveCoreData()
         
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
@@ -286,7 +288,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation
-                    print (myCurrentCoordinate)
+                    //print (myCurrentCoordinate)
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)
                     
@@ -335,36 +337,43 @@ extension RecordViewController: CLLocationManagerDelegate {
     
     // Model
 //    //    @NSManaged var averageSpeed: Double
-//    @NSManaged var calories: Double
-//    @NSManaged var count: Int32
-//    @NSManaged var date: NSDate
-//    @NSManaged var distance: Double
-//    @NSManaged var height: Double
-//    @NSManaged var weight: Double
+
+
+
 //    @NSManaged var id: String
-//    @NSManaged var timeDuration: Double
+
 //    @NSManaged var latitude: Double
 //    @NSManaged var longitude: Double
     func saveCoreData(){
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
             record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
+            record.count = 1
+            record.id = "1"
             record.averageSpeed = averageSpeedNumber
             record.calories = totalCal
             record.distance = totalDistance
             record.weight = weight
             record.height = height
-            record.timeDuration = totalTime
+            record.timeDuration = Double(totalTime)
             record.date = NSDate()
+            
+            do{
+                try managedObjectContext.save()
+            
+            } catch {
+                print(error)
+                return
+            }
         }
     }
     
 
     
     func calculateAverageSpeed(){
-        print (totalDistance)
-        print (totalTime)
+        //print (totalDistance)
+        //print (totalTime)
         averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
-        print (averageSpeedNumber)
+        //print (averageSpeedNumber)
     }
 
     func calculateCarolies(){
