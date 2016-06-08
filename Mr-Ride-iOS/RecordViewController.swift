@@ -276,21 +276,21 @@ class RecordViewController: UIViewController {
             record.date = NSDate()
             
             // save locations
-            
             var path = [Locations]()
-            
-            
-            
-            //print(myEntirePathInCoordinate[0])
-            for location in myEntirePathInCoordinate[0] {
-                var locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
-                locations.latitude = location.coordinate.latitude
-                locations.longitude = location.coordinate.longitude
-                path.append(locations)
-                
+
+            for rounte in myEntirePathInCoordinate {
+                for location in rounte {
+                    var locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
+                    locations.latitude = location.coordinate.latitude
+                    locations.longitude = location.coordinate.longitude
+                    path.append(locations)
+                    
+                }
+                record.locations =  NSSet(array: path)
             }
+
             //print(path)
-            record.locations =  NSSet(array: path)
+            //record.locations =  NSSet(array: path)
             
             
             do{

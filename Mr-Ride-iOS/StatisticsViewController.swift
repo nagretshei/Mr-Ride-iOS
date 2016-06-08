@@ -44,7 +44,7 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     
     // for map
     let locationManager = CLLocationManager()
-    var startPoint = CLLocation()
+    var endPoint = CLLocation()
     var myPath = GMSMutablePath()
     
     
@@ -192,21 +192,20 @@ extension StatisticsViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
+            //locationManager.distanceFilter
+
             locationManager.startUpdatingLocation()
+            
             mapView.myLocationEnabled = false
+            
+            
         }
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        if let location = locations.first {
-            
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-            
             locationManager.stopUpdatingLocation()
+            mapView.camera = GMSCameraPosition(target: endPoint.coordinate, zoom: 16, bearing: 0, viewingAngle: 0)
             addPolyLine(myPath)
-
-        }
     }
     
     func test(){
@@ -219,11 +218,14 @@ extension StatisticsViewController: CLLocationManagerDelegate {
         
         print("#######")
         print (records[indexOfNewestRecord].locations)
+        
         let thisRoute = records[indexOfNewestRecord].locations
         
         for route in thisRoute {
              myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
+             endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
         }
+        print(endPoint)
     }
     
     func addPolyLine(path: GMSMutablePath) {
@@ -233,7 +235,6 @@ extension StatisticsViewController: CLLocationManagerDelegate {
         polyline.geodesic = true
         polyline.map = mapView
     }
-    
 }
 
 
