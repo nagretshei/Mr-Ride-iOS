@@ -28,11 +28,6 @@ class DataCalCulatingModel {
         case Bike
     }
     
-    // unit
-    // speed : km/h
-    // weight: kg
-    // time: hr
-    // return : kcal
     func kiloCalorieBurned(exerciseType: Exercise, speed: Double, weight: Double, time:Double) -> Double{
         if let kCalUnit = kCalPerKm_Hour[exerciseType]{
             return speed * weight * time * kCalUnit

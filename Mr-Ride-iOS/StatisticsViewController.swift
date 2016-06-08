@@ -9,8 +9,10 @@
 import UIKit
 import CoreData
 
+
+
 class StatisticsViewController: UIViewController, NSFetchedResultsControllerDelegate {
-    // variables for CorDate
+    // variables for CorData
     var fetchResultController: NSFetchedResultsController!
     var record: Record!
     var records: [Record] = []
@@ -40,6 +42,11 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     
     var isPresented = true
     
+    // for map
+    let locationManager = CLLocationManager()
+    var startPoint = CLLocation()
+    var myPath = GMSMutablePath()
+    
     
     
     override func viewDidLoad() {
@@ -50,7 +57,10 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             
         }
         fetchCoreData()
+        test()
         setView()
+        setMap()
+        
 
         // Do any additional setup after loading the view.
     }
@@ -93,6 +103,7 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
         
     }
     func setLabel(){
+        print (records[records.count-1].averageSpeed)
         distance.text = "Distance"
         averageSpeed.text = "Average Speed"
         calories.text = "Calories"
@@ -105,12 +116,11 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
         if records.count > 0 {
             totalTimeNum.text =  records[records.count-1].timeDuration
             distanceNum.text = String(format:"%.2f m",(records[records.count-1].distance))
-            averageSpeedNum.text = records[records.count-1].averageSpeed
-            caloriesNum.text = records[records.count-1].calories
+            averageSpeedNum.text = String(format:"%.2f km / h", records[records.count-1].averageSpeed)
+            
+            caloriesNum.text = String(format:"%.2f kcal",records[records.count-1].calories)
             totalTimeNum.text =  records[records.count-1].timeDuration
         }
-
-        
     }
     
     func setGradientBackground(){
@@ -126,7 +136,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     }
     
     func fetchCoreData(){
-        print("#######")
         let fetchRequest = NSFetchRequest(entityName: "Record")
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
@@ -141,10 +150,9 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
                 //performBlockAndWait
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
-                
-                print(records[records.count-1].date)
 
                 print("$$$$$$")
+                
                 
             } catch {
                 print(error)
@@ -164,3 +172,68 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     */
 
 }
+
+// MARK: - CLLocationManagerDelegate
+
+extension StatisticsViewController: CLLocationManagerDelegate {
+//    let locationManager = CLLocationManager()
+//    var location = CLLocation()
+//    var myPath = GMSMutablePath()
+    
+    func setMap(){
+        setMapDelegation()
+    }
+    
+    
+    func setMapDelegation(){
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = false
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        if let location = locations.first {
+            
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            
+            locationManager.stopUpdatingLocation()
+            addPolyLine(myPath)
+
+        }
+    }
+    
+    func test(){
+        getMyPath()
+    }
+    
+    func getMyPath() {
+        
+        let indexOfNewestRecord = records.count-1
+        
+        print("#######")
+        print (records[indexOfNewestRecord].locations)
+        let thisRoute = records[indexOfNewestRecord].locations
+        
+        for route in thisRoute {
+             myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
+        }
+    }
+    
+    func addPolyLine(path: GMSMutablePath) {
+        let polyline = GMSPolyline(path: path)
+        polyline.strokeWidth = 10.0
+        polyline.strokeColor = UIColor.mrBubblegumColor()
+        polyline.geodesic = true
+        polyline.map = mapView
+    }
+    
+}
+
+

@@ -12,8 +12,8 @@ import CoreData
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
 class Record: NSManagedObject {
-    @NSManaged var averageSpeed: String
-    @NSManaged var calories: String
+    @NSManaged var averageSpeed: Double
+    @NSManaged var calories: Double
     @NSManaged var count: Int32
     @NSManaged var date: NSDate
     @NSManaged var distance: Double
@@ -21,15 +21,24 @@ class Record: NSManagedObject {
     @NSManaged var weight: Double
     @NSManaged var id: String
     @NSManaged var timeDuration: String
-//    @NSManaged var latitude: Double
-//    @NSManaged var longitude: Double
+    @NSManaged var locations: NSSet
+
+}
+
+
+class Locations: NSManagedObject {
+        @NSManaged var latitude: Double
+        @NSManaged var longitude: Double
+        @NSManaged var record: Record?
+    
 }
 
 class RecordViewController: UIViewController {
     
     let dataCalCulatingModel = DataCalCulatingModel()
     var record: Record!
-    //var records: [Record] = []
+//    var locations: Locations!
+
     // variables for view
     let gradientLayer = CAGradientLayer()
     @IBOutlet weak var distance: UILabel!
@@ -65,7 +74,9 @@ class RecordViewController: UIViewController {
     var totalDistance = 0.0
     private var myCurrentCoordinate = CLLocation()
     private var myPathInCoordinate = [CLLocation]()
+    private var myEntirePathInCoordinate = [[CLLocation]]()
     private var speed: CLLocationSpeed = CLLocationSpeed()
+    
     
     // for calculating carolies
     var height = 175.3 //cm
@@ -83,6 +94,7 @@ class RecordViewController: UIViewController {
         timer.invalidate()
         startToRecordMyPath = false
         savingDataForMultiplePaths()
+        myEntirePathInCoordinate.append(myPathInCoordinate)
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
         calculateAverageSpeed()
@@ -111,10 +123,10 @@ class RecordViewController: UIViewController {
                 totalStopTime += stopTime
                 
             }
-
+            
             let aSelector : Selector = #selector(RecordViewController.updateTime)
             timer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: aSelector,     userInfo: nil, repeats: true)
-    
+            
         }
     }
     
@@ -128,6 +140,7 @@ class RecordViewController: UIViewController {
         pause = true
         startToRecordMyPath = false
         savingDataForMultiplePaths()
+        myEntirePathInCoordinate.append(myPathInCoordinate)
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
     }
@@ -181,7 +194,7 @@ class RecordViewController: UIViewController {
         time.textColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
         
     }
-
+    
     
     func setButtons(){
         recordButton.layer.cornerRadius = 30
@@ -209,7 +222,7 @@ class RecordViewController: UIViewController {
         
         elapsedTime = (currentTime - startTime) - totalStopTime
         totalTime = elapsedTime
-    
+        
         //calculate the minutes in elapsed time.
         
         let hours = Int(floor(elapsedTime / 3600.0))
@@ -243,6 +256,70 @@ class RecordViewController: UIViewController {
         time.text = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
         timeDurationInString = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
     }
+    
+    
+    // Model
+    
+    func saveCoreData(){
+        print ("******************")
+        //print (myEntirePathInCoordinate)
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
+            record.count = 1
+            record.id = "1"
+            record.averageSpeed = averageSpeedNumber
+            record.calories = totalCal
+            record.distance = totalDistance
+            record.weight = weight
+            record.height = height
+            record.timeDuration = timeDurationInString
+            record.date = NSDate()
+            
+            // save locations
+            
+            var path = [Locations]()
+            
+            
+            
+            //print(myEntirePathInCoordinate[0])
+            for location in myEntirePathInCoordinate[0] {
+                var locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
+                locations.latitude = location.coordinate.latitude
+                locations.longitude = location.coordinate.longitude
+                path.append(locations)
+                
+            }
+            //print(path)
+            record.locations =  NSSet(array: path)
+            
+            
+            do{
+                try managedObjectContext.save()
+                
+            } catch {
+                print(error)
+                return
+            }
+            
+        }
+    }
+    
+    
+    
+    func calculateAverageSpeed(){
+        if totalTime > 0{
+            averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
+        } else {
+            averageSpeedNumber = 0.0
+        }
+    }
+    
+    func calculateCarolies(){
+        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime / 3600)
+        totalCal += kCalBurned
+        caloriesNum.text = String(format:"%.2f kcal",totalCal)
+    }
+
 }
 
 
@@ -270,7 +347,7 @@ extension RecordViewController: CLLocationManagerDelegate {
         if status == .AuthorizedWhenInUse {
             locationManager.startUpdatingLocation()
             mapView.myLocationEnabled = true
-            mapView.settings.myLocationButton = true
+            //mapView.settings.myLocationButton = true
         }
     }
     
@@ -291,9 +368,10 @@ extension RecordViewController: CLLocationManagerDelegate {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation
                     //print (myCurrentCoordinate)
+                    
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)
-                    
+
                     totalDistance = previousRouteDistance + distanceOfAPath
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
@@ -305,12 +383,12 @@ extension RecordViewController: CLLocationManagerDelegate {
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
                     addPolyLine(myPath)
                     calculateCarolies()
-
+                    
                 }
             }
         }
     }
-
+    
     
     func addPolyLine(path: GMSMutablePath) {
         let polyline = GMSPolyline(path: path)
@@ -333,52 +411,5 @@ extension RecordViewController: CLLocationManagerDelegate {
         
     }
     
-
-    
-    // Model
-//    //    @NSManaged var averageSpeed: Double
-
-
-
-//    @NSManaged var id: String
-
-//    @NSManaged var latitude: Double
-//    @NSManaged var longitude: Double
-    func saveCoreData(){
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
-            record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
-            record.count = 1
-            record.id = "1"
-            record.averageSpeed = String(format:"%.2f km / h",averageSpeedNumber)
-            record.calories = String(format:"%.2f kcal",totalCal)
-            record.distance = totalDistance
-            record.weight = weight
-            record.height = height
-            record.timeDuration = timeDurationInString
-            record.date = NSDate()
-            
-            do{
-                try managedObjectContext.save()
-            
-            } catch {
-                print(error)
-                return
-            }
-        }
-    }
-    
-
-    
-    func calculateAverageSpeed(){
-        averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
-    }
-
-    func calculateCarolies(){
-        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime / 3600)
-        totalCal += kCalBurned
-        caloriesNum.text = String(format:"%.2f kcal",totalCal)
-    }
-    
-
 }
 

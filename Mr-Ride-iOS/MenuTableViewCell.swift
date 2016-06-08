@@ -14,8 +14,6 @@ class MenuTableViewCell: UITableViewCell {
     
     @IBOutlet weak var dot: UIView!
     
-
-   
     
     override func awakeFromNib() {
         super.awakeFromNib()
