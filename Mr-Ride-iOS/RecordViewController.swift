@@ -12,15 +12,15 @@ import CoreData
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
 class Record: NSManagedObject {
-    @NSManaged var averageSpeed: Double
-    @NSManaged var calories: Double
+    @NSManaged var averageSpeed: String
+    @NSManaged var calories: String
     @NSManaged var count: Int32
     @NSManaged var date: NSDate
     @NSManaged var distance: Double
     @NSManaged var height: Double
     @NSManaged var weight: Double
     @NSManaged var id: String
-    @NSManaged var timeDuration: Double
+    @NSManaged var timeDuration: String
 //    @NSManaged var latitude: Double
 //    @NSManaged var longitude: Double
 }
@@ -52,6 +52,7 @@ class RecordViewController: UIViewController {
     var previousStopTime: NSTimeInterval = 0.0
     var totalStopTime: NSTimeInterval = 0.0
     var totalTime = NSTimeInterval()
+    var timeDurationInString = ""
     
     // for map
     let locationManager = CLLocationManager()
@@ -240,6 +241,7 @@ class RecordViewController: UIViewController {
         
         //concatenate minuets, seconds and milliseconds as assign it to the UILabel
         time.text = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
+        timeDurationInString = "\(strHours):\(strMinutes):\(strSeconds).\(strFraction)"
     }
 }
 
@@ -303,8 +305,6 @@ extension RecordViewController: CLLocationManagerDelegate {
                     myPath.addCoordinate(CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude))
                     addPolyLine(myPath)
                     calculateCarolies()
-                    //myPathInCoordinate = []
-                    //calculateAverageSpeed()
 
                 }
             }
@@ -349,12 +349,12 @@ extension RecordViewController: CLLocationManagerDelegate {
             record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
             record.count = 1
             record.id = "1"
-            record.averageSpeed = averageSpeedNumber
-            record.calories = totalCal
+            record.averageSpeed = String(format:"%.2f km / h",averageSpeedNumber)
+            record.calories = String(format:"%.2f kcal",totalCal)
             record.distance = totalDistance
             record.weight = weight
             record.height = height
-            record.timeDuration = Double(totalTime)
+            record.timeDuration = timeDurationInString
             record.date = NSDate()
             
             do{
@@ -370,10 +370,7 @@ extension RecordViewController: CLLocationManagerDelegate {
 
     
     func calculateAverageSpeed(){
-        //print (totalDistance)
-        //print (totalTime)
         averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
-        //print (averageSpeedNumber)
     }
 
     func calculateCarolies(){

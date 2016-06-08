@@ -94,13 +94,22 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     }
     func setLabel(){
         distance.text = "Distance"
-        distanceNum.text = "0 m"
-        averageSpeed.text = "Current Speed"
-        averageSpeedNum.text = "0 km / h"
+        averageSpeed.text = "Average Speed"
         calories.text = "Calories"
-        caloriesNum.text = "0 kcal"
         totalTime.text = "Total Time"
+        distanceNum.text = "0 m"
+        averageSpeedNum.text = "0 km / h"
+        caloriesNum.text = "0 kcal"
         totalTimeNum.text = "00:00:00.00"
+        
+        if records.count > 0 {
+            totalTimeNum.text =  records[records.count-1].timeDuration
+            distanceNum.text = String(format:"%.2f m",(records[records.count-1].distance))
+            averageSpeedNum.text = records[records.count-1].averageSpeed
+            caloriesNum.text = records[records.count-1].calories
+            totalTimeNum.text =  records[records.count-1].timeDuration
+        }
+
         
     }
     
@@ -132,8 +141,10 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
                 //performBlockAndWait
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
+                
+                print(records[records.count-1].date)
+
                 print("$$$$$$")
-                print(records)
                 
             } catch {
                 print(error)
