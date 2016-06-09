@@ -105,6 +105,7 @@
                                                 <connections>
                                                     <outlet property="date" destination="h9M-m0-W5J" id="Iao-Pp-2XJ"/>
                                                     <outlet property="distance" destination="PnY-0J-U7f" id="DJv-NT-7mg"/>
+                                                    <outlet property="th" destination="nct-wW-G2d" id="vBp-gS-Iiy"/>
                                                     <outlet property="timeDuration" destination="1eo-un-eLr" id="40u-S8-CBl"/>
                                                 </connections>
                                             </tableViewCell>

@@ -18,9 +18,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var record: Record!
     var records: [Record] = []
     var locations: [Locations] = []
-    
 
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +45,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print (records.count)
-        var number = 10
+        var number = 1
         if records.count > 0 {
             number = records.count
         } else {
@@ -65,15 +63,24 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         // get Date
         print(records[indexPath.row].date)
         let NSDateFormate = String(records[indexPath.row].date)
-        let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(start: NSDateFormate.startIndex.advancedBy(5), end: NSDateFormate.startIndex.advancedBy(7)))
-        let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(start: NSDateFormate.startIndex.advancedBy(8), end: NSDateFormate.startIndex.advancedBy(10)))
+        let recordYear = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(0) ..< NSDateFormate.startIndex.advancedBy(4)))
+        let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(5) ..< NSDateFormate.startIndex.advancedBy(7)))
+        let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(8) ..< NSDateFormate.startIndex.advancedBy(10)))
         
+        print(recordYear)
+        print(recordMonth)
         print(recordDate)
-//.advancedBy(5)..< NSDateFormate.endIndex.advancedBy(-1)
-        //let domain = fqdn[rangeOfDomain] // "useyourloaf"
-        //let date = NSDateFormate[0]
         
         Cell.date.text = recordDate
+        
+        // set th
+        if recordDate == "01"  || recordDate == "21" || recordDate ==  "31" {
+            Cell.th.text = "st"
+        } else if recordDate == "02" || recordDate == "02" || recordDate ==  "22"  {
+            Cell.th.text = "nd"
+        }  else if recordDate == "03"  || recordDate == "23" {
+            Cell.th.text = "rd"
+        }
      
         // get distance
         let distanceInM = records[indexPath.row].distance
@@ -114,27 +121,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-//    func setLabel(){
-//        //print (records[records.count-1].averageSpeed)
-////        distance.text = "Distance"
-////        averageSpeed.text = "Average Speed"
-////        calories.text = "Calories"
-////        totalTime.text = "Total Time"
-////        distanceNum.text = "0 m"
-////        averageSpeedNum.text = "0 km / h"
-////        caloriesNum.text = "0 kcal"
-////        totalTimeNum.text = "00:00:00.00"
-//        
-//        if records.count > 0 {
-//            totalTimeNum.text =  records[records.count-1].timeDuration
-//            distanceNum.text = String(format:"%.2f m",(records[records.count-1].distance))
-//            averageSpeedNum.text = String(format:"%.2f km / h", records[records.count-1].averageSpeed)
-//            
-//            caloriesNum.text = String(format:"%.2f kcal",records[records.count-1].calories)
-//            totalTimeNum.text =  records[records.count-1].timeDuration
-//        }
-//    }
-    
     // Model
     
     func fetchCoreData(){
@@ -156,7 +142,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 
 
                 print("done fetching")
-                getIndivualValueFromCoreData()
+                //getIndivualValueFromCoreData()
                 
                 
                 
@@ -168,16 +154,16 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     }
     
-    func getIndivualValueFromCoreData(){
-        if records.count > 0 {
-            for record in records {
-                print("*********")
-                print (record.timeDuration.characters.count)
-            }
-
-        }
-        
-    }
+//    func getIndivualValueFromCoreData(){
+//        if records.count > 0 {
+//            for record in records {
+//                print("*********")
+//                print (record.timeDuration.characters.count)
+//            }
+//
+//        }
+//        
+//    }
 
 // HistoryCell
     /*
