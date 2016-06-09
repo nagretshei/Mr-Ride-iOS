@@ -217,14 +217,24 @@ extension StatisticsViewController: CLLocationManagerDelegate {
         
         let indexOfNewestRecord = records.count-1
         index = indexOfNewestRecord
-        let thisRoute = records[index].locations
-        let thisRouteInArrayInNSArray = NSMutableArray(array: (thisRoute.allObjects as! [Locations]).sort{ $0.time.compare($1.time) == NSComparisonResult.OrderedAscending })
-
-        for route in thisRouteInArrayInNSArray {
-             myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
-             endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
-        }
         
+        let thisRoute = records[index].locations
+        if thisRoute.count >= 2 {
+            let thisRouteInArrayInNSArray = NSMutableArray(array: (thisRoute.allObjects as! [Locations]).sort{ $0.time!.compare($1.time!) == NSComparisonResult.OrderedAscending })
+        
+            for route in thisRouteInArrayInNSArray {
+                myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
+                endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
+            }
+        } else if thisRoute.count > 0 {
+            for route in thisRoute {
+                myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
+                endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
+            }
+        } else {
+            myPath.addCoordinate(CLLocationCoordinate2DMake(0.0, 0.0))
+            endPoint = CLLocation(latitude: 0.0, longitude: 0.0)
+        }
     }
     
     func addPolyLine(path: GMSMutablePath) {

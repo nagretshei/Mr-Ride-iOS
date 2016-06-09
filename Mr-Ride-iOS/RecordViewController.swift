@@ -15,12 +15,12 @@ class Record: NSManagedObject {
     @NSManaged var averageSpeed: Double
     @NSManaged var calories: Double
     @NSManaged var count: Int32
-    @NSManaged var date: NSDate
+    @NSManaged var date: NSDate?
     @NSManaged var distance: Double
     @NSManaged var height: Double
     @NSManaged var weight: Double
-    @NSManaged var id: String
-    @NSManaged var timeDuration: String
+    @NSManaged var id: String?
+    @NSManaged var timeDuration: String?
     @NSManaged var locations: NSSet
 //    @NSManaged var locations: NSOrderedSet
 
@@ -30,7 +30,7 @@ class Record: NSManagedObject {
 class Locations: NSManagedObject {
     @NSManaged var latitude: Double
     @NSManaged var longitude: Double
-    @NSManaged var time: NSDate
+    @NSManaged var time: NSDate?
     @NSManaged var record: Record?
     
 }
@@ -286,8 +286,8 @@ class RecordViewController: UIViewController {
             // save locations
             var path = [Locations]()
 
-            for rounte in myEntirePathInCoordinate {
-                for location in myEntirePathInCoordinate[0] {
+            for route in myEntirePathInCoordinate {
+                for location in route {
                     let locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
                     locations.time = NSDate()
                     locations.latitude = location.coordinate.latitude

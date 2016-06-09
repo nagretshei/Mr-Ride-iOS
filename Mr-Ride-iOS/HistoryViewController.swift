@@ -88,9 +88,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         Cell.distance.text = String(format:"%.2f km",(distanceInKm))
         
         //get time
-        let time = records[indexPath.row].timeDuration
-        let timeText = String(time.characters.dropLast(3))
-        Cell.timeDuration.text = timeText
+        if let time = records[indexPath.row].timeDuration {
+            let timeText = String(time.characters.dropLast(3))
+            Cell.timeDuration.text = timeText
+        }
         return Cell
     }
     
