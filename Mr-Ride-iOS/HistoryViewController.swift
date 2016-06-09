@@ -51,7 +51,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         if records.count > 0 {
             number = records.count
         } else {
-            number = 10
+            number = 3
         }
         
         return number
@@ -62,6 +62,28 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
+        // get Date
+        print(records[indexPath.row].date)
+        let NSDateFormate = String(records[indexPath.row].date)
+        let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(start: NSDateFormate.startIndex.advancedBy(5), end: NSDateFormate.startIndex.advancedBy(7)))
+        let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(start: NSDateFormate.startIndex.advancedBy(8), end: NSDateFormate.startIndex.advancedBy(10)))
+        
+        print(recordDate)
+//.advancedBy(5)..< NSDateFormate.endIndex.advancedBy(-1)
+        //let domain = fqdn[rangeOfDomain] // "useyourloaf"
+        //let date = NSDateFormate[0]
+        
+        Cell.date.text = recordDate
+     
+        // get distance
+        let distanceInM = records[indexPath.row].distance
+        let distanceInKm = distanceInM / 1000
+        Cell.distance.text = String(format:"%.2f km",(distanceInKm))
+        
+        //get time
+        let time = records[indexPath.row].timeDuration
+        let timeText = String(time.characters.dropLast(3))
+        Cell.timeDuration.text = timeText
         return Cell
     }
     
@@ -92,6 +114,27 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
+//    func setLabel(){
+//        //print (records[records.count-1].averageSpeed)
+////        distance.text = "Distance"
+////        averageSpeed.text = "Average Speed"
+////        calories.text = "Calories"
+////        totalTime.text = "Total Time"
+////        distanceNum.text = "0 m"
+////        averageSpeedNum.text = "0 km / h"
+////        caloriesNum.text = "0 kcal"
+////        totalTimeNum.text = "00:00:00.00"
+//        
+//        if records.count > 0 {
+//            totalTimeNum.text =  records[records.count-1].timeDuration
+//            distanceNum.text = String(format:"%.2f m",(records[records.count-1].distance))
+//            averageSpeedNum.text = String(format:"%.2f km / h", records[records.count-1].averageSpeed)
+//            
+//            caloriesNum.text = String(format:"%.2f kcal",records[records.count-1].calories)
+//            totalTimeNum.text =  records[records.count-1].timeDuration
+//        }
+//    }
+    
     // Model
     
     func fetchCoreData(){
@@ -110,14 +153,30 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             do {
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
+                
 
                 print("done fetching")
+                getIndivualValueFromCoreData()
+                
                 
                 
             } catch {
                 print(error)
             }
         }
+        
+
+    }
+    
+    func getIndivualValueFromCoreData(){
+        if records.count > 0 {
+            for record in records {
+                print("*********")
+                print (record.timeDuration.characters.count)
+            }
+
+        }
+        
     }
 
 // HistoryCell

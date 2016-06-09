@@ -78,10 +78,10 @@
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1eo-un-eLr" userLabel="durationTime">
-                                                            <rect key="frame" x="408" y="7" width="114" height="29"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1eo-un-eLr" userLabel="durationTime">
+                                                            <rect key="frame" x="394" y="7" width="135" height="29"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="114" id="ERk-kh-gru"/>
+                                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="135" id="q8Q-Rt-c76"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="24"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -91,8 +91,8 @@
                                                     <color key="backgroundColor" red="0.050980392843484879" green="0.20784313976764679" blue="0.25098040699958801" alpha="0.85000002384185791" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="nct-wW-G2d" firstAttribute="leading" secondItem="F3Q-xY-MCN" secondAttribute="leadingMargin" constant="39" id="35o-2V-VrX"/>
-                                                        <constraint firstAttribute="trailingMargin" secondItem="1eo-un-eLr" secondAttribute="trailing" constant="26" id="DbL-ZM-z2k"/>
                                                         <constraint firstItem="YZ3-uQ-GiW" firstAttribute="leading" secondItem="F3Q-xY-MCN" secondAttribute="leadingMargin" constant="80" id="H48-rU-Nn4"/>
+                                                        <constraint firstAttribute="trailingMargin" secondItem="1eo-un-eLr" secondAttribute="trailing" constant="19" id="KzE-MW-5k1"/>
                                                         <constraint firstItem="h9M-m0-W5J" firstAttribute="centerY" secondItem="F3Q-xY-MCN" secondAttribute="centerY" constant="-1.5" id="Px4-tl-iTe"/>
                                                         <constraint firstItem="PnY-0J-U7f" firstAttribute="centerY" secondItem="F3Q-xY-MCN" secondAttribute="centerY" id="c1D-ls-wiZ"/>
                                                         <constraint firstItem="YZ3-uQ-GiW" firstAttribute="centerY" secondItem="F3Q-xY-MCN" secondAttribute="centerY" id="cWu-j6-K4Q"/>
