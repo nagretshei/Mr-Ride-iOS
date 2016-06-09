@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 
-
 class StatisticsViewController: UIViewController, NSFetchedResultsControllerDelegate {
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
@@ -18,7 +17,10 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     var record: Record!
     var records: [Record] = []
     var locations: [Locations] = []
+    var coreDataIsZero = true
 
+    var index = 0
+    
     // variables for view
     let gradientLayer = CAGradientLayer()
     
@@ -58,8 +60,12 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(close(_:)))
             
         }
+        
         fetchCoreData()
-        getMyPath()
+        if records.count > 0 {
+            getMyPath()
+            coreDataIsZero = false
+        }
         setView()
         setMap()
         
@@ -105,7 +111,7 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
         
     }
     func setLabel(){
-        print (records[records.count-1].averageSpeed)
+        //print (records[records.count-1].averageSpeed)
         distance.text = "Distance"
         averageSpeed.text = "Average Speed"
         calories.text = "Calories"
@@ -147,23 +153,12 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             
             fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultController.delegate = self
-
-            
-            print("will fetch")
+            //print("will fetch")
             
             do {
-                
                 //performBlockAndWait
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
-
-                //allObjects.sort()
-     
-               
-                
-
-                print("$$$$$$")
-                
                 
             } catch {
                 print(error)
@@ -200,10 +195,15 @@ extension StatisticsViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
             mapView.myLocationEnabled = false
-            addPolyLine(myPath)
-            let bounds = GMSCoordinateBounds(path: myPath)
-            let insets = UIEdgeInsetsMake(35.3, 66.9, 21.8, 93.7)
-            mapView.camera = mapView.cameraForBounds(bounds, insets: insets )!
+            
+            if coreDataIsZero == false {
+                addPolyLine(myPath)
+                
+                let bounds = GMSCoordinateBounds(path: myPath)
+                let insets = UIEdgeInsetsMake(35.3, 66.9, 21.8, 93.7)
+                mapView.camera = mapView.cameraForBounds(bounds, insets: insets )!
+            }
+            
             
         }
     }
@@ -216,9 +216,8 @@ extension StatisticsViewController: CLLocationManagerDelegate {
     func getMyPath() {
         
         let indexOfNewestRecord = records.count-1
-
-        let thisRoute = records[indexOfNewestRecord].locations
-        
+        index = indexOfNewestRecord
+        let thisRoute = records[index].locations
         let thisRouteInArrayInNSArray = NSMutableArray(array: (thisRoute.allObjects as! [Locations]).sort{ $0.time.compare($1.time) == NSComparisonResult.OrderedAscending })
 
         for route in thisRouteInArrayInNSArray {

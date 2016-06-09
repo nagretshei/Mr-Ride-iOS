@@ -28,6 +28,8 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
         menuTableView.selectRowAtIndexPath(currectSelected, animated: false, scrollPosition: .None)
     }
     
+
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuItems.count
     }

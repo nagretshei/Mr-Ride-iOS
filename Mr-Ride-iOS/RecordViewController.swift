@@ -22,6 +22,7 @@ class Record: NSManagedObject {
     @NSManaged var id: String
     @NSManaged var timeDuration: String
     @NSManaged var locations: NSSet
+//    @NSManaged var locations: NSOrderedSet
 
 }
 
@@ -38,7 +39,8 @@ class RecordViewController: UIViewController {
     
     let dataCalCulatingModel = DataCalCulatingModel()
     var record: Record!
-//    var locations: Locations!
+    var recordWithValue = false
+
 
     // variables for view
     let gradientLayer = CAGradientLayer()
@@ -53,7 +55,7 @@ class RecordViewController: UIViewController {
     @IBOutlet weak var mapView: GMSMapView!
     @IBOutlet weak var pauseButton: UIButton!
     
-    //var startTime = NSTimeInterval()
+
     var timer = NSTimer()
     var startTime = NSTimeInterval()
     var currentTime = NSDate.timeIntervalSinceReferenceDate()
@@ -99,13 +101,16 @@ class RecordViewController: UIViewController {
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
         calculateAverageSpeed()
-        saveCoreData()
+        if recordWithValue == true {
+            saveCoreData()
+        }
         
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
     }
     
     @IBAction func startRecording(sender: UIButton) {
+        recordWithValue = true
         pauseButton.hidden = false
         recordButton.hidden = true
         startToRecordMyPath = true
@@ -266,8 +271,6 @@ class RecordViewController: UIViewController {
     // Model
     
     func saveCoreData(){
-        print ("******************")
-        //print (myEntirePathInCoordinate)
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
             record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
             record.count = 1
@@ -294,10 +297,9 @@ class RecordViewController: UIViewController {
                 }
                 
             }
+//            record.locations =  NSOrderedSet(array: path)
             record.locations =  NSSet(array: path)
-            //print(path)
-            //record.locations =  NSSet(array: path)
-            
+
             
             do{
                 try managedObjectContext.save()
@@ -373,7 +375,6 @@ extension RecordViewController: CLLocationManagerDelegate {
                 if startToRecordMyPath == true {
                     //updating variables for calculating distance
                     myCurrentCoordinate = lastLocation
-                    //print (myCurrentCoordinate)
                     
                     myPathInCoordinate.append(myCurrentCoordinate)
                     distanceOfAPath = dataCalCulatingModel.calculatePolylineDistance(myPathInCoordinate)

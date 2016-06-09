@@ -7,19 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
-class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
 
     var isPresented = false
+    // variables for CorData
+    var fetchResultController: NSFetchedResultsController!
+    var fetchResultController1: NSFetchedResultsController!
+    var record: Record!
+    var records: [Record] = []
+    var locations: [Locations] = []
     
 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchCoreData()
         setView()
         
     }
     
-
 
     @IBAction func MenuButtonTapped(sender: AnyObject) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -32,8 +41,21 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 12
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        print (records.count)
+        var number = 10
+        if records.count > 0 {
+            number = records.count
+        } else {
+            number = 10
+        }
+        
+        return number
+
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -63,12 +85,41 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.translucent = false
         
         // delete the shadow
-        //self.navigationController!.navigationBar.backgroundColor = UIColor.mrLightblueColor()
         let shadowImg = UIImage()
         self.navigationController?.navigationBar.shadowImage = shadowImg
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
         
     }
+    
+    
+    // Model
+    
+    func fetchCoreData(){
+        let fetchRequest = NSFetchRequest(entityName: "Record")
+        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortData]
+        
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            
+            print("will fetch")
+            
+            do {
+                try fetchResultController.performFetch()
+                records = fetchResultController.fetchedObjects as! [Record]
+
+                print("done fetching")
+                
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+
 // HistoryCell
     /*
     // MARK: - Navigation

@@ -20,6 +20,6 @@
     </entity>
     <elements>
         <element name="Locations" positionX="27" positionY="159" width="128" height="105"/>
-        <element name="Record" positionX="-189" positionY="-27" width="128" height="193"/>
+        <element name="Record" positionX="-189" positionY="-27" width="128" height="195"/>
     </elements>
 </model>

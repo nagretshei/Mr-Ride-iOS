@@ -101,7 +101,7 @@
 		8922A9CB1CF423170010B66D /* RobotoMono-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-ThinItalic.ttf"; sourceTree = "<group>"; };
 		8931B1F21CFD300700017D01 /* RecordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
 		893741A31CF68088001EEB52 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
-		8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableViewCell.swift; path = ../HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+YBKAdditions (1).swift"; sourceTree = "<group>"; };
 		899082B51CF5A093009A16DF /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		89F2C4AD1CF7D89200B4D400 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
@@ -138,7 +138,6 @@
 		8922A96E1CF40D800010B66D = {
 			isa = PBXGroup;
 			children = (
-				8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */,
 				8922A9791CF40D800010B66D /* Mr-Ride-iOS */,
 				8922A9911CF40D800010B66D /* Mr-Ride-iOSTests */,
 				8922A99C1CF40D800010B66D /* Mr-Ride-iOSUITests */,
@@ -168,6 +167,7 @@
 				8922A97E1CF40D800010B66D /* Main.storyboard */,
 				8922A9BC1CF415710010B66D /* MenuTableViewCell.swift */,
 				8922A9BE1CF41A020010B66D /* HistoryViewController.swift */,
+				8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */,
 				893741A31CF68088001EEB52 /* StatisticsViewController.swift */,
 				899082B51CF5A093009A16DF /* RecordViewController.swift */,
 				8931B1F21CFD300700017D01 /* RecordViewModel.swift */,
