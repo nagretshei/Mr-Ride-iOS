@@ -192,7 +192,6 @@ extension StatisticsViewController: CLLocationManagerDelegate {
         setMapDelegation()
     }
     
-    
     func setMapDelegation(){
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
@@ -200,11 +199,11 @@ extension StatisticsViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
-            //locationManager.distanceFilter
             mapView.myLocationEnabled = false
-            mapView.camera = GMSCameraPosition(target: endPoint.coordinate, zoom: 16, bearing: 0, viewingAngle: 0)
             addPolyLine(myPath)
-            
+            let bounds = GMSCoordinateBounds(path: myPath)
+            let insets = UIEdgeInsetsMake(35.3, 66.9, 21.8, 93.7)
+            mapView.camera = mapView.cameraForBounds(bounds, insets: insets )!
             
         }
     }
@@ -213,7 +212,6 @@ extension StatisticsViewController: CLLocationManagerDelegate {
             locationManager.stopUpdatingLocation()
         
     }
-
     
     func getMyPath() {
         
@@ -234,7 +232,7 @@ extension StatisticsViewController: CLLocationManagerDelegate {
         let polyline = GMSPolyline(path: path)
         polyline.strokeWidth = 10.0
         polyline.strokeColor = UIColor.mrBubblegumColor()
-        //polyline.geodesic = true
+        polyline.geodesic = true
         polyline.map = mapView
     }
 }
