@@ -14,8 +14,10 @@ import CoreData
 class StatisticsViewController: UIViewController, NSFetchedResultsControllerDelegate {
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
+     var fetchResultController1: NSFetchedResultsController!
     var record: Record!
     var records: [Record] = []
+    var locations: [Locations] = []
 
     // variables for view
     let gradientLayer = CAGradientLayer()
@@ -57,7 +59,7 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             
         }
         fetchCoreData()
-        test()
+        getMyPath()
         setView()
         setMap()
         
@@ -137,12 +139,16 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     
     func fetchCoreData(){
         let fetchRequest = NSFetchRequest(entityName: "Record")
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortData]
+
         
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
             fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
             fetchResultController.delegate = self
+
+            
             print("will fetch")
             
             do {
@@ -150,6 +156,11 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
                 //performBlockAndWait
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
+
+                //allObjects.sort()
+     
+               
+                
 
                 print("$$$$$$")
                 
@@ -176,9 +187,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
 // MARK: - CLLocationManagerDelegate
 
 extension StatisticsViewController: CLLocationManagerDelegate {
-//    let locationManager = CLLocationManager()
-//    var location = CLLocation()
-//    var myPath = GMSMutablePath()
     
     func setMap(){
         setMapDelegation()
@@ -193,10 +201,9 @@ extension StatisticsViewController: CLLocationManagerDelegate {
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
             //locationManager.distanceFilter
-
-            locationManager.startUpdatingLocation()
-            
             mapView.myLocationEnabled = false
+            mapView.camera = GMSCameraPosition(target: endPoint.coordinate, zoom: 16, bearing: 0, viewingAngle: 0)
+            addPolyLine(myPath)
             
             
         }
@@ -204,35 +211,30 @@ extension StatisticsViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             locationManager.stopUpdatingLocation()
-            mapView.camera = GMSCameraPosition(target: endPoint.coordinate, zoom: 16, bearing: 0, viewingAngle: 0)
-            addPolyLine(myPath)
+        
     }
-    
-    func test(){
-        getMyPath()
-    }
+
     
     func getMyPath() {
         
         let indexOfNewestRecord = records.count-1
-        
-        print("#######")
-        print (records[indexOfNewestRecord].locations)
-        
+
         let thisRoute = records[indexOfNewestRecord].locations
         
-        for route in thisRoute {
+        let thisRouteInArrayInNSArray = NSMutableArray(array: (thisRoute.allObjects as! [Locations]).sort{ $0.time.compare($1.time) == NSComparisonResult.OrderedAscending })
+
+        for route in thisRouteInArrayInNSArray {
              myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
              endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
         }
-        print(endPoint)
+        
     }
     
     func addPolyLine(path: GMSMutablePath) {
         let polyline = GMSPolyline(path: path)
         polyline.strokeWidth = 10.0
         polyline.strokeColor = UIColor.mrBubblegumColor()
-        polyline.geodesic = true
+        //polyline.geodesic = true
         polyline.map = mapView
     }
 }

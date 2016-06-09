@@ -3,6 +3,7 @@
     <entity name="Locations" representedClassName=".Locations" syncable="YES">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="record" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Record" inverseName="locations" inverseEntity="Record" syncable="YES"/>
     </entity>
     <entity name="Record" representedClassName=".Record" syncable="YES">
@@ -18,7 +19,7 @@
         <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Locations" inverseName="record" inverseEntity="Locations" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Locations" positionX="27" positionY="159" width="128" height="105"/>
         <element name="Record" positionX="-189" positionY="-27" width="128" height="193"/>
-        <element name="Locations" positionX="27" positionY="159" width="128" height="73"/>
     </elements>
 </model>

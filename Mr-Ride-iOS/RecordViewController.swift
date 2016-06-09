@@ -27,9 +27,10 @@ class Record: NSManagedObject {
 
 
 class Locations: NSManagedObject {
-        @NSManaged var latitude: Double
-        @NSManaged var longitude: Double
-        @NSManaged var record: Record?
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+    @NSManaged var time: NSDate
+    @NSManaged var record: Record?
     
 }
 
@@ -160,6 +161,10 @@ class RecordViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    deinit {
+        print("RecordViewController is dead")
+    }
+    
     
     // MARK: - View Part
     
@@ -279,16 +284,17 @@ class RecordViewController: UIViewController {
             var path = [Locations]()
 
             for rounte in myEntirePathInCoordinate {
-                for location in rounte {
-                    var locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
+                for location in myEntirePathInCoordinate[0] {
+                    let locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
+                    locations.time = NSDate()
                     locations.latitude = location.coordinate.latitude
                     locations.longitude = location.coordinate.longitude
                     path.append(locations)
                     
                 }
-                record.locations =  NSSet(array: path)
+                
             }
-
+            record.locations =  NSSet(array: path)
             //print(path)
             //record.locations =  NSSet(array: path)
             

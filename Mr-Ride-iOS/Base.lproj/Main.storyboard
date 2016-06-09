@@ -497,9 +497,9 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xmF-Pa-Ott" userLabel="averageSpeedNum">
-                                        <rect key="frame" x="38" y="100" width="144" height="36"/>
+                                        <rect key="frame" x="38" y="100" width="221" height="36"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="144" id="6Dj-CD-cPl"/>
+                                            <constraint firstAttribute="width" constant="221" id="6Dj-CD-cPl"/>
                                             <constraint firstAttribute="height" constant="36" id="ieT-b9-gP6"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
