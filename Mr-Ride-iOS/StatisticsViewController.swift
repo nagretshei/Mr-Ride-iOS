@@ -9,8 +9,17 @@
 import UIKit
 import CoreData
 
+protocol IndexDelegate {
+//    var index: Int {get}
+    func giveIndex(cell: StatisticsViewController) -> Int
+
+}
+
 
 class StatisticsViewController: UIViewController, NSFetchedResultsControllerDelegate {
+    
+    var delegate: IndexDelegate? //宣告法定代理人之權力
+    
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
      var fetchResultController1: NSFetchedResultsController!
@@ -56,6 +65,7 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         if isPresented {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(close(_:)))
             
@@ -66,6 +76,7 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             getMyPath()
             coreDataIsZero = false
         }
+        
         setView()
         setMap()
         
@@ -213,10 +224,14 @@ extension StatisticsViewController: CLLocationManagerDelegate {
         
     }
     
-    func getMyPath() {
-        
+    func getMyPath(){
         let indexOfNewestRecord = records.count-1
         index = indexOfNewestRecord
+        if isPresented == false && delegate?.giveIndex(self) != nil {
+            
+            index = (delegate?.giveIndex(self))!
+            
+        }
         
         let thisRoute = records[index].locations
         if thisRoute.count >= 2 {

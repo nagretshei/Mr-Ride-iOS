@@ -9,8 +9,13 @@
 import UIKit
 import CoreData
 
-class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate {
-
+class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, IndexDelegate {
+    
+    // variables for giving indexPath
+    
+    let StatisticRecord = StatisticsViewController()
+    var index = 0
+    
     var isPresented = false
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
@@ -18,10 +23,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var record: Record!
     var records: [Record] = []
     var locations: [Locations] = []
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //StatisticRecord.delegate = self
         fetchCoreData()
         setView()
         
@@ -44,12 +51,12 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print (records.count)
-        var number = 1
+        //print (records.count)
+        var number = 0
         if records.count > 0 {
             number = records.count
         } else {
-            number = 3
+            number = 0
         }
         
         return number
@@ -61,46 +68,57 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
         // get Date
-        print(records[indexPath.row].date)
-        let NSDateFormate = String(records[indexPath.row].date)
-        let recordYear = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(0) ..< NSDateFormate.startIndex.advancedBy(4)))
-        let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(5) ..< NSDateFormate.startIndex.advancedBy(7)))
-        let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(8) ..< NSDateFormate.startIndex.advancedBy(10)))
-        
-        print(recordYear)
-        print(recordMonth)
-        print(recordDate)
-        
-        Cell.date.text = recordDate
-        
-        // set th
-        if recordDate == "01"  || recordDate == "21" || recordDate ==  "31" {
-            Cell.th.text = "st"
-        } else if recordDate == "02" || recordDate == "02" || recordDate ==  "22"  {
-            Cell.th.text = "nd"
-        }  else if recordDate == "03"  || recordDate == "23" {
-            Cell.th.text = "rd"
-        }
-     
-        // get distance
-        let distanceInM = records[indexPath.row].distance
-        let distanceInKm = distanceInM / 1000
-        Cell.distance.text = String(format:"%.2f km",(distanceInKm))
-        
-        //get time
-        if let time = records[indexPath.row].timeDuration {
-            let timeText = String(time.characters.dropLast(3))
-            Cell.timeDuration.text = timeText
+        if records.count > 0 {
+            print(records[indexPath.row].date)
+            let NSDateFormate = String(records[indexPath.row].date)
+            let recordYear = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(0) ..< NSDateFormate.startIndex.advancedBy(4)))
+            let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(5) ..< NSDateFormate.startIndex.advancedBy(7)))
+            let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(8) ..< NSDateFormate.startIndex.advancedBy(10)))
+            
+            print(recordYear)
+            print(recordMonth)
+            print(recordDate)
+            
+            Cell.date.text = recordDate
+            
+            // set th
+            if recordDate == "01"  || recordDate == "21" || recordDate ==  "31" {
+                Cell.th.text = "st"
+            } else if recordDate == "02" || recordDate == "02" || recordDate ==  "22"  {
+                Cell.th.text = "nd"
+            }  else if recordDate == "03"  || recordDate == "23" {
+                Cell.th.text = "rd"
+            }
+            
+            // get distance
+            let distanceInM = records[indexPath.row].distance
+            let distanceInKm = distanceInM / 1000
+            Cell.distance.text = String(format:"%.2f km",(distanceInKm))
+            
+            //get time
+            if let time = records[indexPath.row].timeDuration {
+                let timeText = String(time.characters.dropLast(3))
+                Cell.timeDuration.text = timeText
+            }
         }
         return Cell
     }
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
 
        let statisticsViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         
+        index = indexPath.row
         statisticsViewController?.isPresented = false
+        statisticsViewController!.delegate = self
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
+    }
+    
+    func giveIndex(cell: StatisticsViewController) -> Int {
+        StatisticRecord.index = index
+        
+        return StatisticRecord.index
     }
     
     
@@ -151,7 +169,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print(error)
             }
         }
-        
+
+
+
 
     }
     
