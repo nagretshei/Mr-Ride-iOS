@@ -13,7 +13,6 @@ class ViewController: UIViewController {
     
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
-    //var totalDistance: Double = 0.0
     
     
     //var fetchResultController1: NSFetchedResultsController!
@@ -23,6 +22,8 @@ class ViewController: UIViewController {
     var coreDataIsZero = true
     
     var index = 0
+    var totalValue: TotalValue!
+    var totalValues: [TotalValue] = []
     
     
     // variables for View
@@ -72,6 +73,7 @@ class ViewController: UIViewController {
     // View
     func setView(){
         fetchCoreData()
+        fetchCoreDataForTotalValue()
         setLabelAndButton()
         setNavigationBar()
         
@@ -129,15 +131,22 @@ class ViewController: UIViewController {
         
         
         if records.count > 0 {
-            totalCountLabel.text = String(format:"%.d times",records.count)
             
-            let totalDistanceInKm = records[records.count-1].totalDistanceInHistory / 1000
-            totalDistanceLabel.text =  String(format:"%.2f m", totalDistanceInKm)
+            if records.count == 1{
+                totalCountLabel.text = String(format:"%.d time",records.count)
+            } else if records.count > 1 {
+                totalCountLabel.text = String(format:"%.d times",records.count)
+            }
             
-            
-           let totalAverageSpeed = (records[records.count-1].totalAverageSpeed / Double(records[records.count-1].count))
-            averageSpeedLabel.text = String(format:"%.2f km / h", totalAverageSpeed)
+            if totalValues.count > 0 {
+                
+                let totalDistanceInKm = totalValues[totalValues.count-1].totalDistanceInHistory / 1000
+                totalDistanceLabel.text =  String(format:"%.2f m", totalDistanceInKm)
 
+                
+                let totalAverageSpeed = totalValues[totalValues.count-1].totalAverageSpeed
+                averageSpeedLabel.text = String(format:"%.2f km / h", totalAverageSpeed)
+            }
         }
         
     }
@@ -185,8 +194,28 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
-//    func getTotalDistance(){
-////        totalDistance +=
-//    }
+    func fetchCoreDataForTotalValue(){
+        let fetchRequest = NSFetchRequest(entityName: "TotalValue")
+        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortData]
+        
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            //print("will fetch")
+            
+            do {
+                //performBlockAndWait
+                try fetchResultController.performFetch()
+                totalValues = fetchResultController.fetchedObjects as! [TotalValue]
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
 }
 

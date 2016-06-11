@@ -75,9 +75,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(5) ..< NSDateFormate.startIndex.advancedBy(7)))
             let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(8) ..< NSDateFormate.startIndex.advancedBy(10)))
             
-            print(recordYear)
-            print(recordMonth)
-            print(recordDate)
+//            print(recordYear)
+//            print(recordMonth)
+//            print(recordDate)
             
             Cell.date.text = recordDate
             
@@ -116,8 +116,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func giveIndex(cell: StatisticsViewController) -> Int {
-        StatisticRecord.index = index
-        
+        StatisticRecord.index = index        
         return StatisticRecord.index
     }
     

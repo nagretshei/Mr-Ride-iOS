@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 protocol IndexDelegate {
-//    var index: Int {get}
+
     func giveIndex(cell: StatisticsViewController) -> Int
 
 }
@@ -60,7 +60,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     var myPath = GMSMutablePath()
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -79,7 +78,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
         setView()
         setMap()
         
-
         // Do any additional setup after loading the view.
     }
     
@@ -135,7 +133,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             totalTimeNum.text =  records[records.count-1].timeDuration
             distanceNum.text = String(format:"%.2f m",(records[records.count-1].distance))
             averageSpeedNum.text = String(format:"%.2f km / h", records[records.count-1].averageSpeed)
-            
             caloriesNum.text = String(format:"%.2f kcal",records[records.count-1].calories)
             totalTimeNum.text =  records[records.count-1].timeDuration
         }
@@ -144,7 +141,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     func setGradientBackground(){
         self.view.backgroundColor = UIColor.mrLightblueColor()
         gradientLayer.frame = self.view.bounds
-        
         let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
         let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
         gradientLayer.colors = [color1, color2]

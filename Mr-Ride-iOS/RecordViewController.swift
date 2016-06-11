@@ -14,7 +14,6 @@ import CoreData
 class Record: NSManagedObject {
     @NSManaged var averageSpeed: Double
     @NSManaged var calories: Double
-    @NSManaged var count: Int32
     @NSManaged var date: NSDate?
     @NSManaged var distance: Double
     @NSManaged var height: Double
@@ -22,9 +21,13 @@ class Record: NSManagedObject {
     @NSManaged var id: String?
     @NSManaged var timeDuration: String?
     @NSManaged var locations: NSSet
+
+}
+
+class TotalValue: NSManagedObject  {
     @NSManaged var totalDistanceInHistory: Double
     @NSManaged var totalAverageSpeed: Double
-
+    @NSManaged var date: NSDate
 }
 
 
@@ -37,10 +40,17 @@ class Locations: NSManagedObject {
 }
 
 class RecordViewController: UIViewController {
-    
+
+    // variables for CorData
     let dataCalCulatingModel = DataCalCulatingModel()
     var record: Record!
     var recordWithValue = false
+    
+
+    var fetchResultController: NSFetchedResultsController!
+    var records: [Record] = []
+    var totalValue: TotalValue!
+    var totalValues: [TotalValue] = []
 
 
     // variables for view
@@ -104,7 +114,9 @@ class RecordViewController: UIViewController {
         calculateAverageSpeed()
         if recordWithValue == true {
             saveCoreData()
+            calculateTotalValuesForCoreData()
         }
+        
         
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
@@ -168,7 +180,7 @@ class RecordViewController: UIViewController {
     }
     
     deinit {
-        print("RecordViewController is dead")
+        //print("RecordViewController is dead")
     }
     
     
@@ -270,65 +282,6 @@ class RecordViewController: UIViewController {
     
     
     // Model
-    
-    func saveCoreData(){
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
-            record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
-            
-            if record.count == 0 {
-                print (record.count)
-                record.count = 1
-                print (record.count)
-            } else if record.count != 0 {
-                print (record.count)
-                record.count += 1
-            }
-            
-            record.count = 2
-            record.id = "1"
-            record.averageSpeed = averageSpeedNumber
-            record.calories = totalCal
-            record.distance = totalDistance
-            record.weight = weight
-            record.height = height
-            record.timeDuration = timeDurationInString
-            record.date = NSDate()
-            record.totalDistanceInHistory += totalDistance
-            
-            record.totalAverageSpeed += averageSpeedNumber
-            
-            
-            // save locations
-            var path = [Locations]()
-
-            for route in myEntirePathInCoordinate {
-                for location in route {
-                    let locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
-                    locations.time = NSDate()
-                    locations.latitude = location.coordinate.latitude
-                    locations.longitude = location.coordinate.longitude
-                    path.append(locations)
-                    
-                }
-                
-            }
-//            record.locations =  NSOrderedSet(array: path)
-            record.locations =  NSSet(array: path)
-
-            
-            do{
-                try managedObjectContext.save()
-                
-            } catch {
-                print(error)
-                return
-            }
-            
-        }
-    }
-    
-    
-    
     func calculateAverageSpeed(){
         if totalTime > 0{
             averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
@@ -434,4 +387,130 @@ extension RecordViewController: CLLocationManagerDelegate {
     }
     
 }
+
+extension RecordViewController: NSFetchedResultsControllerDelegate {
+    func saveCoreData(){
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
+            
+            record.id = "1"
+            record.averageSpeed = averageSpeedNumber
+            record.calories = totalCal
+            record.distance = totalDistance
+            record.weight = weight
+            record.height = height
+            record.timeDuration = timeDurationInString
+            record.date = NSDate()
+        
+            // save locations
+            var path = [Locations]()
+            
+            for route in myEntirePathInCoordinate {
+                for location in route {
+                    let locations =  NSEntityDescription.insertNewObjectForEntityForName("Locations", inManagedObjectContext: managedObjectContext) as! Locations
+                    locations.time = NSDate()
+                    locations.latitude = location.coordinate.latitude
+                    locations.longitude = location.coordinate.longitude
+                    path.append(locations)
+                    
+                }
+                
+            }
+            record.locations =  NSSet(array: path)
+            
+            
+            do{
+                try managedObjectContext.save()
+                
+            } catch {
+                print(error)
+                return
+            }
+            
+        }
+    }
+    
+    
+    func fetchCoreData(){
+        let fetchRequest = NSFetchRequest(entityName: "Record")
+        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortData]
+        
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            //print("will fetch")
+            
+            do {
+                //performBlockAndWait
+                try fetchResultController.performFetch()
+                records = fetchResultController.fetchedObjects as! [Record]
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+    func fetchCoreDataForTotalValue(){
+        let fetchRequest = NSFetchRequest(entityName: "TotalValue")
+        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortData]
+        
+        
+        if let managedObjectContext1 = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext1, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            //print("will fetch")
+            
+            do {
+                try fetchResultController.performFetch()
+                totalValues = fetchResultController.fetchedObjects as! [TotalValue]
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+    func calculateTotalValuesForCoreData(){
+        fetchCoreData()
+        fetchCoreDataForTotalValue()
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            totalValue = NSEntityDescription.insertNewObjectForEntityForName("TotalValue", inManagedObjectContext: managedObjectContext) as! TotalValue
+            
+            let count = Double(records.count)
+            if records.count == 1 {
+                totalValue.totalAverageSpeed = averageSpeedNumber
+                totalValue.totalDistanceInHistory = totalDistance
+                totalValue.date = NSDate()
+                print(totalValue.totalAverageSpeed)
+                print(totalValue.totalDistanceInHistory)
+            
+            } else if records.count > 1 {
+                totalValue.totalAverageSpeed = (((totalValues[totalValues.count-1].totalAverageSpeed * Double(totalValues.count-1)) + averageSpeedNumber)) / count
+                
+                totalValue.totalDistanceInHistory = totalValues[totalValues.count-1].totalDistanceInHistory + totalDistance
+                    totalValue.date = NSDate()
+                print(totalValue.totalAverageSpeed)
+                print(totalValue.totalDistanceInHistory)
+            }
+        
+            
+            do{
+                try managedObjectContext.save()
+                
+                
+            } catch {
+                print(error)
+                return
+            }
+        }
+        
+    }
+}
+
+
 
