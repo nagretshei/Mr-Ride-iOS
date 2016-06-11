@@ -141,7 +141,7 @@ class ViewController: UIViewController {
             if totalValues.count > 0 {
                 
                 let totalDistanceInKm = totalValues[totalValues.count-1].totalDistanceInHistory / 1000
-                totalDistanceLabel.text =  String(format:"%.2f m", totalDistanceInKm)
+                totalDistanceLabel.text =  String(format:"%.2f km", totalDistanceInKm)
 
                 
                 let totalAverageSpeed = totalValues[totalValues.count-1].totalAverageSpeed

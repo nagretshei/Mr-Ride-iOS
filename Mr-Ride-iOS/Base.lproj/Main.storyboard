@@ -184,17 +184,17 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxF-AU-zu1">
-                                        <rect key="frame" x="38" y="70" width="300" height="112"/>
+                                        <rect key="frame" x="38" y="70" width="340" height="112"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="112" id="YLk-gV-KIF"/>
-                                            <constraint firstAttribute="width" constant="300" id="qBK-xI-MTD"/>
+                                            <constraint firstAttribute="width" constant="340" id="qBK-xI-MTD"/>
                                         </constraints>
                                         <attributedString key="attributedText">
                                             <fragment content="0.0 km">
                                                 <attributes>
                                                     <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="80" name="HelveticaNeue"/>
-                                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
@@ -276,9 +276,15 @@
                                     <constraint firstItem="gCz-bK-dmJ" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="iVO-Tq-eBP"/>
                                     <constraint firstItem="c6P-wX-Vr6" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="oLR-kH-BZE"/>
                                     <constraint firstItem="lxF-AU-zu1" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="swU-nC-NoA"/>
+                                    <constraint firstItem="lxF-AU-zu1" firstAttribute="centerX" secondItem="F4b-Km-rmO" secondAttribute="centerX" id="tVQ-Lp-ES9"/>
                                     <constraint firstAttribute="bottom" secondItem="c6P-wX-Vr6" secondAttribute="bottom" constant="156" id="uJd-kg-KSm"/>
-                                    <constraint firstAttribute="trailing" secondItem="lxF-AU-zu1" secondAttribute="trailing" constant="262" id="zrT-Ob-CCr"/>
+                                    <constraint firstAttribute="trailing" secondItem="lxF-AU-zu1" secondAttribute="trailing" constant="222" id="zrT-Ob-CCr"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="tVQ-Lp-ES9"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="0.38823530077934265" green="0.84313726425170898" blue="0.96470588445663452" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
