@@ -7,8 +7,25 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController {
+    
+    // variables for CorData
+    var fetchResultController: NSFetchedResultsController!
+    //var totalDistance: Double = 0.0
+    
+    
+    //var fetchResultController1: NSFetchedResultsController!
+    var record: Record!
+    var records: [Record] = []
+    var locations: [Locations] = []
+    var coreDataIsZero = true
+    
+    var index = 0
+    
+    
+    // variables for View
 
     @IBOutlet weak var totalDistanceLabel: UILabel!
 
@@ -51,7 +68,10 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+    // View
     func setView(){
+        fetchCoreData()
         setLabelAndButton()
         setNavigationBar()
         
@@ -107,9 +127,22 @@ class ViewController: UIViewController {
         letsRideButton.titleLabel!.shadowColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.25)
         letsRideButton.titleLabel!.shadowOffset = CGSizeMake(0, 1.0);
         
+        
+        if records.count > 0 {
+            totalCountLabel.text = String(format:"%.d times",records.count)
+            
+            let totalDistanceInKm = records[records.count-1].totalDistanceInHistory / 1000
+            totalDistanceLabel.text =  String(format:"%.2f m", totalDistanceInKm)
+            
+            
+           let totalAverageSpeed = (records[records.count-1].totalAverageSpeed / Double(records[records.count-1].count))
+            averageSpeedLabel.text = String(format:"%.2f km / h", totalAverageSpeed)
+
+        }
+        
     }
     
-    
+
     
     //    func addTextSpacing(){
     //        let attributedString = NSMutableAttributedString(string: self.text!)
@@ -124,5 +157,36 @@ class ViewController: UIViewController {
 
 
 
+}
+
+// Model
+extension ViewController: NSFetchedResultsControllerDelegate {
+    
+    func fetchCoreData(){
+        let fetchRequest = NSFetchRequest(entityName: "Record")
+        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortData]
+        
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            //print("will fetch")
+            
+            do {
+                //performBlockAndWait
+                try fetchResultController.performFetch()
+                records = fetchResultController.fetchedObjects as! [Record]
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+//    func getTotalDistance(){
+////        totalDistance +=
+//    }
 }
 

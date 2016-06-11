@@ -184,13 +184,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxF-AU-zu1">
-                                        <rect key="frame" x="38" y="70" width="300" height="96"/>
+                                        <rect key="frame" x="38" y="70" width="300" height="112"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="96" id="YLk-gV-KIF"/>
+                                            <constraint firstAttribute="height" constant="112" id="YLk-gV-KIF"/>
                                             <constraint firstAttribute="width" constant="300" id="qBK-xI-MTD"/>
                                         </constraints>
                                         <attributedString key="attributedText">
-                                            <fragment content="12.5 km">
+                                            <fragment content="0.0 km">
                                                 <attributes>
                                                     <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <font key="NSFont" size="80" name="HelveticaNeue"/>
@@ -210,10 +210,10 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="14 times" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B45-RE-Fdo">
-                                        <rect key="frame" x="38" y="279" width="114" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 time" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B45-RE-Fdo">
+                                        <rect key="frame" x="38" y="279" width="153" height="36"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="114" id="IaI-gC-Nk7"/>
+                                            <constraint firstAttribute="width" constant="153" id="IaI-gC-Nk7"/>
                                             <constraint firstAttribute="height" constant="36" id="eb3-tr-bZt"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
@@ -230,11 +230,11 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="8 km / h" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6P-wX-Vr6">
-                                        <rect key="frame" x="38" y="344" width="110" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 km / h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6P-wX-Vr6">
+                                        <rect key="frame" x="38" y="344" width="211" height="36"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="36" id="geM-oM-nwm"/>
-                                            <constraint firstAttribute="width" constant="110" id="iIU-xa-aEe"/>
+                                            <constraint firstAttribute="width" constant="211" id="iIU-xa-aEe"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>

@@ -22,7 +22,8 @@ class Record: NSManagedObject {
     @NSManaged var id: String?
     @NSManaged var timeDuration: String?
     @NSManaged var locations: NSSet
-//    @NSManaged var locations: NSOrderedSet
+    @NSManaged var totalDistanceInHistory: Double
+    @NSManaged var totalAverageSpeed: Double
 
 }
 
@@ -273,7 +274,17 @@ class RecordViewController: UIViewController {
     func saveCoreData(){
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
             record = NSEntityDescription.insertNewObjectForEntityForName("Record", inManagedObjectContext: managedObjectContext) as! Record
-            record.count = 1
+            
+            if record.count == 0 {
+                print (record.count)
+                record.count = 1
+                print (record.count)
+            } else if record.count != 0 {
+                print (record.count)
+                record.count += 1
+            }
+            
+            record.count = 2
             record.id = "1"
             record.averageSpeed = averageSpeedNumber
             record.calories = totalCal
@@ -282,6 +293,10 @@ class RecordViewController: UIViewController {
             record.height = height
             record.timeDuration = timeDurationInString
             record.date = NSDate()
+            record.totalDistanceInHistory += totalDistance
+            
+            record.totalAverageSpeed += averageSpeedNumber
+            
             
             // save locations
             var path = [Locations]()

@@ -15,11 +15,13 @@
         <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeDuration" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="totalAverageSpeed" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="totalDistanceInHistory" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Locations" inverseName="record" inverseEntity="Locations" syncable="YES"/>
     </entity>
     <elements>
         <element name="Locations" positionX="27" positionY="159" width="128" height="105"/>
-        <element name="Record" positionX="-189" positionY="-27" width="128" height="195"/>
+        <element name="Record" positionX="-189" positionY="-27" width="128" height="225"/>
     </elements>
 </model>

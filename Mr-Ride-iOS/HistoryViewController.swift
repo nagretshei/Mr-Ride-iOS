@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate, IndexDelegate {
+class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IndexDelegate {
     
     // variables for giving indexPath
     
@@ -122,6 +122,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
+    // View
+    
     func setView(){
         setNavigationBar()
 
@@ -138,10 +140,11 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
         
     }
-    
-    
-    // Model
-    
+
+}
+
+// Model
+extension HistoryViewController: NSFetchedResultsControllerDelegate {
     func fetchCoreData(){
         let fetchRequest = NSFetchRequest(entityName: "Record")
         let sortData = NSSortDescriptor(key: "date", ascending: true)
@@ -159,7 +162,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
                 
-
+                
                 print("done fetching")
                 //getIndivualValueFromCoreData()
                 
@@ -169,32 +172,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 print(error)
             }
         }
-
-
-
-
+        
     }
-    
-//    func getIndivualValueFromCoreData(){
-//        if records.count > 0 {
-//            for record in records {
-//                print("*********")
-//                print (record.timeDuration.characters.count)
-//            }
-//
-//        }
-//        
-//    }
-
-// HistoryCell
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

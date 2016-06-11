@@ -22,7 +22,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
-     var fetchResultController1: NSFetchedResultsController!
     var record: Record!
     var records: [Record] = []
     var locations: [Locations] = []
