@@ -9,6 +9,20 @@
 import UIKit
 import CoreData
 
+//struct Section {
+//    
+//    var heading : String
+//    var items : [Record]
+//    
+//    init(title: String, objects : [Record]) {
+//        
+//        heading = title
+//        items = objects
+//    }
+//}
+
+
+
 class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IndexDelegate {
     
     // variables for giving indexPath
@@ -24,12 +38,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var records: [Record] = []
     var locations: [Locations] = []
     
-
+    //variables for tableview
+    var months = [String]()
+    var SectionArray = [[Record]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //StatisticRecord.delegate = self
         fetchCoreData()
+        getSectionsFromData()
         setView()
         
     }
@@ -46,8 +62,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        // Ensure that this is a safe cast
+
+            return months[section]
+
+        
+    }
+    
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 12
+        return months.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,16 +94,14 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         // get Date
         if records.count > 0 {
+            
+            
             print(records[indexPath.row].date)
             let NSDateFormate = String(records[indexPath.row].date)
             let recordYear = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(0) ..< NSDateFormate.startIndex.advancedBy(4)))
             let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(5) ..< NSDateFormate.startIndex.advancedBy(7)))
             let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(8) ..< NSDateFormate.startIndex.advancedBy(10)))
-            
-//            print(recordYear)
-//            print(recordMonth)
-//            print(recordDate)
-            
+
             Cell.date.text = recordDate
             
             // set th
@@ -171,6 +194,50 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
                 print(error)
             }
         }
+        
+    }
+    
+//    struct HistoryRecord {
+//        
+//        var heading : String
+//        var items : [String]
+//        
+//        init(title: String, objects : [String]) {
+//            
+//            heading = title
+//            items = objects
+//        }
+//    }
+    
+    func getSectionsFromData() {
+        
+        
+//        https://www.codebeaulieu.com/34/Creating-a-UITableViewController-with-sections-in-iOS-9
+        //SectionArray
+        
+        if records.count > 0 {
+            for item in records {
+                // get section title array
+                var temp = [String]()
+                let monthStamp = item.month!
+                temp.append(monthStamp)
+                months = Array(Set(arrayLiteral: monthStamp))
+                //print (months)
+            }
+
+        }
+        
+        
+        for month in months {
+            var tempSection = [Record]()
+            for item in records {
+                if item.month == month {
+                    tempSection.append(item)
+                }
+            }
+            SectionArray.append(tempSection)
+        }
+        print (SectionArray)
         
     }
 }

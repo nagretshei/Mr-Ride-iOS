@@ -21,6 +21,7 @@ class Record: NSManagedObject {
     @NSManaged var id: String?
     @NSManaged var timeDuration: String?
     @NSManaged var locations: NSSet
+    @NSManaged var month: String?
 
 }
 
@@ -400,7 +401,15 @@ extension RecordViewController: NSFetchedResultsControllerDelegate {
             record.weight = weight
             record.height = height
             record.timeDuration = timeDurationInString
-            record.date = NSDate()
+            
+            let date = NSDate()
+            let DateFormatter = NSDateFormatter()
+            DateFormatter.dateFormat = "MMMM, yyyy"
+            let monthStamp = DateFormatter.stringFromDate(date)
+            
+            record.date = date
+            record.month = monthStamp
+            
         
             // save locations
             var path = [Locations]()
