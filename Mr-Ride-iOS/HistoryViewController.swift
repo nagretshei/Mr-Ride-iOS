@@ -9,20 +9,6 @@
 import UIKit
 import CoreData
 
-//struct Section {
-//    
-//    var heading : String
-//    var items : [Record]
-//    
-//    init(title: String, objects : [Record]) {
-//        
-//        heading = title
-//        items = objects
-//    }
-//}
-
-
-
 class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IndexDelegate {
     
     // variables for giving indexPath
@@ -62,14 +48,35 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+//    
+//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        return 10
+//    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
+    {
+        let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 45))
         
-        // Ensure that this is a safe cast
-
-            return months[section]
+        let whiteView = UIView(frame: CGRectMake(0, 10, tableView.bounds.size.width, 25))
 
         
+        let headerLabel = UILabel(frame: CGRectMake(20, 10, tableView.bounds.size.width, 25))
+        
+        whiteView.backgroundColor = UIColor.whiteColor()
+        headerLabel.backgroundColor = UIColor.whiteColor()
+        headerLabel.text = months[section]
+        headerLabel.textColor = UIColor.mrDarkSlateBlueColor()
+        headerLabel.font = UIFont.mrTextStyle12Font()
+        
+        headerView.backgroundColor = UIColor.clearColor()
+        headerView.addSubview(whiteView)
+        headerView.addSubview(headerLabel)
+        
+        
+        return headerView
     }
+
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return months.count
@@ -79,7 +86,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         //print (records.count)
         var number = 0
         if records.count > 0 {
-            number = records.count
+            number = SectionArray[section].count
         } else {
             number = 0
         }
@@ -93,33 +100,31 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
         // get Date
-        if records.count > 0 {
+        if SectionArray.count > 0 {
             
-            
-            print(records[indexPath.row].date)
-            let NSDateFormate = String(records[indexPath.row].date)
-            let recordYear = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(0) ..< NSDateFormate.startIndex.advancedBy(4)))
-            let recordMonth = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(5) ..< NSDateFormate.startIndex.advancedBy(7)))
-            let recordDate = NSDateFormate.substringWithRange(Range<String.Index>(NSDateFormate.startIndex.advancedBy(8) ..< NSDateFormate.startIndex.advancedBy(10)))
+            let date =  SectionArray[indexPath.section][indexPath.row].date
+            let DateFormatter = NSDateFormatter()
+            DateFormatter.dateFormat = "dd"
+            let dateStamp = DateFormatter.stringFromDate(date!)
 
-            Cell.date.text = recordDate
+            Cell.date.text = dateStamp
             
             // set th
-            if recordDate == "01"  || recordDate == "21" || recordDate ==  "31" {
+            if dateStamp == "01"  || dateStamp == "21" || dateStamp ==  "31" {
                 Cell.th.text = "st"
-            } else if recordDate == "02" || recordDate == "02" || recordDate ==  "22"  {
+            } else if dateStamp == "02" || dateStamp == "02" || dateStamp ==  "22"  {
                 Cell.th.text = "nd"
-            }  else if recordDate == "03"  || recordDate == "23" {
+            }  else if dateStamp == "03"  || dateStamp == "23" {
                 Cell.th.text = "rd"
             }
             
             // get distance
-            let distanceInM = records[indexPath.row].distance
+            let distanceInM = SectionArray[indexPath.section][indexPath.row].distance
             let distanceInKm = distanceInM / 1000
             Cell.distance.text = String(format:"%.2f km",(distanceInKm))
             
             //get time
-            if let time = records[indexPath.row].timeDuration {
+            if let time = SectionArray[indexPath.section][indexPath.row].timeDuration {
                 let timeText = String(time.characters.dropLast(3))
                 Cell.timeDuration.text = timeText
             }
@@ -197,24 +202,16 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
         
     }
     
-//    struct HistoryRecord {
-//        
-//        var heading : String
-//        var items : [String]
-//        
-//        init(title: String, objects : [String]) {
-//            
-//            heading = title
-//            items = objects
-//        }
-//    }
+
     
     func getSectionsFromData() {
+        print(records)
+        let recordsReverse = records.reverse()
+        print (recordsReverse)
         
-        
-//        https://www.codebeaulieu.com/34/Creating-a-UITableViewController-with-sections-in-iOS-9
+        var TempSectionArray = [[Record]]()
+
         //SectionArray
-        
         if records.count > 0 {
             for item in records {
                 // get section title array
@@ -222,22 +219,31 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
                 let monthStamp = item.month!
                 temp.append(monthStamp)
                 months = Array(Set(arrayLiteral: monthStamp))
-                //print (months)
             }
 
         }
         
-        
         for month in months {
             var tempSection = [Record]()
+            
             for item in records {
                 if item.month == month {
                     tempSection.append(item)
                 }
             }
-            SectionArray.append(tempSection)
+            TempSectionArray.append(tempSection)
         }
-        print (SectionArray)
+        print (TempSectionArray)
+    
+      //didn't work for the order
+        for ts in TempSectionArray.enumerate() {
+            let newIndex = TempSectionArray.count - 1 - ts.index
+            SectionArray.append(TempSectionArray[newIndex])
+        }
+        
+        print(SectionArray)
         
     }
+    
+    
 }
