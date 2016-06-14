@@ -28,6 +28,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var months = [String]()
     var SectionArray = [[Record]]()
     
+    //variables for view
+    let gradientLayer = CAGradientLayer()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchCoreData()
@@ -91,8 +94,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
-        //Cell.textLabel?.text = "indexPath: \(indexPath.row)"
         
+        
+        setGradientBackground()
         // get Date
         if SectionArray.count > 0 {
             
@@ -161,6 +165,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let shadowImg = UIImage()
         self.navigationController?.navigationBar.shadowImage = shadowImg
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
+        
+    }
+    
+    func setGradientBackground(){
+        self.view.backgroundColor = UIColor.mrLightblueColor()
+        gradientLayer.frame = self.view.bounds
+        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
+        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
+        gradientLayer.colors = [color1, color2]
+        gradientLayer.locations = [0.0, 1.0]
+        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
     }
 
