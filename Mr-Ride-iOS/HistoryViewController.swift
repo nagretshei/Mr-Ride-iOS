@@ -33,7 +33,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         fetchCoreData()
         getSectionsFromData()
         setView()
-        
     }
     
 
@@ -48,11 +47,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         // Dispose of any resources that can be recreated.
     }
     
-    
-//    
-//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 10
-//    }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
@@ -79,7 +73,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return months.count
+        return SectionArray.count
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -98,6 +92,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
+        //Cell.textLabel?.text = "indexPath: \(indexPath.row)"
         
         // get Date
         if SectionArray.count > 0 {
@@ -134,9 +129,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
-
+    
+        print("history didSelect")
        let statisticsViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
-        
+
         index = indexPath.row
         statisticsViewController?.isPresented = false
         statisticsViewController!.delegate = self
@@ -144,7 +140,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func giveIndex(cell: StatisticsViewController) -> Int {
-        StatisticRecord.index = index        
+        StatisticRecord.index = index
+        //StatisticRecord.index = 0
+        
         return StatisticRecord.index
     }
     
@@ -231,16 +229,16 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
                     tempSection.append(item)
                 }
             }
-            TempSectionArray.append(tempSection)
+            SectionArray.append(tempSection)
         }
-        print (TempSectionArray)
-    
-      //didn't work for the order
-        for ts in TempSectionArray.enumerate() {
-            let newIndex = TempSectionArray.count - 1 - ts.index
-            SectionArray.append(TempSectionArray[newIndex])
-        }
-        
+        print (SectionArray)
+//    
+//      //didn't work for the order
+//        for ts in TempSectionArray.enumerate() {
+//            let newIndex = TempSectionArray.count - 1 - ts.index
+//            SectionArray.append(TempSectionArray[newIndex])
+//        }
+//        
         print(SectionArray)
         
     }
