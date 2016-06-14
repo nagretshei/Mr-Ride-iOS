@@ -125,20 +125,44 @@
                             </tableView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="csw-PH-naU" userLabel="recordScroll View">
                                 <rect key="frame" x="20" y="22" width="558" height="132"/>
-                                <color key="backgroundColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkq-lM-gj2" customClass="LineChartView" customModule="Charts">
+                                        <rect key="frame" x="0.0" y="0.0" width="1200" height="132"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="1200" id="Fvd-ug-Mqv"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.7450980544090271" blue="0.94117647409439087" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="132" id="1KR-6o-4lI"/>
+                                    <constraint firstItem="xkq-lM-gj2" firstAttribute="leading" secondItem="csw-PH-naU" secondAttribute="leading" id="4m0-6b-qWs"/>
+                                    <constraint firstAttribute="bottom" secondItem="xkq-lM-gj2" secondAttribute="bottom" id="QoQ-Sx-k5F"/>
+                                    <constraint firstItem="xkq-lM-gj2" firstAttribute="leading" secondItem="csw-PH-naU" secondAttribute="leading" id="TGI-vg-ezQ"/>
+                                    <constraint firstItem="xkq-lM-gj2" firstAttribute="centerY" secondItem="csw-PH-naU" secondAttribute="centerY" id="W25-aF-ZjD"/>
+                                    <constraint firstAttribute="trailing" secondItem="xkq-lM-gj2" secondAttribute="trailing" id="ikD-rr-g18"/>
+                                    <constraint firstItem="xkq-lM-gj2" firstAttribute="top" secondItem="csw-PH-naU" secondAttribute="top" id="qO7-zx-PAO"/>
+                                    <constraint firstItem="xkq-lM-gj2" firstAttribute="centerX" secondItem="csw-PH-naU" secondAttribute="centerX" id="ru8-9J-BNP"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="TGI-vg-ezQ"/>
+                                        <exclude reference="ru8-9J-BNP"/>
+                                    </mask>
+                                </variation>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="leadingMargin" secondItem="csw-PH-naU" secondAttribute="leading" id="3jM-hc-vFG"/>
+                            <constraint firstItem="c7R-ZT-u6n" firstAttribute="trailing" secondItem="OaH-q5-Lts" secondAttribute="trailing" id="3kb-n5-oi7"/>
                             <constraint firstItem="c7R-ZT-u6n" firstAttribute="leading" secondItem="acG-2v-oX7" secondAttribute="leadingMargin" constant="-20" id="4JN-3c-DXu"/>
                             <constraint firstItem="csw-PH-naU" firstAttribute="trailing" secondItem="c7R-ZT-u6n" secondAttribute="trailing" constant="-22" id="5hO-5q-P26"/>
                             <constraint firstItem="yYl-dQ-3UT" firstAttribute="top" secondItem="csw-PH-naU" secondAttribute="bottom" constant="26" id="aU1-1b-VDf"/>
                             <constraint firstItem="csw-PH-naU" firstAttribute="top" secondItem="c7R-ZT-u6n" secondAttribute="top" constant="-158" id="cmX-gd-GVK"/>
                             <constraint firstItem="N5T-zr-Txj" firstAttribute="top" secondItem="yYl-dQ-3UT" secondAttribute="bottom" id="gQ4-Yf-9xT"/>
+                            <constraint firstItem="csw-PH-naU" firstAttribute="centerX" secondItem="yYl-dQ-3UT" secondAttribute="centerX" id="hlq-gF-DqC"/>
                             <constraint firstItem="OaH-q5-Lts" firstAttribute="leading" secondItem="acG-2v-oX7" secondAttribute="leadingMargin" constant="-20" id="jgn-HH-ZW0"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yYl-dQ-3UT" secondAttribute="trailing" constant="12" id="oAW-En-lVA"/>
                             <constraint firstItem="c7R-ZT-u6n" firstAttribute="height" secondItem="acG-2v-oX7" secondAttribute="height" id="pJn-JQ-FLt"/>
@@ -148,6 +172,12 @@
                             <constraint firstAttribute="trailingMargin" secondItem="OaH-q5-Lts" secondAttribute="trailing" constant="-20" id="wec-la-ava"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c7R-ZT-u6n" secondAttribute="trailing" constant="-20" id="xdl-wM-eHm"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5hO-5q-P26"/>
+                                <exclude reference="xdl-wM-eHm"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="yqh-a7-ba7">
@@ -158,6 +188,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="lineChartView" destination="xkq-lM-gj2" id="1cU-Ht-Lcl"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PLL-Q3-eBj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

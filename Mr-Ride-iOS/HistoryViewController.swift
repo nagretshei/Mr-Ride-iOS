@@ -8,8 +8,13 @@
 
 import UIKit
 import CoreData
+import Charts
 
 class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IndexDelegate {
+    // variables for chart
+    @IBOutlet weak var lineChartView: LineChartView!
+    var xForDate =  [String]()
+    var yForDistance = [Double]()
     
     // variables for giving indexPath
     
@@ -36,6 +41,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         fetchCoreData()
         getSectionsFromData()
         setView()
+        setHistoryChart()
     }
     
 
@@ -75,7 +81,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        
         return SectionArray.count
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -153,6 +161,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setView(){
         setNavigationBar()
+        
 
     }
     
@@ -178,6 +187,55 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
         
     }
+    func setHistoryChart(){
+        getXandYForChart()
+//        xForDate =  [String]()
+//        yForDistance = [String]()
+//        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
+//        let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
+        
+        setChart(xForDate, values: yForDistance)
+    }
+    
+    func setChart(dataPoints: [String], values: [Double]) {
+        
+        var dataEntries: [ChartDataEntry] = []
+        
+        for i in 0..<dataPoints.count {
+            let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
+            dataEntries.append(dataEntry)
+        }
+
+        
+//        var colors: [UIColor] = []
+//        
+//        for i in 0..<dataPoints.count {
+//            let red = Double(arc4random_uniform(256))
+//            let green = Double(arc4random_uniform(256))
+//            let blue = Double(arc4random_uniform(256))
+//            
+//            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
+//            colors.append(color)
+//        }
+
+        
+        let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "")
+        lineChartDataSet.mode = .HorizontalBezier
+        
+        lineChartDataSet.drawCirclesEnabled = false
+        lineChartDataSet.drawFilledEnabled = true
+       
+        lineChartDataSet.drawValuesEnabled = false
+        lineChartDataSet.fillColor = NSUIColor(red: 0, green: 156, blue: 197, alpha: 1)
+        
+        //lineChartDataSet
+        
+        
+        let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
+        
+        lineChartView.data = lineChartData
+        
+    }
 
 }
 
@@ -191,7 +249,7 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
         
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
             
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: "month", cacheName: nil)
             fetchResultController.delegate = self
             
             print("will fetch")
@@ -202,6 +260,7 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
                 
                 
                 print("done fetching")
+                print (records)
                 //getIndivualValueFromCoreData()
                 
                 
@@ -255,6 +314,38 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
         print(SectionArray)
         
     }
-    
+    func getXandYForChart(){
+//        var xForDate =  [String]()
+//        var yForDistance = [String]()
+        
+
+
+        if records.count > 0 {
+            for item in records {
+                // get XForDate
+                let date =  item.date
+                let DateFormatter = NSDateFormatter()
+                DateFormatter.dateFormat = "M/dd"
+                let dateStamp = DateFormatter.stringFromDate(date!)
+                xForDate.append(dateStamp)
+                
+                let distance = item.distance
+                yForDistance.append(distance)
+                
+            }
+            
+        }
+        
+//        for month in months {
+//            var tempSection = [Record]()
+//            
+//            for item in records {
+//                if item.month == month {
+//                    tempSection.append(item)
+//                }
+//            }
+//            SectionArray.append(tempSection)
+//        }
+    }
     
 }

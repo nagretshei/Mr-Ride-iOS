@@ -33,6 +33,8 @@
 		8922A9D41CF423170010B66D /* RobotoMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9C91CF423170010B66D /* RobotoMono-Regular.ttf */; };
 		8922A9D51CF423170010B66D /* RobotoMono-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9CA1CF423170010B66D /* RobotoMono-Thin.ttf */; };
 		8922A9D61CF423170010B66D /* RobotoMono-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9CB1CF423170010B66D /* RobotoMono-ThinItalic.ttf */; };
+		892D6E351D0FEBA300A5B245 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 892D6E2E1D0FEAE800A5B245 /* Charts.framework */; };
+		892D6E361D0FEBA300A5B245 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 892D6E2E1D0FEAE800A5B245 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8931B1F31CFD300700017D01 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8931B1F21CFD300700017D01 /* RecordViewModel.swift */; };
 		893741A41CF68088001EEB52 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893741A31CF68088001EEB52 /* StatisticsViewController.swift */; };
 		8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */; };
@@ -56,7 +58,56 @@
 			remoteGlobalIDString = 8922A9761CF40D800010B66D;
 			remoteInfo = "Mr-Ride-iOS";
 		};
+		892D6E2D1D0FEAE800A5B245 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5BA8EC401A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
+		892D6E2F1D0FEAE800A5B245 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A52C5C371BAC5CA400594CDD;
+			remoteInfo = "Charts-TV";
+		};
+		892D6E311D0FEAE800A5B245 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 65B3F5BF1C7370BE000983D0;
+			remoteInfo = "Charts-OSX";
+		};
+		892D6E331D0FEAE800A5B245 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06AEE7A21BDC3F8B009875AE;
+			remoteInfo = ChartsTests;
+		};
+		892D6E371D0FEBA300A5B245 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5BA8EC3F1A9D14DC00CE82E1;
+			remoteInfo = "Charts-iOS";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		892D6E391D0FEBA300A5B245 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				892D6E361D0FEBA300A5B245 /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		013FB7199B8FAE77000CE6C6 /* Pods_Mr_Ride_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mr_Ride_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +150,7 @@
 		8922A9C91CF423170010B66D /* RobotoMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Regular.ttf"; sourceTree = "<group>"; };
 		8922A9CA1CF423170010B66D /* RobotoMono-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-Thin.ttf"; sourceTree = "<group>"; };
 		8922A9CB1CF423170010B66D /* RobotoMono-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RobotoMono-ThinItalic.ttf"; sourceTree = "<group>"; };
+		892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Mr-Ride-iOS/Charts/Charts.xcodeproj"; sourceTree = "<group>"; };
 		8931B1F21CFD300700017D01 /* RecordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
 		893741A31CF68088001EEB52 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableViewCell.swift; path = ../HistoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -115,6 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB5AEE1438C3C4625DF00CB6 /* Pods_Mr_Ride_iOS.framework in Frameworks */,
+				892D6E351D0FEBA300A5B245 /* Charts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,6 +191,7 @@
 		8922A96E1CF40D800010B66D = {
 			isa = PBXGroup;
 			children = (
+				892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */,
 				8922A9791CF40D800010B66D /* Mr-Ride-iOS */,
 				8922A9911CF40D800010B66D /* Mr-Ride-iOSTests */,
 				8922A99C1CF40D800010B66D /* Mr-Ride-iOSUITests */,
@@ -242,6 +296,17 @@
 			name = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		892D6E271D0FEAE800A5B245 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				892D6E2E1D0FEAE800A5B245 /* Charts.framework */,
+				892D6E301D0FEAE800A5B245 /* Charts.framework */,
+				892D6E321D0FEAE800A5B245 /* Charts.framework */,
+				892D6E341D0FEAE800A5B245 /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		B5A1AE10084115E95A17CEBC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -272,10 +337,12 @@
 				8922A9751CF40D800010B66D /* Resources */,
 				DB70178312AF97F1CE9D8522 /* 📦 Embed Pods Frameworks */,
 				AC66860D5B95403771A734B4 /* 📦 Copy Pods Resources */,
+				892D6E391D0FEBA300A5B245 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				892D6E381D0FEBA300A5B245 /* PBXTargetDependency */,
 			);
 			name = "Mr-Ride-iOS";
 			productName = "Mr-Ride-iOS";
@@ -352,6 +419,12 @@
 			mainGroup = 8922A96E1CF40D800010B66D;
 			productRefGroup = 8922A9781CF40D800010B66D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 892D6E271D0FEAE800A5B245 /* Products */;
+					ProjectRef = 892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8922A9761CF40D800010B66D /* Mr-Ride-iOS */,
@@ -360,6 +433,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		892D6E2E1D0FEAE800A5B245 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 892D6E2D1D0FEAE800A5B245 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892D6E301D0FEAE800A5B245 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 892D6E2F1D0FEAE800A5B245 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892D6E321D0FEAE800A5B245 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = 892D6E311D0FEAE800A5B245 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		892D6E341D0FEAE800A5B245 /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = 892D6E331D0FEAE800A5B245 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8922A9751CF40D800010B66D /* Resources */ = {
@@ -499,6 +603,11 @@
 			target = 8922A9761CF40D800010B66D /* Mr-Ride-iOS */;
 			targetProxy = 8922A99A1CF40D800010B66D /* PBXContainerItemProxy */;
 		};
+		892D6E381D0FEBA300A5B245 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Charts-iOS";
+			targetProxy = 892D6E371D0FEBA300A5B245 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -614,6 +723,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Mr-Ride-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -665,6 +775,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = "Mr-Ride-iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
