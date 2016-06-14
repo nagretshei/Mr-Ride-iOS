@@ -52,10 +52,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     {
         let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 45))
         
-        let whiteView = UIView(frame: CGRectMake(0, 10, tableView.bounds.size.width, 25))
-
+        let whiteView = UIView(frame: CGRectMake(0, 10, tableView.bounds.size.width, 24))
         
-        let headerLabel = UILabel(frame: CGRectMake(20, 10, tableView.bounds.size.width, 25))
+        let headerLabel = UILabel(frame: CGRectMake(20, 10, tableView.bounds.size.width, 24))
         
         whiteView.backgroundColor = UIColor.whiteColor()
         headerLabel.backgroundColor = UIColor.whiteColor()
@@ -130,7 +129,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
     
-        print("history didSelect")
+        //print("history didSelect")
        let statisticsViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
 
         index = indexPath.row
@@ -141,7 +140,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func giveIndex(cell: StatisticsViewController) -> Int {
         StatisticRecord.index = index
-        //StatisticRecord.index = 0
         
         return StatisticRecord.index
     }
@@ -203,9 +201,9 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
 
     
     func getSectionsFromData() {
-        print(records)
+        //print(records)
         let recordsReverse = records.reverse()
-        print (recordsReverse)
+        //print (recordsReverse)
         
         var TempSectionArray = [[Record]]()
 
