@@ -57,6 +57,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
+    
+// set table view
+    
+    // set table view header
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
         let headerView = UIView(frame: CGRectMake(0, 0, tableView.bounds.size.width, 45))
@@ -82,27 +86,40 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         return headerView
     }
 
+    func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+        let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
+        // Populate cell from the NSManagedObject instance
+        print("Object for configuration: \(myRecord)")
+    }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        
-        return SectionArray.count
-//        if fetchResultController.sections!.count > 0  {
-//            return fetchResultController.sections!.count
-//        }
-//        else {return 1}
+        return fetchResultController.sections!.count
+//        return SectionArray.count
+        if fetchResultController.sections!.count > 0  {
+            return fetchResultController.sections!.count
+        }
+        else {return 1}
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //print (records.count)
-        var number = 0
-        if records.count > 0 {
-            //number = fetchResultController.sections!
-            number = SectionArray[section].count
+        if fetchResultController.sections!.count > 0  {
+            let sections = fetchResultController.sections!
+            let sectionInfo = sections[section]
+            return sectionInfo.numberOfObjects
         } else {
-            number = 0
+            return 0
         }
         
-        return number
+//        //print (records.count)
+//        var number = 0
+//        if records.count > 0 {
+//            //number = fetchResultController.sections!
+//            number = SectionArray[section].count
+//        } else {
+//            number = 0
+//        }
+//        
+//        return number
 
     }
     
@@ -110,44 +127,51 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
+        configureCell(Cell, indexPath: indexPath)
         
-        // get Date
-        if SectionArray.count > 0 {
-            
-            let date =  SectionArray[indexPath.section][indexPath.row].date
-            let DateFormatter = NSDateFormatter()
-            DateFormatter.dateFormat = "dd"
-            let dateStamp = DateFormatter.stringFromDate(date!)
-
-            Cell.date.text = dateStamp
-            
-            // set th
-            if dateStamp == "01"  || dateStamp == "21" || dateStamp ==  "31" {
-                Cell.th.text = "st"
-            } else if dateStamp == "02" || dateStamp == "02" || dateStamp ==  "22"  {
-                Cell.th.text = "nd"
-            }  else if dateStamp == "03"  || dateStamp == "23" {
-                Cell.th.text = "rd"
-            }
-            
-            // get distance
-            let distanceInM = SectionArray[indexPath.section][indexPath.row].distance
-            let distanceInKm = distanceInM / 1000
-            Cell.distance.text = String(format:"%.2f km",(distanceInKm))
-            
-            //get time
-            if let time = SectionArray[indexPath.section][indexPath.row].timeDuration {
-                let timeText = String(time.characters.dropLast(3))
-                Cell.timeDuration.text = timeText
-            }
-        }
+        
+        let aRecord = fetchResultController.objectAtIndexPath(indexPath)
+        print (aRecord.valueForKey("date"))
+    
+        //let sectionInfo = sections[section]
+        
+//        // get Date
+//        if SectionArray.count > 0 {
+//            
+//            let date =  SectionArray[indexPath.section][indexPath.row].date
+//            let DateFormatter = NSDateFormatter()
+//            DateFormatter.dateFormat = "dd"
+//            let dateStamp = DateFormatter.stringFromDate(date!)
+//
+            //Cell.date.text = String(aRecord.date)
+        //dateStamp
+//            
+//            // set th
+//            if dateStamp == "01"  || dateStamp == "21" || dateStamp ==  "31" {
+//                Cell.th.text = "st"
+//            } else if dateStamp == "02" || dateStamp == "02" || dateStamp ==  "22"  {
+//                Cell.th.text = "nd"
+//            }  else if dateStamp == "03"  || dateStamp == "23" {
+//                Cell.th.text = "rd"
+//            }
+//            
+//            // get distance
+//            let distanceInM = SectionArray[indexPath.section][indexPath.row].distance
+//            let distanceInKm = distanceInM / 1000
+//            Cell.distance.text = String(format:"%.2f km",(distanceInKm))
+//            
+//            //get time
+//            if let time = SectionArray[indexPath.section][indexPath.row].timeDuration {
+//                let timeText = String(time.characters.dropLast(3))
+//                Cell.timeDuration.text = timeText
+//            }
+//        }
         return Cell
     }
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath){
     
-        //print("history didSelect")
        let statisticsViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
 
         index = indexPath.row
@@ -249,25 +273,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         lineChartView.descriptionText = ""   // clear description
         
         
-
-
-        //lineChartView.xAxis.spaceBetweenLabels =
-
-//       // lineChartView.scaleYEnabled = true
-
-//        lineChartView.scaleXEnabled = false
-//        
-//        lineChartView.descriptionTextColor = UIColor.clearColor()
-//        //lineChartView.chartXMin.
-        
-        
-        
-        //setChartDimens
-        
-        //XAxisLabelPosition
-        //xAxis.
-        
-        
     }
 
 }
@@ -276,8 +281,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 extension HistoryViewController: NSFetchedResultsControllerDelegate {
     func fetchCoreData(){
         let fetchRequest = NSFetchRequest(entityName: "Record")
-        let sortData = NSSortDescriptor(key: "date", ascending: false)
-        fetchRequest.sortDescriptors = [sortData]
+        let monthSort = NSSortDescriptor(key: "month", ascending: false)
+        let dateSort = NSSortDescriptor(key: "date", ascending: false)
+        fetchRequest.sortDescriptors = [monthSort, dateSort]
         
         
         if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
@@ -292,16 +298,14 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
                 records = fetchResultController.fetchedObjects as! [Record]
                 
                 
-                
-                
                 print("done fetching")
-                print (records)
-                //getIndivualValueFromCoreData()
+                //print (records)
                 
                 
                 
             } catch {
-                print(error)
+                
+                fatalError("Failed to initialize FetchedResultsController: \(error)")
             }
         }
         
