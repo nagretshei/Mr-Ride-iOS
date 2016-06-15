@@ -82,8 +82,11 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return SectionArray.count
-        
+        //return SectionArray.count
+        if fetchResultController.sections!.count > 0  {
+            return fetchResultController.sections!.count
+        }
+        else {return 1}
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -104,7 +107,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
         
-        setGradientBackground()
         // get Date
         if SectionArray.count > 0 {
             
@@ -161,6 +163,17 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setView(){
         setNavigationBar()
+//        let color = UIColor(red: 0, green: 190, blue: 240, alpha: 1)
+        
+        gradientLayer.frame = self.view.bounds
+        let color1 = UIColor(red: 99/255, green: 215/255, blue: 246/255, alpha: 1).CGColor //as CGColorRef
+        let color2 = UIColor(red: 4/255, green: 20/255, blue: 25/255, alpha: 0.5).CGColor //as CGColorRef
+        
+        gradientLayer.colors = [color1, color2]
+        gradientLayer.locations = [0.5, 1.0]
+        
+        self.view.layer.insertSublayer(gradientLayer, atIndex: 1)
+        
         
 
     }
@@ -177,23 +190,20 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-    func setGradientBackground(){
-        self.view.backgroundColor = UIColor.mrLightblueColor()
-        gradientLayer.frame = self.view.bounds
-        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
-        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
-        gradientLayer.colors = [color1, color2]
-        gradientLayer.locations = [0.0, 1.0]
-        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
-        
-    }
+//    func setGradientBackground(color: UIColor){
+//        self.view.backgroundColor = color
+//        gradientLayer.frame = self.view.bounds
+//        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
+//        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
+//        gradientLayer.colors = [color1, color2]
+//        gradientLayer.locations = [0.0, 1.0]
+//        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
+//        
+//    }
+    
+    
     func setHistoryChart(){
         getXandYForChart()
-//        xForDate =  [String]()
-//        yForDistance = [String]()
-//        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-//        let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
-        
         setChart(xForDate, values: yForDistance)
     }
     
@@ -205,19 +215,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
             dataEntries.append(dataEntry)
         }
-
-        
-//        var colors: [UIColor] = []
-//        
-//        for i in 0..<dataPoints.count {
-//            let red = Double(arc4random_uniform(256))
-//            let green = Double(arc4random_uniform(256))
-//            let blue = Double(arc4random_uniform(256))
-//            
-//            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
-//            colors.append(color)
-//        }
-
         
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "")
         lineChartDataSet.mode = .HorizontalBezier
@@ -227,6 +224,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
        
         lineChartDataSet.drawValuesEnabled = false
         lineChartDataSet.fillColor = NSUIColor(red: 0, green: 156, blue: 197, alpha: 1)
+        lineChartDataSet.setColor((NSUIColor.clearColor()))
+        
         
         //lineChartDataSet
         
@@ -234,6 +233,26 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
         
         lineChartView.data = lineChartData
+        lineChartView.xAxis.enabled = true
+        lineChartView.xAxis.labelPosition = .Bottom
+        lineChartView.xAxis.avoidFirstLastClippingEnabled = true
+        //lineChartView.xAxis.spaceBetweenLabels =
+        lineChartView.xAxis.labelTextColor = UIColor.whiteColor()
+       // lineChartView.scaleYEnabled = true
+        lineChartView.leftAxis.enabled = false
+        lineChartView.rightAxis.enabled = false
+        lineChartView.scaleXEnabled = false
+        lineChartView.doubleTapToZoomEnabled = false
+        lineChartView.descriptionTextColor = UIColor.clearColor()
+        //lineChartView.chartXMin.
+        
+        
+        
+        //setChartDimens
+        
+        //XAxisLabelPosition
+        //xAxis.
+        
         
     }
 
@@ -243,7 +262,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 extension HistoryViewController: NSFetchedResultsControllerDelegate {
     func fetchCoreData(){
         let fetchRequest = NSFetchRequest(entityName: "Record")
-        let sortData = NSSortDescriptor(key: "date", ascending: true)
+        let sortData = NSSortDescriptor(key: "date", ascending: false)
         fetchRequest.sortDescriptors = [sortData]
         
         
@@ -257,6 +276,7 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
             do {
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
+                
                 
                 
                 print("done fetching")
@@ -303,23 +323,11 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
             }
             SectionArray.append(tempSection)
         }
-        print (SectionArray)
-//    
-//      //didn't work for the order
-//        for ts in TempSectionArray.enumerate() {
-//            let newIndex = TempSectionArray.count - 1 - ts.index
-//            SectionArray.append(TempSectionArray[newIndex])
-//        }
-//        
-        print(SectionArray)
+      
+        //print(SectionArray)
         
     }
     func getXandYForChart(){
-//        var xForDate =  [String]()
-//        var yForDistance = [String]()
-        
-
-
         if records.count > 0 {
             for item in records {
                 // get XForDate
@@ -335,17 +343,7 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
             }
             
         }
-        
-//        for month in months {
-//            var tempSection = [Record]()
-//            
-//            for item in records {
-//                if item.month == month {
-//                    tempSection.append(item)
-//                }
-//            }
-//            SectionArray.append(tempSection)
-//        }
+
     }
     
 }
