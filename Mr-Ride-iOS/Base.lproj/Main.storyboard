@@ -26,24 +26,21 @@
                                 </constraints>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="csw-PH-naU" userLabel="recordScroll View">
-                                <rect key="frame" x="22" y="21" width="556" height="132"/>
+                                <rect key="frame" x="22" y="21" width="556" height="176"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkq-lM-gj2" customClass="LineChartView" customModule="Charts">
-                                        <rect key="frame" x="0.0" y="0.0" width="1200" height="132"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="1200" height="176"/>
+                                        <color key="backgroundColor" red="0.38823530080000002" green="0.84313726430000002" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="1200" id="YPM-e9-4fN"/>
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.7450980544090271" blue="0.94117647409439087" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="132" id="1KR-6o-4lI"/>
                                     <constraint firstItem="xkq-lM-gj2" firstAttribute="leading" secondItem="csw-PH-naU" secondAttribute="leading" id="Cau-Ki-ldc"/>
-                                    <constraint firstAttribute="width" constant="556" id="ZBc-gS-Klq"/>
+                                    <constraint firstAttribute="bottom" secondItem="xkq-lM-gj2" secondAttribute="bottom" constant="44" id="Wdj-el-3US"/>
                                     <constraint firstItem="xkq-lM-gj2" firstAttribute="height" secondItem="csw-PH-naU" secondAttribute="height" id="e5h-PT-cpE"/>
                                     <constraint firstItem="xkq-lM-gj2" firstAttribute="top" secondItem="csw-PH-naU" secondAttribute="top" id="g18-72-uPz"/>
-                                    <constraint firstAttribute="bottom" secondItem="xkq-lM-gj2" secondAttribute="bottom" id="g9z-sf-L3P"/>
                                     <constraint firstAttribute="trailing" secondItem="xkq-lM-gj2" secondAttribute="trailing" constant="-644" id="iQF-k6-tao"/>
                                 </constraints>
                             </scrollView>
@@ -149,13 +146,14 @@
                         </subviews>
                         <color key="backgroundColor" red="0.38823530080000002" green="0.84313726430000002" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="yYl-dQ-3UT" firstAttribute="top" secondItem="gRc-PL-Hpe" secondAttribute="bottom" constant="196" id="02O-5n-ACL"/>
                             <constraint firstItem="OaH-q5-Lts" firstAttribute="centerX" secondItem="acG-2v-oX7" secondAttribute="centerX" id="82N-rk-vwB"/>
                             <constraint firstItem="OaH-q5-Lts" firstAttribute="top" secondItem="gRc-PL-Hpe" secondAttribute="bottom" constant="270" id="FIo-BC-uc4"/>
                             <constraint firstAttribute="trailingMargin" secondItem="yYl-dQ-3UT" secondAttribute="trailing" constant="2" id="SQe-gt-Ih5"/>
-                            <constraint firstItem="yYl-dQ-3UT" firstAttribute="top" secondItem="csw-PH-naU" secondAttribute="bottom" constant="43" id="ViO-55-c8A"/>
                             <constraint firstItem="csw-PH-naU" firstAttribute="top" secondItem="gRc-PL-Hpe" secondAttribute="bottom" constant="21" id="aCQ-F7-IW3"/>
                             <constraint firstItem="yYl-dQ-3UT" firstAttribute="leading" secondItem="csw-PH-naU" secondAttribute="leading" id="bWg-uc-ULe"/>
                             <constraint firstItem="csw-PH-naU" firstAttribute="leading" secondItem="acG-2v-oX7" secondAttribute="leadingMargin" constant="2" id="eIp-Ht-Ibe"/>
+                            <constraint firstItem="OaH-q5-Lts" firstAttribute="top" secondItem="csw-PH-naU" secondAttribute="bottom" constant="73" id="wj3-O5-yq7"/>
                             <constraint firstAttribute="trailingMargin" secondItem="csw-PH-naU" secondAttribute="trailing" constant="2" id="yGL-W3-PrG"/>
                         </constraints>
                     </view>

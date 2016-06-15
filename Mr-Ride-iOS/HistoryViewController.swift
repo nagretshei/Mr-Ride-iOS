@@ -67,7 +67,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         whiteView.backgroundColor = UIColor.whiteColor()
         headerLabel.backgroundColor = UIColor.whiteColor()
-        headerLabel.text = months[section]
+        
+        if SectionArray.count > 0 {
+            headerLabel.text = months[section]
+        }
         headerLabel.textColor = UIColor.mrDarkSlateBlueColor()
         headerLabel.font = UIFont.mrTextStyle12Font()
         
@@ -82,17 +85,18 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        //return SectionArray.count
-        if fetchResultController.sections!.count > 0  {
-            return fetchResultController.sections!.count
-        }
-        else {return 1}
+        return SectionArray.count
+//        if fetchResultController.sections!.count > 0  {
+//            return fetchResultController.sections!.count
+//        }
+//        else {return 1}
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //print (records.count)
         var number = 0
         if records.count > 0 {
+            //number = fetchResultController.sections!
             number = SectionArray[section].count
         } else {
             number = 0
@@ -163,19 +167,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func setView(){
         setNavigationBar()
-//        let color = UIColor(red: 0, green: 190, blue: 240, alpha: 1)
-        
-        gradientLayer.frame = self.view.bounds
-        let color1 = UIColor(red: 99/255, green: 215/255, blue: 246/255, alpha: 1).CGColor //as CGColorRef
-        let color2 = UIColor(red: 4/255, green: 20/255, blue: 25/255, alpha: 0.5).CGColor //as CGColorRef
-        
-        gradientLayer.colors = [color1, color2]
-        gradientLayer.locations = [0.5, 1.0]
-        
-        self.view.layer.insertSublayer(gradientLayer, atIndex: 1)
-        
-        
-
+        setGradientBackground()
     }
     
     func setNavigationBar(){
@@ -190,16 +182,16 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
     }
     
-//    func setGradientBackground(color: UIColor){
-//        self.view.backgroundColor = color
-//        gradientLayer.frame = self.view.bounds
-//        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
-//        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
-//        gradientLayer.colors = [color1, color2]
-//        gradientLayer.locations = [0.0, 1.0]
-//        self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
-//        
-//    }
+    func setGradientBackground(){
+        gradientLayer.frame = self.view.bounds
+        let color1 = UIColor(red: 99/255, green: 215/255, blue: 246/255, alpha: 1).CGColor
+        let color2 = UIColor(red: 4/255, green: 20/255, blue: 25/255, alpha: 0.5).CGColor
+        gradientLayer.colors = [color1, color2]
+        gradientLayer.locations = [0.5, 1.0]
+        
+        self.view.layer.insertSublayer(gradientLayer, atIndex: 1)
+        
+    }
     
     
     func setHistoryChart(){
@@ -217,34 +209,56 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
         
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "")
-        lineChartDataSet.mode = .HorizontalBezier
+        let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
+        lineChartView.data = lineChartData
+        lineChartDataSet.mode = .CubicBezier
+        
+        
+        //fill gradient for the curve
+        let gradientColors = [UIColor.mrBrightSkyBlueColor().CGColor, UIColor.mrTurquoiseBlueColor().CGColor]
+        let colorLocations:[CGFloat] = [0.0, 0.3] // Positioning of the gradient
+        let gradient = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), gradientColors, colorLocations) // Gradient Object
+        lineChartDataSet.fill = ChartFill.fillWithLinearGradient(gradient!, angle: 90.0)
+        lineChartDataSet.drawFilledEnabled = true
+        lineChartDataSet.lineWidth = 0.0
         
         lineChartDataSet.drawCirclesEnabled = false
-        lineChartDataSet.drawFilledEnabled = true
-       
         lineChartDataSet.drawValuesEnabled = false
-        lineChartDataSet.fillColor = NSUIColor(red: 0, green: 156, blue: 197, alpha: 1)
-        lineChartDataSet.setColor((NSUIColor.clearColor()))
-        
-        
-        //lineChartDataSet
-        
-        
-        let lineChartData = LineChartData(xVals: dataPoints, dataSet: lineChartDataSet)
-        
-        lineChartView.data = lineChartData
-        lineChartView.xAxis.enabled = true
-        lineChartView.xAxis.labelPosition = .Bottom
-        lineChartView.xAxis.avoidFirstLastClippingEnabled = true
-        //lineChartView.xAxis.spaceBetweenLabels =
-        lineChartView.xAxis.labelTextColor = UIColor.whiteColor()
-       // lineChartView.scaleYEnabled = true
-        lineChartView.leftAxis.enabled = false
-        lineChartView.rightAxis.enabled = false
-        lineChartView.scaleXEnabled = false
+ 
+        //make chartview not scalable and remove the interaction line
+        //lineChartView.setScaleEnabled(false)
+        lineChartView.userInteractionEnabled = false
         lineChartView.doubleTapToZoomEnabled = false
-        lineChartView.descriptionTextColor = UIColor.clearColor()
-        //lineChartView.chartXMin.
+        
+        //set display attribute
+        lineChartView.xAxis.drawAxisLineEnabled = false
+        lineChartView.xAxis.drawGridLinesEnabled = false
+        lineChartView.xAxis.labelPosition = .Bottom
+        lineChartView.xAxis.labelTextColor = UIColor.whiteColor()
+        //lineChartView.leftAxis.enabled = false
+        //lineChartView.rightAxis.enabled = false
+        lineChartView.leftAxis.drawLabelsEnabled = false
+        lineChartView.rightAxis.drawLabelsEnabled = false
+        
+        //only display leftAxis gridline
+        lineChartView.rightAxis.drawGridLinesEnabled = false
+        lineChartView.leftAxis.gridColor = UIColor.whiteColor()
+        
+        lineChartView.xAxis.avoidFirstLastClippingEnabled = true
+        lineChartView.legend.enabled = false  // remove legend icon
+        lineChartView.descriptionText = ""   // clear description
+        
+        
+
+
+        //lineChartView.xAxis.spaceBetweenLabels =
+
+//       // lineChartView.scaleYEnabled = true
+
+//        lineChartView.scaleXEnabled = false
+//        
+//        lineChartView.descriptionTextColor = UIColor.clearColor()
+//        //lineChartView.chartXMin.
         
         
         
@@ -276,6 +290,7 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
             do {
                 try fetchResultController.performFetch()
                 records = fetchResultController.fetchedObjects as! [Record]
+                
                 
                 
                 

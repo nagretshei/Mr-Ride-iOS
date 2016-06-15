@@ -17,7 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let googleMapsApiKey = "AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc"
     
-        
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //UINavigationBar.appearance().tintColor = UIColor.mrLightblueColor()
