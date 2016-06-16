@@ -39,7 +39,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchCoreData()
-        getSectionsFromData()
+        //getSectionsFromData()
         setView()
         setHistoryChart()
     }
@@ -128,44 +128,43 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
         configureCell(Cell, indexPath: indexPath)
-        
+        let sections = fetchResultController.sections!
         
         let aRecord = fetchResultController.objectAtIndexPath(indexPath)
-        print (aRecord.valueForKey("date"))
+//        print (aRecord.valueForKey("date"))
     
         //let sectionInfo = sections[section]
         
 //        // get Date
-//        if SectionArray.count > 0 {
+        if sections.count > 0  {
 //            
-//            let date =  SectionArray[indexPath.section][indexPath.row].date
-//            let DateFormatter = NSDateFormatter()
-//            DateFormatter.dateFormat = "dd"
-//            let dateStamp = DateFormatter.stringFromDate(date!)
-//
-            //Cell.date.text = String(aRecord.date)
-        //dateStamp
-//            
-//            // set th
-//            if dateStamp == "01"  || dateStamp == "21" || dateStamp ==  "31" {
-//                Cell.th.text = "st"
-//            } else if dateStamp == "02" || dateStamp == "02" || dateStamp ==  "22"  {
-//                Cell.th.text = "nd"
-//            }  else if dateStamp == "03"  || dateStamp == "23" {
-//                Cell.th.text = "rd"
-//            }
-//            
-//            // get distance
-//            let distanceInM = SectionArray[indexPath.section][indexPath.row].distance
-//            let distanceInKm = distanceInM / 1000
-//            Cell.distance.text = String(format:"%.2f km",(distanceInKm))
-//            
-//            //get time
-//            if let time = SectionArray[indexPath.section][indexPath.row].timeDuration {
-//                let timeText = String(time.characters.dropLast(3))
-//                Cell.timeDuration.text = timeText
-//            }
-//        }
+            let date =  aRecord.valueForKey("date")
+            let DateFormatter = NSDateFormatter()
+            DateFormatter.dateFormat = "dd"
+            let dateStamp = DateFormatter.stringFromDate(date! as! NSDate)
+
+            Cell.date.text = String(dateStamp)
+            
+            // set th
+            if dateStamp == "01"  || dateStamp == "21" || dateStamp ==  "31" {
+                Cell.th.text = "st"
+            } else if dateStamp == "02" || dateStamp == "02" || dateStamp ==  "22"  {
+                Cell.th.text = "nd"
+            }  else if dateStamp == "03"  || dateStamp == "23" {
+                Cell.th.text = "rd"
+            }
+
+            // get distance
+            let distanceInM = aRecord.valueForKey("distance") as! Double
+            let distanceInKm = distanceInM / 1000
+            Cell.distance.text = String(format:"%.2f km",(distanceInKm))
+
+            //get time
+            if let time = aRecord.valueForKey("timeDuration") {
+                let timeText = String(String(time).characters.dropLast(3))
+                Cell.timeDuration.text = timeText
+            }
+        }
         return Cell
     }
     
@@ -313,39 +312,39 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
     
 
     
-    func getSectionsFromData() {
-        //print(records)
-        let recordsReverse = records.reverse()
-        //print (recordsReverse)
-        
-        var TempSectionArray = [[Record]]()
-
-        //SectionArray
-        if records.count > 0 {
-            for item in records {
-                // get section title array
-                var temp = [String]()
-                let monthStamp = item.month!
-                temp.append(monthStamp)
-                months = Array(Set(arrayLiteral: monthStamp))
-            }
-
-        }
-        
-        for month in months {
-            var tempSection = [Record]()
-            
-            for item in records {
-                if item.month == month {
-                    tempSection.append(item)
-                }
-            }
-            SectionArray.append(tempSection)
-        }
-      
-        //print(SectionArray)
-        
-    }
+//    func getSectionsFromData() {
+//        //print(records)
+//        let recordsReverse = records.reverse()
+//        //print (recordsReverse)
+//        
+//        var TempSectionArray = [[Record]]()
+//
+//        //SectionArray
+//        if records.count > 0 {
+//            for item in records {
+//                // get section title array
+//                var temp = [String]()
+//                let monthStamp = item.month!
+//                temp.append(monthStamp)
+//                months = Array(Set(arrayLiteral: monthStamp))
+//            }
+//
+//        }
+//        
+//        for month in months {
+//            var tempSection = [Record]()
+//            
+//            for item in records {
+//                if item.month == month {
+//                    tempSection.append(item)
+//                }
+//            }
+//            SectionArray.append(tempSection)
+//        }
+//      
+//        //print(SectionArray)
+//        
+//    }
     func getXandYForChart(){
         if records.count > 0 {
             for item in records {
