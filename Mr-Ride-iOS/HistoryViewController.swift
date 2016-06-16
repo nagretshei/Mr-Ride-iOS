@@ -30,8 +30,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var locations: [Locations] = []
     
     //variables for tableview
-    var months = [String]()
-    var SectionArray = [[Record]]()
+    //var months = [String]()
+    //var SectionArray = [[Record]]()
     
     //variables for view
     let gradientLayer = CAGradientLayer()
@@ -39,7 +39,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchCoreData()
-        //getSectionsFromData()
         setView()
         setHistoryChart()
     }
@@ -47,7 +46,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     @IBAction func MenuButtonTapped(sender: AnyObject) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
         appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
     }
     
@@ -72,9 +70,16 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         whiteView.backgroundColor = UIColor.whiteColor()
         headerLabel.backgroundColor = UIColor.whiteColor()
         
-        if SectionArray.count > 0 {
-            headerLabel.text = months[section]
+        
+        let sections = fetchResultController.sections!
+
+        if sections.count > 0 {
+            headerLabel.text = sections[section].name
+        } else {
+            headerLabel.text = "month"
         }
+        
+        print(fetchResultController.sectionNameKeyPath)
         headerLabel.textColor = UIColor.mrDarkSlateBlueColor()
         headerLabel.font = UIFont.mrTextStyle12Font()
         
@@ -85,6 +90,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         return headerView
     }
+    
 
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
         let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
@@ -93,8 +99,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return fetchResultController.sections!.count
-//        return SectionArray.count
         if fetchResultController.sections!.count > 0  {
             return fetchResultController.sections!.count
         }
@@ -109,17 +113,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         } else {
             return 0
         }
-        
-//        //print (records.count)
-//        var number = 0
-//        if records.count > 0 {
-//            //number = fetchResultController.sections!
-//            number = SectionArray[section].count
-//        } else {
-//            number = 0
-//        }
-//        
-//        return number
 
     }
     
@@ -129,15 +122,11 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         configureCell(Cell, indexPath: indexPath)
         let sections = fetchResultController.sections!
-        
         let aRecord = fetchResultController.objectAtIndexPath(indexPath)
-//        print (aRecord.valueForKey("date"))
-    
-        //let sectionInfo = sections[section]
         
-//        // get Date
+        // get Date
         if sections.count > 0  {
-//            
+           
             let date =  aRecord.valueForKey("date")
             let DateFormatter = NSDateFormatter()
             DateFormatter.dateFormat = "dd"
@@ -311,40 +300,6 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
     }
     
 
-    
-//    func getSectionsFromData() {
-//        //print(records)
-//        let recordsReverse = records.reverse()
-//        //print (recordsReverse)
-//        
-//        var TempSectionArray = [[Record]]()
-//
-//        //SectionArray
-//        if records.count > 0 {
-//            for item in records {
-//                // get section title array
-//                var temp = [String]()
-//                let monthStamp = item.month!
-//                temp.append(monthStamp)
-//                months = Array(Set(arrayLiteral: monthStamp))
-//            }
-//
-//        }
-//        
-//        for month in months {
-//            var tempSection = [Record]()
-//            
-//            for item in records {
-//                if item.month == month {
-//                    tempSection.append(item)
-//                }
-//            }
-//            SectionArray.append(tempSection)
-//        }
-//      
-//        //print(SectionArray)
-//        
-//    }
     func getXandYForChart(){
         if records.count > 0 {
             for item in records {
