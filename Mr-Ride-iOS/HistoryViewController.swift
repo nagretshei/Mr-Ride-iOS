@@ -36,7 +36,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         fetchCoreData()
         setView()
-        setHistoryChart()
+        setChartView(xForDate, values: yForDistance)
     }
     
 
@@ -92,7 +92,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
         let date =  myRecord.valueForKey("date")
-        var previousDate = [date]
+        //var previousDate = [date]
         
         let DateFormatter = NSDateFormatter()
         DateFormatter.dateFormat = "dd"
@@ -116,10 +116,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             yForDistance.removeAtIndex(0)
         }
         
-        setChart(xForDate, values: yForDistance)
+        setChartView(xForDate, values: yForDistance)
         
         // Populate cell from the NSManagedObject instance
-        //print("Object for configuration: \(myRecord)")
+   
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -141,8 +141,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        //xForDate = []
-        //yForDistance = []
         
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
@@ -203,6 +201,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
+    
     // View
     
     func setView(){
@@ -234,14 +233,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     
-    func setHistoryChart(){
-        //getXandYForChart()
-        print (xForDate)
-        print (yForDistance)
-        setChart(xForDate, values: yForDistance)
-    }
     
-    func setChart(dataPoints: [String], values: [Double]) {
+    func setChartView(dataPoints: [String], values: [Double]) {
         
         var dataEntries: [ChartDataEntry] = []
         
