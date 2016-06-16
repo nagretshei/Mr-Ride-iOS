@@ -24,14 +24,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var isPresented = false
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
-    var fetchResultController1: NSFetchedResultsController!
+    //var fetchResultController1: NSFetchedResultsController!
     var record: Record!
     var records: [Record] = []
     var locations: [Locations] = []
-    
-    //variables for tableview
-    //var months = [String]()
-    //var SectionArray = [[Record]]()
     
     //variables for view
     let gradientLayer = CAGradientLayer()
@@ -79,7 +75,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             headerLabel.text = "month"
         }
         
-        print(fetchResultController.sectionNameKeyPath)
+        //print(fetchResultController.sectionNameKeyPath)
         headerLabel.textColor = UIColor.mrDarkSlateBlueColor()
         headerLabel.font = UIFont.mrTextStyle12Font()
         
@@ -93,9 +89,37 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
 
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
+
         let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
+        let date =  myRecord.valueForKey("date")
+        var previousDate = [date]
+        
+        let DateFormatter = NSDateFormatter()
+        DateFormatter.dateFormat = "dd"
+        let dateStamp = DateFormatter.stringFromDate(date! as! NSDate)
+        
+        // slide up with inserting, slide down with apend
+
+
+        xForDate.append(dateStamp)
+        
+        let distanceInM = myRecord.valueForKey("distance") as! Double
+        let distanceInKm = distanceInM / 1000
+        
+        yForDistance.append(distanceInKm)
+        
+        if xForDate.count > 7 {
+            xForDate.removeAtIndex(0)
+        }
+        
+        if yForDistance.count > 7 {
+            yForDistance.removeAtIndex(0)
+        }
+        
+        setChart(xForDate, values: yForDistance)
+        
         // Populate cell from the NSManagedObject instance
-        print("Object for configuration: \(myRecord)")
+        //print("Object for configuration: \(myRecord)")
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -117,6 +141,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        //xForDate = []
+        //yForDistance = []
         
         let Cell = tableView.dequeueReusableCellWithIdentifier("HistoryCell", forIndexPath: indexPath) as! HistoryTableViewCell
         
@@ -134,6 +160,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
             Cell.date.text = String(dateStamp)
             
+            
             // set th
             if dateStamp == "01"  || dateStamp == "21" || dateStamp ==  "31" {
                 Cell.th.text = "st"
@@ -147,6 +174,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             let distanceInM = aRecord.valueForKey("distance") as! Double
             let distanceInKm = distanceInM / 1000
             Cell.distance.text = String(format:"%.2f km",(distanceInKm))
+           
 
             //get time
             if let time = aRecord.valueForKey("timeDuration") {
@@ -207,7 +235,9 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     func setHistoryChart(){
-        getXandYForChart()
+        //getXandYForChart()
+        print (xForDate)
+        print (yForDistance)
         setChart(xForDate, values: yForDistance)
     }
     
@@ -297,26 +327,6 @@ extension HistoryViewController: NSFetchedResultsControllerDelegate {
             }
         }
         
-    }
-    
-
-    func getXandYForChart(){
-        if records.count > 0 {
-            for item in records {
-                // get XForDate
-                let date =  item.date
-                let DateFormatter = NSDateFormatter()
-                DateFormatter.dateFormat = "M/dd"
-                let dateStamp = DateFormatter.stringFromDate(date!)
-                xForDate.append(dateStamp)
-                
-                let distance = item.distance
-                yForDistance.append(distance)
-                
-            }
-            
-        }
-
     }
     
 }

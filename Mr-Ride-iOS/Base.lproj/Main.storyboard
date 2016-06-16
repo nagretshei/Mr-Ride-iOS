@@ -26,7 +26,7 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xkq-lM-gj2" customClass="LineChartView" customModule="Charts">
-                                <rect key="frame" x="22" y="21" width="556" height="176"/>
+                                <rect key="frame" x="15" y="21" width="570" height="176"/>
                                 <color key="backgroundColor" red="0.38823530080000002" green="0.84313726430000002" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="176" id="iHC-Tx-Nwg"/>
@@ -135,14 +135,22 @@
                         <color key="backgroundColor" red="0.38823530080000002" green="0.84313726430000002" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="yYl-dQ-3UT" firstAttribute="top" secondItem="gRc-PL-Hpe" secondAttribute="bottom" constant="196" id="02O-5n-ACL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="xkq-lM-gj2" secondAttribute="trailing" constant="-5" id="4XL-c5-ont"/>
                             <constraint firstItem="OaH-q5-Lts" firstAttribute="centerX" secondItem="acG-2v-oX7" secondAttribute="centerX" id="82N-rk-vwB"/>
                             <constraint firstItem="OaH-q5-Lts" firstAttribute="top" secondItem="gRc-PL-Hpe" secondAttribute="bottom" constant="270" id="FIo-BC-uc4"/>
                             <constraint firstItem="xkq-lM-gj2" firstAttribute="leading" secondItem="acG-2v-oX7" secondAttribute="leadingMargin" constant="2" id="J1R-N9-7ra"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xkq-lM-gj2" secondAttribute="trailing" constant="2" id="Mv5-33-mgq"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="yYl-dQ-3UT" secondAttribute="trailing" constant="2" id="SQe-gt-Ih5"/>
-                            <constraint firstItem="yYl-dQ-3UT" firstAttribute="leading" secondItem="xkq-lM-gj2" secondAttribute="leading" id="e0U-eR-MHI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="yYl-dQ-3UT" secondAttribute="trailing" constant="1" id="SQe-gt-Ih5"/>
+                            <constraint firstItem="xkq-lM-gj2" firstAttribute="leading" secondItem="acG-2v-oX7" secondAttribute="leadingMargin" constant="-5" id="ceN-GB-O6q"/>
+                            <constraint firstItem="yYl-dQ-3UT" firstAttribute="leading" secondItem="xkq-lM-gj2" secondAttribute="leading" constant="8" id="e0U-eR-MHI"/>
                             <constraint firstItem="xkq-lM-gj2" firstAttribute="top" secondItem="gRc-PL-Hpe" secondAttribute="bottom" constant="21" id="zLo-S4-Ajt"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="J1R-N9-7ra"/>
+                                <exclude reference="Mv5-33-mgq"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="yqh-a7-ba7">
