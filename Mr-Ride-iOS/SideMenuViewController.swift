@@ -15,7 +15,7 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
     
     private var currectSelected = NSIndexPath(forRow: 0, inSection: 0)
    
-    private let menuItems = ["Home", "History"]
+    private let menuItems = ["Home", "History", "Map"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,6 +84,17 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
             let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             
             appDelegate.centerContainer!.centerViewController = historyNavController
+            appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
+            break;
+            
+        case 2:
+            let mapViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MapViewController") as! MapViewController
+            
+            let mapNavController = UINavigationController(rootViewController: mapViewController)
+            
+            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            
+            appDelegate.centerContainer!.centerViewController = mapNavController
             appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
             break;
             

@@ -40,6 +40,7 @@
 		899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */; };
 		899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B51CF5A093009A16DF /* RecordViewController.swift */; };
 		89F85B981D13A67400AC9976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922A97C1CF40D800010B66D /* ViewController.swift */; };
+		89F85B9C1D13D3FC00AC9976 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F85B9B1D13D3FC00AC9976 /* MapViewController.swift */; };
 		AB5AEE1438C3C4625DF00CB6 /* Pods_Mr_Ride_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013FB7199B8FAE77000CE6C6 /* Pods_Mr_Ride_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -158,6 +159,7 @@
 		899082B51CF5A093009A16DF /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		89F2C4AD1CF7D89200B4D400 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		89F2C4AE1CF7D89200B4D400 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		89F85B9B1D13D3FC00AC9976 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		8A7AF488522F2834188C046E /* Pods-Mr-Ride-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mr-Ride-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mr-Ride-iOS/Pods-Mr-Ride-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,6 +222,7 @@
 				8922A97A1CF40D800010B66D /* AppDelegate.swift */,
 				8922A97E1CF40D800010B66D /* Main.storyboard */,
 				8922A9BC1CF415710010B66D /* MenuTableViewCell.swift */,
+				89F85B9B1D13D3FC00AC9976 /* MapViewController.swift */,
 				8922A9BE1CF41A020010B66D /* HistoryViewController.swift */,
 				8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */,
 				893741A31CF68088001EEB52 /* StatisticsViewController.swift */,
@@ -571,6 +574,7 @@
 				8922A9831CF40D800010B66D /* Mr_Ride_iOS.xcdatamodeld in Sources */,
 				8922A9BA1CF40F6B0010B66D /* MMDrawerVisualState.m in Sources */,
 				893741A41CF68088001EEB52 /* StatisticsViewController.swift in Sources */,
+				89F85B9C1D13D3FC00AC9976 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

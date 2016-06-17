@@ -731,6 +731,49 @@
             </objects>
             <point key="canvasLocation" x="1064" y="1033"/>
         </scene>
+        <!--Map View Controller-->
+        <scene sceneID="XxZ-bS-FyY">
+            <objects>
+                <viewController storyboardIdentifier="MapViewController" id="5al-Fz-r1A" userLabel="Map View Controller" customClass="MapViewController" customModule="Mr_Ride_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wwM-8K-qDm"/>
+                        <viewControllerLayoutGuide type="bottom" id="fXd-1G-Lku"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kSO-jE-d59">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8qf-PI-dE1" userLabel="mapView">
+                                <rect key="frame" x="22" y="85" width="556" height="430"/>
+                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.38823530077934265" green="0.84313726425170898" blue="0.96470588445663452" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="8qf-PI-dE1" firstAttribute="trailing" secondItem="kSO-jE-d59" secondAttribute="trailingMargin" constant="-2" id="3Qd-tl-ZOS"/>
+                            <constraint firstItem="8qf-PI-dE1" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="FDY-8m-9sp"/>
+                            <constraint firstItem="8qf-PI-dE1" firstAttribute="top" secondItem="wwM-8K-qDm" secondAttribute="bottom" constant="21" id="bsf-eb-nGK"/>
+                            <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="8qf-PI-dE1" secondAttribute="bottom" constant="85" id="p0I-vy-ZxH"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Yjb-2u-lJ6">
+                        <barButtonItem key="leftBarButtonItem" image="icon-menu" id="1ya-dA-Fb8">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="MenuButtonTapped:" destination="5al-Fz-r1A" id="ypS-W8-gfw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mup-bf-FlI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1064" y="1691"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="4FX-be-Jcj">
             <objects>
@@ -907,6 +950,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WoO-ZO-yp6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="355" y="1033"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="p3b-qF-tcD">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Tyu-I6-uZZ" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2Lv-Kr-B3P">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5al-Fz-r1A" kind="relationship" relationship="rootViewController" id="QXz-yO-kFv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fSa-WY-pUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="364" y="1697"/>
         </scene>
     </scenes>
     <resources>
