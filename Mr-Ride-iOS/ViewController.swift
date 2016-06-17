@@ -226,14 +226,27 @@ class ViewController: UIViewController {
         
         
         //fill gradient for the curve
-        let gradientColors = [UIColor.mrBrightSkyBlueColor().CGColor, UIColor.mrTurquoiseBlueColor().CGColor]
-        let colorLocations:[CGFloat] = [0.0, 0.3] // Positioning of the gradient
+        let gradientColors =  [UIColor.mrWaterBlueColor().CGColor, UIColor.mrRobinsEggBlue0Color().CGColor]
+        let colorLocations:[CGFloat] = [0.45, 0.0] // Positioning of the gradient
         let gradient = CGGradientCreateWithColors(CGColorSpaceCreateDeviceRGB(), gradientColors, colorLocations) // Gradient Object
         lineChartDataSet.fill = ChartFill.fillWithLinearGradient(gradient!, angle: 90.0)
         lineChartDataSet.drawFilledEnabled = true
         lineChartDataSet.lineWidth = 0.0
         
-        lineChartDataSet.drawCirclesEnabled = false
+        lineChartDataSet.drawCirclesEnabled = true
+        lineChartDataSet.drawCircleHoleEnabled = false
+        lineChartDataSet.circleRadius = CGFloat(4.0)
+
+        lineChartDataSet.circleColors.removeAll(keepCapacity: false)
+        var i = 0
+        while i < 5 {
+        lineChartDataSet.circleColors.append(NSUIColor.clearColor())
+            i += 1
+        }
+        
+        
+        lineChartDataSet.circleColors.append(NSUIColor(red: 255.0 / 255.0, green: 255.0 / 255.0, blue: 255.0 / 255.0, alpha: 0.7))
+        
         lineChartDataSet.drawValuesEnabled = false
         
         //make chartview not scalable and remove the interaction line
@@ -244,8 +257,7 @@ class ViewController: UIViewController {
         //set display attribute
         lineChartView.xAxis.drawAxisLineEnabled = false
         lineChartView.xAxis.drawGridLinesEnabled = false
-        lineChartView.xAxis.labelPosition = .Bottom
-        lineChartView.xAxis.labelTextColor = UIColor.whiteColor()
+        lineChartView.xAxis.enabled = false
         lineChartView.leftAxis.enabled = false
         lineChartView.rightAxis.enabled = false
         lineChartView.leftAxis.drawLabelsEnabled = false
@@ -315,8 +327,10 @@ extension ViewController: NSFetchedResultsControllerDelegate {
 
 extension ViewController: DismissDelegation {
     func showLabels() {
+//        setValueForChart()
+//        setChartView(xForDate, values: yForDistance)
         self.viewDidLoad()
-        
+
         // show UIlabels
         totalDistanceLabel.hidden = false
         totaldistanceLabel.hidden = false
