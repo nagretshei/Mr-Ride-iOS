@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		8922A97B1CF40D800010B66D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922A97A1CF40D800010B66D /* AppDelegate.swift */; };
-		8922A97D1CF40D800010B66D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922A97C1CF40D800010B66D /* ViewController.swift */; };
 		8922A9801CF40D800010B66D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8922A97E1CF40D800010B66D /* Main.storyboard */; };
 		8922A9831CF40D800010B66D /* Mr_Ride_iOS.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8922A9811CF40D800010B66D /* Mr_Ride_iOS.xcdatamodeld */; };
 		8922A9851CF40D800010B66D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8922A9841CF40D800010B66D /* Assets.xcassets */; };
@@ -40,6 +39,7 @@
 		8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */; };
 		899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */; };
 		899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B51CF5A093009A16DF /* RecordViewController.swift */; };
+		89F85B981D13A67400AC9976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922A97C1CF40D800010B66D /* ViewController.swift */; };
 		AB5AEE1438C3C4625DF00CB6 /* Pods_Mr_Ride_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013FB7199B8FAE77000CE6C6 /* Pods_Mr_Ride_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -556,8 +556,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F85B981D13A67400AC9976 /* ViewController.swift in Sources */,
 				8922A9AC1CF40F0F0010B66D /* SideMenuViewController.swift in Sources */,
-				8922A97D1CF40D800010B66D /* ViewController.swift in Sources */,
 				8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */,
 				8922A9B81CF40F6B0010B66D /* MMDrawerBarButtonItem.m in Sources */,
 				899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */,

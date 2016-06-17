@@ -67,7 +67,20 @@ class ViewController: UIViewController {
     @IBAction func letsRideButtonTapped(sender: UIButton) {
         let recordPage = storyboard?.instantiateViewControllerWithIdentifier("RecordViewController") as! RecordViewController
         let recordNavController = UINavigationController(rootViewController: recordPage)
+        //recordNavController.modalPresentationStyle = .OverCurrentContext
+        
+        let iOS7 = floor(NSFoundationVersionNumber) <= floor(NSFoundationVersionNumber_iOS_7_1)
+        let iOS8 = floor(NSFoundationVersionNumber) > floor(NSFoundationVersionNumber_iOS_7_1)
+        if iOS8 {
+            recordNavController.modalPresentationStyle = .OverCurrentContext
+            //self.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+        } else {
+            recordNavController.modalPresentationStyle = .CurrentContext
+            //self.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+        }
+        
         presentViewController(recordNavController, animated: true, completion: nil)
+        
     }
 
     

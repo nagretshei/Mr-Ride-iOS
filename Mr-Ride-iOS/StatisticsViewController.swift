@@ -139,10 +139,12 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     }
     
     func setGradientBackground(){
-        self.view.backgroundColor = UIColor.mrLightblueColor()
+        
         gradientLayer.frame = self.view.bounds
-        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor as CGColorRef
-        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor as CGColorRef
+        
+        self.view.backgroundColor = UIColor(red: 99.0 / 255.0, green: 215.0 / 255.0, blue: 246.0 / 255.0, alpha: 0.5)
+        let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor
+        let color2 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.4).CGColor
         gradientLayer.colors = [color1, color2]
         gradientLayer.locations = [0.0, 1.0]
         self.view.layer.insertSublayer(gradientLayer, atIndex: 0)
