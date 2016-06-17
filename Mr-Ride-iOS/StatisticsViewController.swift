@@ -9,16 +9,21 @@
 import UIKit
 import CoreData
 
-protocol IndexDelegate {
+protocol IndexDelegate: class {
 
     func giveIndex(cell: StatisticsViewController) -> Int
 
 }
 
+protocol DismissDelegation1: class {
+    func showLabels()
+}
+
 
 class StatisticsViewController: UIViewController, NSFetchedResultsControllerDelegate {
     
-    var delegate: IndexDelegate? //宣告法定代理人之權力
+    weak var delegate: IndexDelegate? //宣告法定代理人之權力
+    weak var dismissDelegation1: DismissDelegation?
     
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
@@ -63,7 +68,6 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         if isPresented {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Close", style: .Plain, target: self, action: #selector(close(_:)))
             
@@ -84,7 +88,9 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
     
     
     @objc func close(sender: AnyObject?) {
+         dismissDelegation1?.showLabels()
          dismissViewControllerAnimated(true, completion: nil)
+         
         
     }
     

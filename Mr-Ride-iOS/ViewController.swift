@@ -51,6 +51,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchCoreData()
+        fetchCoreDataForTotalValue()
         setView()
         setValueForChart()
         setChartView(xForDate, values: yForDistance)
@@ -65,24 +67,38 @@ class ViewController: UIViewController {
 
     
     @IBAction func letsRideButtonTapped(sender: UIButton) {
+
         let recordPage = storyboard?.instantiateViewControllerWithIdentifier("RecordViewController") as! RecordViewController
-        let recordNavController = UINavigationController(rootViewController: recordPage)
-        //recordNavController.modalPresentationStyle = .OverCurrentContext
+        let statisticPage = storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as! StatisticsViewController
         
+        recordPage.dismissDelegation = self
+        
+        
+        
+        let recordNavController = UINavigationController(rootViewController: recordPage)
+       
         let iOS7 = floor(NSFoundationVersionNumber) <= floor(NSFoundationVersionNumber_iOS_7_1)
         let iOS8 = floor(NSFoundationVersionNumber) > floor(NSFoundationVersionNumber_iOS_7_1)
         if iOS8 {
             recordNavController.modalPresentationStyle = .OverCurrentContext
-            //self.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext
+            
         } else {
             recordNavController.modalPresentationStyle = .CurrentContext
-            //self.modalPresentationStyle = UIModalPresentationStyle.CurrentContext
+            
         }
+        totalDistanceLabel.hidden = true
+        totaldistanceLabel.hidden = true
+        totalcountLabel.hidden = true
+        totalCountLabel.hidden = true
+        averagespeedLabel.hidden = true
+        averageSpeedLabel.hidden = true
+        letsRideButton.hidden = true
         
         presentViewController(recordNavController, animated: true, completion: nil)
         
     }
-
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -116,8 +132,6 @@ class ViewController: UIViewController {
     
     // View
     func setView(){
-        fetchCoreData()
-        fetchCoreDataForTotalValue()
         setLabelAndButton()
         setNavigationBar()
         
@@ -297,5 +311,21 @@ extension ViewController: NSFetchedResultsControllerDelegate {
         }
     }
     
+}
+
+extension ViewController: DismissDelegation {
+    func showLabels() {
+        self.viewDidLoad()
+        
+        // show UIlabels
+        totalDistanceLabel.hidden = false
+        totaldistanceLabel.hidden = false
+        totalcountLabel.hidden = false
+        totalCountLabel.hidden = false
+        averagespeedLabel.hidden = false
+        averageSpeedLabel.hidden = false
+        letsRideButton.hidden = false
+        
+    }
 }
 

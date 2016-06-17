@@ -40,7 +40,13 @@ class Locations: NSManagedObject {
     
 }
 
+protocol DismissDelegation: class {
+    func showLabels()
+}
+
 class RecordViewController: UIViewController {
+    
+    weak var dismissDelegation: DismissDelegation?
 
     // variables for CorData
     let dataCalCulatingModel = DataCalCulatingModel()
@@ -52,8 +58,7 @@ class RecordViewController: UIViewController {
     var records: [Record] = []
     var totalValue: TotalValue!
     var totalValues: [TotalValue] = []
-
-
+    
     // variables for view
     let gradientLayer = CAGradientLayer()
     @IBOutlet weak var distance: UILabel!
@@ -101,7 +106,9 @@ class RecordViewController: UIViewController {
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
-        
+        dismissDelegation?.showLabels()
+//        let viewControllerPage = storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+//        
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -118,8 +125,9 @@ class RecordViewController: UIViewController {
             calculateTotalValuesForCoreData()
         }
         
-        
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
+
+        statisticsViewController?.dismissDelegation1 = self.dismissDelegation
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
     }
     
@@ -192,6 +200,7 @@ class RecordViewController: UIViewController {
         setButtons()
         setNavigationBar()
         pauseButton.hidden = true
+
     }
     
     func setNavigationBar(){
@@ -226,9 +235,6 @@ class RecordViewController: UIViewController {
     }
     
     func setGradientBackground(){
-        
-        
-        //UIColor(red: 99.0 / 255.0, green: 215.0 / 255.0, blue: 246.0 / 255.0, alpha: 1)
         gradientLayer.frame = self.view.bounds
         self.view.backgroundColor = UIColor(red: 99.0 / 255.0, green: 215.0 / 255.0, blue: 246.0 / 255.0, alpha: 0.5)
         let color1 = UIColor(red: 0.0, green: 0, blue: 0, alpha: 0.6).CGColor
