@@ -106,9 +106,7 @@ class RecordViewController: UIViewController {
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
-        dismissDelegation?.showLabels()
-//        let viewControllerPage = storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-//        
+        dismissDelegation?.showLabels()        
         dismissViewControllerAnimated(true, completion: nil)
     }
     

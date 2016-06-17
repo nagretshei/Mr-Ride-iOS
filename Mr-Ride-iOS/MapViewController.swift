@@ -57,16 +57,6 @@ class MapViewController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
         
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -83,7 +73,8 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
-            mapView.myLocationEnabled = true
+            print ("map")
+            //mapView.myLocationEnabled = true
             
 //            if coreDataIsZero == false {
 //                addPolyLine(myPath)
