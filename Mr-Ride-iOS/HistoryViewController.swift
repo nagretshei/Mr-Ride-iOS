@@ -45,6 +45,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
     }
     
+    deinit {
+        print("HistoryViewController is dead")
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -95,25 +99,31 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         //var previousDate = [date]
         
         let DateFormatter = NSDateFormatter()
-        DateFormatter.dateFormat = "dd"
+        DateFormatter.dateFormat = "M/dd"
         let dateStamp = DateFormatter.stringFromDate(date! as! NSDate)
         
         // slide up with inserting, slide down with apend
 
 
-        xForDate.append(dateStamp)
+        //xForDate.append(dateStamp)
+        xForDate.insert(dateStamp, atIndex: 0)
         
         let distanceInM = myRecord.valueForKey("distance") as! Double
         let distanceInKm = distanceInM / 1000
         
-        yForDistance.append(distanceInKm)
+        //yForDistance.append(distanceInKm)
+        yForDistance.insert(distanceInKm, atIndex: 0)
         
         if xForDate.count > 7 {
-            xForDate.removeAtIndex(0)
+            //xForDate.removeAtIndex(0)
+            xForDate.removeLast()
+            //xForDate.reverse()
         }
         
         if yForDistance.count > 7 {
-            yForDistance.removeAtIndex(0)
+            //yForDistance.removeAtIndex(0)
+            xForDate.removeLast()
+            //yForDistance.reverse()
         }
         
         setChartView(xForDate, values: yForDistance)
@@ -269,6 +279,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         lineChartView.xAxis.drawAxisLineEnabled = false
         lineChartView.xAxis.drawGridLinesEnabled = false
         lineChartView.xAxis.labelPosition = .Bottom
+        lineChartView.xAxis.spaceBetweenLabels = 2
         lineChartView.xAxis.labelTextColor = UIColor.whiteColor()
         //lineChartView.leftAxis.enabled = false
         //lineChartView.rightAxis.enabled = false

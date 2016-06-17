@@ -189,7 +189,7 @@ class RecordViewController: UIViewController {
     }
     
     deinit {
-        //print("RecordViewController is dead")
+        print("RecordViewController is dead")
     }
     
     

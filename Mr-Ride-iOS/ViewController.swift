@@ -116,11 +116,12 @@ class ViewController: UIViewController {
                     let DateFormatter = NSDateFormatter()
                     DateFormatter.dateFormat = "dd"
                     let dateStamp = DateFormatter.stringFromDate(date! as! NSDate)
-                    xForDate.append(dateStamp)
+                    xForDate.insert(dateStamp, atIndex: 0)
                     
                     let distanceInM = record.distance
                     let distanceInKm = distanceInM / 1000
-                    yForDistance.append(distanceInKm)
+                    yForDistance.insert(distanceInKm, atIndex: 0)
+                 
                 }
                     
                 else {return}
@@ -128,7 +129,9 @@ class ViewController: UIViewController {
 
         }
     }
-    
+    deinit {
+        print("ViewController is dead")
+    }
     
     // View
     func setView(){
@@ -136,6 +139,7 @@ class ViewController: UIViewController {
         setNavigationBar()
         
     }
+    
     func setNavigationBar(){
         //set navBar color
         self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()

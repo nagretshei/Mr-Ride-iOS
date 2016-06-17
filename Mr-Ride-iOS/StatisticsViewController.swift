@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import GoogleMaps
 
 protocol IndexDelegate: class {
 
@@ -85,7 +86,9 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
         // Do any additional setup after loading the view.
     }
     
-    
+    deinit {
+        print("StatisticsViewController is dead")
+    }
     
     @objc func close(sender: AnyObject?) {
          dismissDelegation1?.showLabels()
