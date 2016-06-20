@@ -29,7 +29,7 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         super.viewDidLoad()
         setView()
         setMap()
-        setPickerView()
+        //setPickerView()
     }
 
 
@@ -70,6 +70,7 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func setMap(){
         setMapDelegation()
+       
     }
     
     func setMapDelegation(){
@@ -82,6 +83,7 @@ extension MapViewController: CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
             mapView.myLocationEnabled = true
             mapView.settings.myLocationButton = true
+            //mapView.accessibilityElementsHidden = false
         }
     }
     
