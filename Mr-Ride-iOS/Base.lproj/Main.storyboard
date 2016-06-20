@@ -743,7 +743,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8qf-PI-dE1" userLabel="mapView">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8qf-PI-dE1" userLabel="mapView" customClass="GMSMapView">
                                 <rect key="frame" x="22" y="85" width="556" height="430"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <userDefinedRuntimeAttributes>
@@ -752,13 +752,35 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="okq-Nd-FxZ">
+                                <rect key="frame" x="88" y="532" width="490" height="48"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="OqI-xl-fpD"/>
+                                </constraints>
+                            </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Look for" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trR-bQ-m6d">
+                                <rect key="frame" x="22" y="532" width="63" height="48"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="168-1R-q07"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.38823530077934265" green="0.84313726425170898" blue="0.96470588445663452" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="trR-bQ-m6d" secondAttribute="bottom" constant="20" id="1Pc-7L-gCZ"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="trailing" secondItem="kSO-jE-d59" secondAttribute="trailingMargin" constant="-2" id="3Qd-tl-ZOS"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="FDY-8m-9sp"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="top" secondItem="wwM-8K-qDm" secondAttribute="bottom" constant="21" id="bsf-eb-nGK"/>
+                            <constraint firstItem="okq-Nd-FxZ" firstAttribute="leading" secondItem="trR-bQ-m6d" secondAttribute="trailing" constant="3" id="fPG-gz-PGH"/>
+                            <constraint firstItem="trR-bQ-m6d" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="foK-hS-FM6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="okq-Nd-FxZ" secondAttribute="trailing" constant="2" id="jwG-qD-vAK"/>
                             <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="8qf-PI-dE1" secondAttribute="bottom" constant="85" id="p0I-vy-ZxH"/>
+                            <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="okq-Nd-FxZ" secondAttribute="bottom" constant="20" id="tVB-X7-T9b"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Yjb-2u-lJ6">
@@ -769,6 +791,10 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="Picker" destination="okq-Nd-FxZ" id="pqd-uI-m3O"/>
+                        <outlet property="mapView" destination="8qf-PI-dE1" id="skG-KX-RzC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mup-bf-FlI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

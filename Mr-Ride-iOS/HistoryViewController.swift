@@ -15,6 +15,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var lineChartView: LineChartView!
     var xForDate =  [String]()
     var yForDistance = [Double]()
+    var timeForData = [NSDate]()
     
     // variables for giving indexPath
     
@@ -95,38 +96,55 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
 
         let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
-        let date =  myRecord.valueForKey("date")
-        //var previousDate = [date]
+        let date =  myRecord.valueForKey("date") as! NSDate
+        
+        timeForData.append(date)
         
         let DateFormatter = NSDateFormatter()
         DateFormatter.dateFormat = "M/dd"
-        let dateStamp = DateFormatter.stringFromDate(date! as! NSDate)
+        let dateStamp = DateFormatter.stringFromDate(date)
         
         // slide up with inserting, slide down with apend
-
-
-        //xForDate.append(dateStamp)
-        xForDate.insert(dateStamp, atIndex: 0)
-        
-        let distanceInM = myRecord.valueForKey("distance") as! Double
-        let distanceInKm = distanceInM / 1000
-        
-        //yForDistance.append(distanceInKm)
-        yForDistance.insert(distanceInKm, atIndex: 0)
-        
-        if xForDate.count > 7 {
-            //xForDate.removeAtIndex(0)
-            xForDate.removeLast()
-            //xForDate.reverse()
+        if timeForData.count > 0 {
+            if date.compare(timeForData[0]) == .OrderedAscending {
+                xForDate.insert(dateStamp, atIndex: 0)
+                let distanceInM = myRecord.valueForKey("distance") as! Double
+                let distanceInKm = distanceInM / 1000
+                yForDistance.insert(distanceInKm, atIndex: 0)
+                //print ("before")
+                if xForDate.count > 7 {
+                    xForDate.removeLast()
+                    timeForData.removeLast()
+                }
+                
+                if yForDistance.count > 7 {
+                    xForDate.removeLast()
+                }
+                
+                setChartView(xForDate, values: yForDistance)
+            } else if date.compare(timeForData[0]) == .OrderedDescending {
+                xForDate.append(dateStamp)
+                let distanceInM = myRecord.valueForKey("distance") as! Double
+                let distanceInKm = distanceInM / 1000
+                yForDistance.append(distanceInKm)
+                
+                if xForDate.count > 7 {
+                    xForDate.removeFirst()
+                    timeForData.removeFirst()
+                }
+                
+                if yForDistance.count > 7 {
+                    xForDate.removeFirst()
+                }
+                print("after")
+                setChartView(xForDate, values: yForDistance)
+            }
+            
         }
         
-        if yForDistance.count > 7 {
-            //yForDistance.removeAtIndex(0)
-            xForDate.removeLast()
-            //yForDistance.reverse()
-        }
+
         
-        setChartView(xForDate, values: yForDistance)
+        
         
         // Populate cell from the NSManagedObject instance
    

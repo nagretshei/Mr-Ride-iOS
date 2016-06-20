@@ -10,5 +10,7 @@
 #define Mr_Ride_iOS_Bridging_Header_h
 #import <GoogleMaps/GoogleMaps.h>
 #import "MMDrawerController.h"
+#import <Google/Analytics.h>
+
 
 #endif /* Mr_Ride_iOS_Bridging_Header_h */

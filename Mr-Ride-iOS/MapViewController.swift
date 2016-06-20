@@ -9,21 +9,27 @@
 import UIKit
 import GoogleMaps
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
     @IBOutlet weak var mapView: GMSMapView!
     
+    @IBOutlet weak var Picker: UIPickerView!
     
     // for map
     let locationManager = CLLocationManager()
-//    var endPoint = CLLocation()
-//    var myPath = GMSMutablePath()
+    var myPath = GMSMutablePath()
+    var myTotalPath = [GMSMutablePath]()
+    var startToRecordMyPath = false
+    
+    // for Picker
+    let pickerData = ["Ubike Station", "Toilet"]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setView()
         setMap()
+        setPickerView()
     }
 
 
@@ -73,25 +79,55 @@ extension MapViewController: CLLocationManagerDelegate {
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         if status == .AuthorizedWhenInUse {
-            print ("map")
-            //mapView.myLocationEnabled = true
-            
-//            if coreDataIsZero == false {
-//                addPolyLine(myPath)
-//                
-//                let bounds = GMSCoordinateBounds(path: myPath)
-//                let insets = UIEdgeInsetsMake(35.3, 66.9, 21.8, 93.7)
-//                mapView.camera = mapView.cameraForBounds(bounds, insets: insets )!
-//            }
-            
-            
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = true
+            mapView.settings.myLocationButton = true
         }
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        locationManager.stopUpdatingLocation()
+        if let location = locations.first {
+            
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            
+//            //set camera moves
+//            if let lastLocation = locations.last {
+//                
+//                let currentLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
+//                let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
+//                mapView.moveCamera(vancouverCam)
+//                
+//            }
+            
+        }
         
     }
+    
+    func setPickerView(){
+        Picker.dataSource = self
+        Picker.delegate = self
+    }
+    
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count
+    }
+    
+    //MARK: Delegates
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row]
+    }
+    
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        //myLabel.text = pickerData[row]
+    }
+    
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        locationManager.stopUpdatingLocation()
+//        
+//    }
     
 //    func getMyPath(){
 //        let indexOfNewestRecord = records.count-1

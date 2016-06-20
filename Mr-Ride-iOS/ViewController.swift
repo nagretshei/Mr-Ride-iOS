@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import Charts
+import Amplitude_iOS
+//import Google/Analytics.h
 
 class ViewController: UIViewController {
     
@@ -48,7 +50,32 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var letsRideButton: UIButton!
     
-    
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(true)
+//        
+//        let name = "Pattern~\(self.title!)"
+//        
+//        // The UA-XXXXX-Y tracker ID is loaded automatically from the
+//        // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
+//        // If you're copying this to an app just using Analytics, you'll
+//        // need to configure your tracking ID here.
+//        // [START screen_view_hit_swift]
+////        Analytics tracking ID
+////        UA-5432312-1
+////        Google Analytics Account
+////        yicheng.zoe
+////        Analytics Property
+////        http://sites.google.com/site/nagretshei/
+//        
+//        let tracker = GAI.sharedInstance().defaultTracker
+//        tracker.set(kGAIScreenName, value: name)
+//        
+//        let builder = GAIDictionaryBuilder.createScreenView()
+//        tracker.send(builder.build() as [NSObject : AnyObject])
+//        // [END screen_view_hit_swift]
+//        
+//        
+//    }
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchCoreData()
@@ -56,6 +83,7 @@ class ViewController: UIViewController {
         setView()
         setValueForChart()
         setChartView(xForDate, values: yForDistance)
+        //Amplitude.instance().logEvent(<#T##eventType: String!##String!#>)
 
     }
     
@@ -107,8 +135,11 @@ class ViewController: UIViewController {
     
     // Controller
     func setValueForChart(){
-        
+    
         if records.count > 0  {
+            xForDate.append("tomorrow")
+            yForDistance.append(0)
+            
             for record in records {
                 if xForDate.count < 7 {
                     
@@ -124,7 +155,9 @@ class ViewController: UIViewController {
                  
                 }
                     
-                else {return}
+                else {
+                    return}
+
             }
 
         }

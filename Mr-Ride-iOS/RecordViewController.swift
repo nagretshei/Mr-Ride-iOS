@@ -106,7 +106,7 @@ class RecordViewController: UIViewController {
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
-        dismissDelegation?.showLabels()        
+        dismissDelegation?.showLabels()
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -290,7 +290,7 @@ class RecordViewController: UIViewController {
     
     // Model
     func calculateAverageSpeed(){
-        if totalTime > 0{
+        if totalTime > 0 {
             averageSpeedNumber = (totalDistance / 1000 ) / (totalTime / 3600)
         } else {
             averageSpeedNumber = 0.0
