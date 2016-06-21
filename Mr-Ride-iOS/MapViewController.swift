@@ -24,6 +24,8 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     // for Picker
     let pickerData = ["Ubike Station", "Toilet"]
     
+    @IBAction func lookForButtonTapped(sender: UIButton) {
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
