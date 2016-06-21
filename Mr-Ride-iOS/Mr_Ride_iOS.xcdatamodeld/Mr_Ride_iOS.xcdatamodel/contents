@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Automatic">
+    <entity name="DowntownToilet" representedClassName=".DowntownToilet" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Locations" representedClassName=".Locations" syncable="YES">
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -20,6 +27,20 @@
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="locations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Locations" inverseName="record" inverseEntity="Locations" syncable="YES"/>
     </entity>
+    <entity name="RiversideToilet" representedClassName=".RiversideToilet" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="kind" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Stations" representedClassName=".Stations" syncable="YES">
+        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dist" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="TotalValue" representedClassName=".TotalValue" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="totalAverageSpeed" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -28,6 +49,9 @@
     <elements>
         <element name="Locations" positionX="27" positionY="159" width="128" height="105"/>
         <element name="Record" positionX="-290" positionY="-45" width="128" height="225"/>
-        <element name="TotalValue" positionX="-20" positionY="-12" width="128" height="88"/>
+        <element name="TotalValue" positionX="-20" positionY="-12" width="128" height="90"/>
+        <element name="DowntownToilet" positionX="-135" positionY="99" width="128" height="120"/>
+        <element name="RiversideToilet" positionX="-126" positionY="108" width="128" height="120"/>
+        <element name="Stations" positionX="-117" positionY="117" width="128" height="120"/>
     </elements>
 </model>

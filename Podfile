@@ -7,5 +7,6 @@ target ‘Mr-Ride-iOS’ do
 pod 'GoogleMaps'
 pod 'Amplitude-iOS', '~> 3.7.0'
 pod 'Google/Analytics'
+pod 'Alamofire', '~> 3.3'
 
 end

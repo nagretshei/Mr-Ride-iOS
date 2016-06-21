@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (3.4.0)
   - Amplitude-iOS (3.7.0)
   - FirebaseAnalytics (3.2.0):
     - FirebaseInstanceID (~> 1.0)
@@ -20,11 +21,13 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0)
 
 DEPENDENCIES:
+  - Alamofire (~> 3.3)
   - Amplitude-iOS (~> 3.7.0)
   - Google/Analytics
   - GoogleMaps
 
 SPEC CHECKSUMS:
+  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   Amplitude-iOS: 8bc8b9dc9c1898dbe5da541e21e8941ec085644f
   FirebaseAnalytics: 6f75b04e6bfb8e0b6e9ef298e04c24eea3b13863
   FirebaseInstanceID: d014d574053a2fe84478f12f7bae96979e7051bb
@@ -35,6 +38,6 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 33117db1b5f290c6fbf259585e4885b4c84b98d7
   GoogleUtilities: 56c5ac05b7aa5dc417a1bb85221a9516e04d7032
 
-PODFILE CHECKSUM: 28194235238e11fb8786daa19a18c1994f82bc15
+PODFILE CHECKSUM: cb92e70aaa6011f1229a61aea0f5c9adfdfde8c8
 
 COCOAPODS: 1.0.0.rc.1

@@ -8,12 +8,57 @@
 
 import UIKit
 import GoogleMaps
+import Alamofire
+import CoreData
+
+class DowntownToilet: NSManagedObject {
+    @NSManaged var name: String?
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+    @NSManaged var address: String?
+    @NSManaged var kind: String?
+    
+}
+
+class RiversideToilet: NSManagedObject {
+    @NSManaged var name: String?
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+    @NSManaged var address: String?
+    @NSManaged var kind: String?
+    
+}
+
+class Stations: NSManagedObject {
+    @NSManaged var name: String?
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
+    @NSManaged var address: String?
+    @NSManaged var dist: String?
+    
+}
+
 
 class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    
 
     @IBOutlet weak var mapView: GMSMapView!
     
     @IBOutlet weak var Picker: UIPickerView!
+    
+     var fetchResultController: NSFetchedResultsController!
+    
+    // set toilet data variables for CoreData
+    var downtownToilet: DowntownToilet!
+    var downtownToilets: [DowntownToilet] = []
+    
+//    // Set array from coredata for usage
+//    var addressArray = [String]()
+//    var nameArray = [String]()
+//    var kindArray = [String]()
+//    var latitudeArray = [Double]()
+//    var longitudeArray = [Double]()
     
     // for map
     let locationManager = CLLocationManager()
@@ -29,8 +74,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getToiletAndStations()
         setView()
         setMap()
+//        setMarkers()
+
+
         //setPickerView()
     }
 
@@ -47,64 +96,9 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         // Dispose of any resources that can be recreated.
     }
     
-    func setView(){
-//        setLabelAndButton()
-        setNavigationBar()
-        
-    }
-
-    func setNavigationBar(){
-        //set navBar color
-        self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
-        self.navigationController?.navigationBar.translucent = false
-        // delete the shadow
-        
-        //self.navigationController!.navigationBar.backgroundColor = UIColor.mrLightblueColor()
-        let shadowImg = UIImage()
-        self.navigationController?.navigationBar.shadowImage = shadowImg
-        self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
-        
-    }
-
-}
-
-extension MapViewController: CLLocationManagerDelegate {
-    
-    func setMap(){
-        setMapDelegation()
+    func getToiletAndStations() {
+        sendAGetRequestToServer()
        
-    }
-    
-    func setMapDelegation(){
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-    }
-    
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        if status == .AuthorizedWhenInUse {
-            locationManager.startUpdatingLocation()
-            mapView.myLocationEnabled = true
-            mapView.settings.myLocationButton = true
-            //mapView.accessibilityElementsHidden = false
-        }
-    }
-    
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            
-            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-            
-//            //set camera moves
-//            if let lastLocation = locations.last {
-//                
-//                let currentLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
-//                let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
-//                mapView.moveCamera(vancouverCam)
-//                
-//            }
-            
-        }
-        
     }
     
     func setPickerView(){
@@ -128,45 +122,292 @@ extension MapViewController: CLLocationManagerDelegate {
         //myLabel.text = pickerData[row]
     }
     
-//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        locationManager.stopUpdatingLocation()
-//        
-//    }
     
-//    func getMyPath(){
-//        let indexOfNewestRecord = records.count-1
-//        index = indexOfNewestRecord
-//        if isPresented == false && delegate?.giveIndex(self) != nil {
-//            
-//            index = (delegate?.giveIndex(self))!
-//            
-//        }
-//        
-//        let thisRoute = records[index].locations
-//        if thisRoute.count >= 2 {
-//            let thisRouteInArrayInNSArray = NSMutableArray(array: (thisRoute.allObjects as! [Locations]).sort{ $0.time!.compare($1.time!) == NSComparisonResult.OrderedAscending })
-//            
-//            for route in thisRouteInArrayInNSArray {
-//                myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
-//                endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
-//            }
-//        } else if thisRoute.count > 0 {
-//            for route in thisRoute {
-//                myPath.addCoordinate(CLLocationCoordinate2DMake(route.latitude, route.longitude))
-//                endPoint = CLLocation(latitude: route.latitude, longitude: route.longitude)
-//            }
-//        } else {
-//            myPath.addCoordinate(CLLocationCoordinate2DMake(0.0, 0.0))
-//            endPoint = CLLocation(latitude: 0.0, longitude: 0.0)
-//        }
-//    }
-//    
-//    func addPolyLine(path: GMSMutablePath) {
-//        let polyline = GMSPolyline(path: path)
-//        polyline.strokeWidth = 10.0
-//        polyline.strokeColor = UIColor.mrBubblegumColor()
-//        polyline.geodesic = true
-//        polyline.map = mapView
-//    }
+// View
+    func setView(){
+//        setLabelAndButton()
+        setNavigationBar()
+        
+    }
+
+    func setNavigationBar(){
+        //set navBar color
+        self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
+        self.navigationController?.navigationBar.translucent = false
+        // delete the shadow
+        
+        //self.navigationController!.navigationBar.backgroundColor = UIColor.mrLightblueColor()
+        let shadowImg = UIImage()
+        self.navigationController?.navigationBar.shadowImage = shadowImg
+        self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
+        
+    }
+    
+
 }
+
+
+
+extension MapViewController: CLLocationManagerDelegate {
+    func setMap(){
+        setMapDelegation()
+       
+    }
+    
+    func setMapDelegation(){
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        if status == .AuthorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+            mapView.myLocationEnabled = true
+            mapView.settings.myLocationButton = true
+            //mapView.accessibilityElementsHidden = false
+        }
+    }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            
+//            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+            
+            let  position = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+            let marker = GMSMarker(position: position)
+            marker.icon = UIImage(named: "icon-toilet")
+//            marker.icon =
+//                .markerImageWithColor = UIColor.blueColor()
+            marker.map = mapView
+            
+
+            
+            
+//            //set camera moves
+//            if let lastLocation = locations.last {
+//                
+//                let currentLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
+//                let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
+//                mapView.moveCamera(vancouverCam)
+//                
+//            }
+            
+        }
+        
+    }
+    func setMarkers(){
+        // set makers for toilets
+        let  position = CLLocationCoordinate2DMake(121.529381, 25.117036)
+        mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
+        let marker = GMSMarker(position: position)
+        marker.icon = UIImage(named: "icon-toilet")
+        //            marker.icon =
+        //                .markerImageWithColor = UIColor.blueColor()
+        marker.map = mapView
+        
+        for toilet in downtownToilets {
+            let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
+            let marker = GMSMarker(position: position)
+            marker.icon = UIImage(named: "icon-toilet")
+            //            marker.icon =
+            //                .markerImageWithColor = UIColor.blueColor()
+            marker.map = mapView
+        }
+    }
+
+}
+
+// Model
+extension MapViewController: NSFetchedResultsControllerDelegate {
+    func sendAGetRequestToServer(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            // request Json file from internet
+            //let code = self.SetJWTCode()
+            let url = "http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=008ed7cf-2340-4bc4-89b0-e258a5573be2"
+            
+            Alamofire.request(.GET, url)
+                //.validate()
+                .responseJSON {response in
+                    switch response.result {
+                    case .Success:
+                        //print("Validation Successful")
+                        if let dictionary = response.result.value{
+                            print("get JSON data online sucessfull")
+                           // print(dictionary)
+                            self.getToiletFromJson(dictionary)
+                            
+                            //self.self.getFollowingPageData()
+                            
+                        } else{
+                            print("get data from CoreData")
+                            //self.getDataFromCoreData()
+                            //self.getStationInfoFromCoreData()
+                            
+                        }
+                        
+                    case .Failure(let error):
+                        print("get data from CoreData offline")
+                    }
+            }
+        }  //end of dispatch
+    } // end of func sendAGetRequestToServer()
+    
+    
+    // Fetch URL Data and Handle CoreData
+    func cleanUpCoreData() {
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            let request = NSFetchRequest(entityName: "DowntownToilet")
+            do {
+                let results = try managedObjectContext.executeFetchRequest(request) as! [DowntownToilet]
+                for result in results {
+                    managedObjectContext.deleteObject(result)
+                }
+                do {
+                    try managedObjectContext.save()
+                }catch{
+                    fatalError("Failure to save context: \(error)")
+                }
+            }catch{
+                fatalError("Failed to fetch data: \(error)")
+            }
+        }
+    }
+    
+
+    func getToiletFromJson(object: AnyObject) -> AnyObject? {
+        // removing the outside and middle side of info in JSon
+        if let data = object as? AnyObject {
+            if let results = data["result"]!!["results"] as? [AnyObject] {
+                
+                // abstracting individual info from Json we need
+                getInfo(results)
+            } else {
+                print("no toilet data")
+            }
+            
+            
+//            if dataOB["paging"] != nil {
+//                let paging = dataOB["paging"] as! [String: String]
+//                if paging["next"] != nil {
+//                    nextURL = paging["next"]!
+//                } else if paging["next"] == nil {
+//                    next = true
+//                }
+//            }
+
+            return data
+        }
+        else {return nil}
+        
+    } // end of fuct getStationFromJson()
+    
+    // Following are fuctions for getting indivual station data
+    func getInfo(results: [AnyObject]) {
+        cleanUpCoreData()
+        for eachToiletData in results {
+            // save eachData in CoreData
+                
+            if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+                downtownToilet = NSEntityDescription.insertNewObjectForEntityForName("DowntownToilet", inManagedObjectContext: managedObjectContext) as! DowntownToilet
+                downtownToilet.name = eachToiletData["\u{55ae}\u{4f4d}\u{540d}\u{7a31}"] as! String
+                downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as! String
+                downtownToilet.kind = eachToiletData["\u{884c}\u{653f}\u{5340}"] as! String
+                
+                if let temp = eachToiletData["\u{7d93}\u{5ea6}"] as? String {
+                    let latitude = Double(temp)
+                    
+                    downtownToilet.latitude = latitude!
+                }
+                
+                if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
+                    let longitude = Double(temp)
+                    
+                    downtownToilet.longitude = longitude!
+                }
+                
+                do{
+                    try managedObjectContext.save()
+                    
+                } catch {
+                    print(error)
+                    return
+                }
+            
+                // put data in array for further using
+//                addressArray.append(address)
+//                nameArray.append(name)
+//                kindArray.append(kind)
+//                latitudeArray.append(latitude)
+//                longitudeArray.append(longitude)
+//
+                
+//                let subtitle = eachCellData["aren"] as! String
+//                addressSubtitle.append(String(subtitle))
+//                station.addressSubtitle = String(subtitle)
+//
+//                
+//                // support languages
+//                let userLanguage = NSLocale.preferredLanguages()[0]
+//                if userLanguage.containsString("zh"){
+//                    let dist = eachCellData["sarea"] as! String
+//                    let exit = eachCellData["sna"] as! String
+//                    address.append(String(dist + " / " + exit))
+//                    station.addressEn = String(dist + " / " + exit)
+//                    let subtitle = eachCellData["ar"] as! String
+//                    addressSubtitle.append(String(subtitle))
+//                    station.addressSubtitleEn = String(subtitle)
+//                }
+//                
+//                do {
+//                    try managedObjectContext.save()
+//                } catch {
+//                    print(error)
+//                    return
+//                }
+            }
+            
+            
+        }
+
+        // 執行 dispatch
+        dispatch_async(dispatch_get_main_queue(),{
+            self.fetchCoreData()
+            self.setMarkers()
+//            self.mapView.startRendering()
+  
+            //self.locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+//            // update some UI
+//            self.setStationVariables()
+            //self.viewDidLoad()
+            
+            
+            
+        })
+        
+    }
+    func fetchCoreData(){
+        let fetchRequest = NSFetchRequest(entityName: "DowntownToilet")
+            let sortData = NSSortDescriptor(key: "latitude", ascending: true)
+                    fetchRequest.sortDescriptors = [sortData]
+        
+        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+            
+            do {
+                //performBlockAndWait
+                try fetchResultController.performFetch()
+                downtownToilets = fetchResultController.fetchedObjects as! [DowntownToilet]
+                print(downtownToilets)
+                
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+}
+
+
 
