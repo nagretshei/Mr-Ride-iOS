@@ -75,9 +75,14 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         getToiletAndStations()
         setView()
         setMap()
-        fetchCoreData()
-        setMarkers()
-
+    
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            self.fetchCoreData()
+            dispatch_async(dispatch_get_main_queue(), {
+                self.setMarkers()
+                
+            })
+        }
         //setPickerView()
     }
 
@@ -188,8 +193,8 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
 //            }
             
         }
-        
     }
+    
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
 
         if marker.userData != nil{
@@ -226,7 +231,7 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
                 if locationManager.location?.distanceFromLocation(CLLocation(latitude: toilet.latitude, longitude: toilet.longitude)) < 1000 {
                     let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
                     let marker = GMSMarker(position: position)
-                    
+                   // marker.icon = UIImage(named: "icon-toilet")
                     let imageView = UIImageView(image: UIImage(named: "icon-toilet"))
                     let markerBase = UIView()
                     
@@ -249,7 +254,7 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
                     marker.userData = myData
                     marker.map = mapView
                 }
-                //marker.icon = UIImage(named: "icon-toilet")
+               
                 
                 
             }
@@ -275,23 +280,21 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                             print("get JSON data online sucessfull")
                            // print(dictionary)
                             self.getToiletFromJson(dictionary)
-                            self.fetchCoreData()
-                            dispatch_async(dispatch_get_main_queue(), {
-                                
-                                self.setMarkers()
-                                
-                            })
-                            //self.self.getFollowingPageData()
                             
                         } else{
                             print("get data from CoreData still")
-                            //self.getDataFromCoreData()
-                            //self.getStationInfoFromCoreData()
                             
                         }
                         
                     case .Failure(let error):
+                        
                         print("get data from CoreData offline")
+                        self.fetchCoreData()
+                        dispatch_async(dispatch_get_main_queue(), {
+                            
+                            self.setMarkers()
+                            
+                        })
                     }
                     
             }
