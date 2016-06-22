@@ -41,6 +41,10 @@ class Stations: NSManagedObject {
 
 class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
+    @IBOutlet weak var kindLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var infoView: UIView!
     
 
     @IBOutlet weak var mapView: GMSMapView!
@@ -52,13 +56,6 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     // set toilet data variables for CoreData
     var downtownToilet: DowntownToilet!
     var downtownToilets: [DowntownToilet] = []
-    
-//    // Set array from coredata for usage
-//    var addressArray = [String]()
-//    var nameArray = [String]()
-//    var kindArray = [String]()
-//    var latitudeArray = [Double]()
-//    var longitudeArray = [Double]()
     
     // for map
     let locationManager = CLLocationManager()
@@ -74,14 +71,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //fetchCoreData()
+        infoView.hidden = true
         getToiletAndStations()
         setView()
         setMap()
-//        fetchCoreData()
-//        setMarkers()
-//        setMarkers()
-
+        fetchCoreData()
+        setMarkers()
 
         //setPickerView()
     }
@@ -151,13 +146,14 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
 
 
 
-extension MapViewController: CLLocationManagerDelegate {
+extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
     func setMap(){
         setMapDelegation()
        
     }
     
     func setMapDelegation(){
+        self.mapView.delegate = self // this is for mark tapping
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
     }
@@ -172,20 +168,16 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
         if let location = locations.last {
             
-//            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             
-            let  position = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-//            let marker = GMSMarker(position: position)
-//            marker.icon = UIImage(named: "icon-toilet")
-////            marker.icon =
-////                .markerImageWithColor = UIColor.blueColor()
-//            marker.map = mapView
             
+////            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+//            
+//            let  position = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
 
-            
-            
+    
 //            //set camera moves
 //            if let lastLocation = locations.last {
 //                
@@ -198,20 +190,69 @@ extension MapViewController: CLLocationManagerDelegate {
         }
         
     }
+    func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
+
+        if marker.userData != nil{
+            
+            if let name = marker.userData!["name"] {
+                nameLabel.text = String(name!)
+            }
+            if let address = marker.userData!["address"] {
+                addressLabel.text = String(address!)
+            }
+            if let kind = marker.userData!["kind"] {
+                kindLabel.text = String(kind!)
+            }
+        }
+        
+        switch infoView.hidden {
+        case true :
+            infoView.hidden = false
+            marker.iconView.backgroundColor = UIColor.mrLightblueColor()
+        default:
+            infoView.hidden = true
+            marker.iconView.backgroundColor = UIColor.whiteColor()
+        }
+
+        return false
+    }
+
     func setMarkers(){
         setMapDelegation()
+        mapView.clear()
         
-       let  position = CLLocationCoordinate2DMake(25.033408000000001, 121.564099)
-        let marker = GMSMarker(position: position)
-        marker.icon = UIImage(named: "icon-toilet")
-        marker.map = mapView
-        
-        
-        for toilet in downtownToilets {
-            let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
-            let marker = GMSMarker(position: position)
-            marker.icon = UIImage(named: "icon-toilet")
-            marker.map = mapView
+        if downtownToilets.count > 0 {
+            for toilet in downtownToilets {
+                if locationManager.location?.distanceFromLocation(CLLocation(latitude: toilet.latitude, longitude: toilet.longitude)) < 1000 {
+                    let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
+                    let marker = GMSMarker(position: position)
+                    
+                    let imageView = UIImageView(image: UIImage(named: "icon-toilet"))
+                    let markerBase = UIView()
+                    
+                    markerBase.frame.size = CGSize(width: 40, height: 40)
+                    
+                    markerBase.layer.cornerRadius = 20
+                    markerBase.backgroundColor = UIColor.whiteColor()
+                    imageView.frame.origin.x = markerBase.frame.origin.x + 10
+                    imageView.frame.origin.y = markerBase.frame.origin.y + 10
+                    markerBase.addSubview(imageView)
+                    
+                    
+                    marker.iconView = markerBase
+                    marker.title = toilet.name
+                    
+                    var myData = Dictionary<String, AnyObject>()
+                    myData["name"] = toilet.name
+                    myData["address"] = toilet.address
+                    myData["kind"] = toilet.kind
+                    marker.userData = myData
+                    marker.map = mapView
+                }
+                //marker.icon = UIImage(named: "icon-toilet")
+                
+                
+            }
         }
     }
 }
@@ -248,7 +289,6 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                             //self.getStationInfoFromCoreData()
                             
                         }
-                        
                         
                     case .Failure(let error):
                         print("get data from CoreData offline")
@@ -292,16 +332,7 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
             } else {
                 print("no toilet data")
             }
-            
-            
-//            if dataOB["paging"] != nil {
-//                let paging = dataOB["paging"] as! [String: String]
-//                if paging["next"] != nil {
-//                    nextURL = paging["next"]!
-//                } else if paging["next"] == nil {
-//                    next = true
-//                }
-//            }
+
 
             return data
         }
@@ -314,12 +345,13 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
         cleanUpCoreData()
         for eachToiletData in results {
             // save eachData in CoreData
+            //print(eachToiletData)
                 
             if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                 downtownToilet = NSEntityDescription.insertNewObjectForEntityForName("DowntownToilet", inManagedObjectContext: managedObjectContext) as! DowntownToilet
                 downtownToilet.name = eachToiletData["\u{55ae}\u{4f4d}\u{540d}\u{7a31}"] as! String
                 downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as! String
-                downtownToilet.kind = eachToiletData["\u{884c}\u{653f}\u{5340}"] as! String
+                downtownToilet.kind = eachToiletData["\u{985e}\u{5225}"] as! String
                 
                 if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
                     let latitude = Double(temp)
@@ -341,57 +373,10 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                     return
                 }
             
-                // put data in array for further using
-//                addressArray.append(address)
-//                nameArray.append(name)
-//                kindArray.append(kind)
-//                latitudeArray.append(latitude)
-//                longitudeArray.append(longitude)
-//
-                
-//                let subtitle = eachCellData["aren"] as! String
-//                addressSubtitle.append(String(subtitle))
-//                station.addressSubtitle = String(subtitle)
-//
-//                
-//                // support languages
-//                let userLanguage = NSLocale.preferredLanguages()[0]
-//                if userLanguage.containsString("zh"){
-//                    let dist = eachCellData["sarea"] as! String
-//                    let exit = eachCellData["sna"] as! String
-//                    address.append(String(dist + " / " + exit))
-//                    station.addressEn = String(dist + " / " + exit)
-//                    let subtitle = eachCellData["ar"] as! String
-//                    addressSubtitle.append(String(subtitle))
-//                    station.addressSubtitleEn = String(subtitle)
-//                }
-//                
-//                do {
-//                    try managedObjectContext.save()
-//                } catch {
-//                    print(error)
-//                    return
-//                }
+
             }
             
-            
         }
-
-        // 執行 dispatch
-//        dispatch_async(dispatch_get_main_queue(),{
-//            
-//            
-////            self.mapView.startRendering()
-//  
-//            //self.locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-////            // update some UI
-////            self.setStationVariables()
-//            //self.viewDidLoad()
-//            
-//            
-//            
-//        })
-       
         
     }
     func fetchCoreData(){
@@ -408,7 +393,7 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 //performBlockAndWait
                 try fetchResultController.performFetch()
                 downtownToilets = fetchResultController.fetchedObjects as! [DowntownToilet]
-                print(downtownToilets)
+                //print(downtownToilets)
                 
             } catch {
                 print(error)

@@ -753,6 +753,48 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g9j-zo-NkL" userLabel="infoView">
+                                <rect key="frame" x="22" y="387" width="556" height="128"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dJQ-Mc-rme" userLabel="nameLabel">
+                                        <rect key="frame" x="42" y="46" width="489" height="29"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTg-Qp-KIK" userLabel="addressLabel">
+                                        <rect key="frame" x="42" y="83" width="489" height="37"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="37" id="mHt-iH-kcn"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VIK-G0-7aa" userLabel="kindLabel">
+                                        <rect key="frame" x="42" y="20" width="277" height="16"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="16" id="ski-ER-dKW"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.054901961237192154" green="0.20784313976764679" blue="0.25098040699958801" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="jTg-Qp-KIK" firstAttribute="top" secondItem="g9j-zo-NkL" secondAttribute="top" constant="83" id="5q8-yl-v8M"/>
+                                    <constraint firstAttribute="trailing" secondItem="dJQ-Mc-rme" secondAttribute="trailing" constant="25" id="7xC-EU-zIv"/>
+                                    <constraint firstItem="VIK-G0-7aa" firstAttribute="leading" secondItem="g9j-zo-NkL" secondAttribute="leading" constant="42" id="CBr-bM-LX8"/>
+                                    <constraint firstAttribute="height" constant="128" id="K5s-RM-f4e"/>
+                                    <constraint firstItem="VIK-G0-7aa" firstAttribute="top" secondItem="g9j-zo-NkL" secondAttribute="top" constant="20" id="SYd-Uf-Un6"/>
+                                    <constraint firstItem="dJQ-Mc-rme" firstAttribute="top" secondItem="g9j-zo-NkL" secondAttribute="top" constant="46" id="bZz-QD-U5S"/>
+                                    <constraint firstItem="jTg-Qp-KIK" firstAttribute="leading" secondItem="g9j-zo-NkL" secondAttribute="leading" constant="42" id="bhH-Rc-GP0"/>
+                                    <constraint firstAttribute="trailing" secondItem="VIK-G0-7aa" secondAttribute="trailing" constant="237" id="pCP-RJ-amQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="jTg-Qp-KIK" secondAttribute="trailing" constant="25" id="y0V-Ir-PnZ"/>
+                                    <constraint firstItem="dJQ-Mc-rme" firstAttribute="leading" secondItem="g9j-zo-NkL" secondAttribute="leading" constant="42" id="yDb-Y0-7xy"/>
+                                </constraints>
+                            </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9pq-tc-3Ki" userLabel="LookForView">
                                 <rect key="frame" x="22" y="535" width="556" height="48"/>
                                 <subviews>
@@ -824,8 +866,11 @@
                         </subviews>
                         <color key="backgroundColor" red="0.38823530077934265" green="0.84313726425170898" blue="0.96470588445663452" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="g9j-zo-NkL" firstAttribute="trailing" secondItem="8qf-PI-dE1" secondAttribute="trailing" id="1cY-JH-9Wp"/>
+                            <constraint firstItem="g9j-zo-NkL" firstAttribute="bottom" secondItem="8qf-PI-dE1" secondAttribute="bottom" id="2uu-Ku-TNg"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="trailing" secondItem="kSO-jE-d59" secondAttribute="trailingMargin" constant="-2" id="3Qd-tl-ZOS"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="FDY-8m-9sp"/>
+                            <constraint firstItem="g9j-zo-NkL" firstAttribute="leading" secondItem="8qf-PI-dE1" secondAttribute="leading" id="FFD-HD-6Ae"/>
                             <constraint firstAttribute="trailingMargin" secondItem="9pq-tc-3Ki" secondAttribute="trailing" constant="2" id="Va3-uK-1Fl"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="top" secondItem="wwM-8K-qDm" secondAttribute="bottom" constant="21" id="bsf-eb-nGK"/>
                             <constraint firstItem="9pq-tc-3Ki" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="dTZ-yB-MJp"/>
@@ -842,7 +887,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addressLabel" destination="jTg-Qp-KIK" id="g8Z-HR-4Nw"/>
+                        <outlet property="infoView" destination="g9j-zo-NkL" id="qWI-NW-db9"/>
+                        <outlet property="kindLabel" destination="VIK-G0-7aa" id="Q54-nc-Jy7"/>
                         <outlet property="mapView" destination="8qf-PI-dE1" id="skG-KX-RzC"/>
+                        <outlet property="nameLabel" destination="dJQ-Mc-rme" id="ceh-Mu-ykX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mup-bf-FlI" userLabel="First Responder" sceneMemberID="firstResponder"/>
