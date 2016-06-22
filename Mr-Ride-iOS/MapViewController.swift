@@ -74,9 +74,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //fetchCoreData()
         getToiletAndStations()
         setView()
         setMap()
+//        fetchCoreData()
+//        setMarkers()
 //        setMarkers()
 
 
@@ -174,11 +177,11 @@ extension MapViewController: CLLocationManagerDelegate {
 //            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
             
             let  position = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-            let marker = GMSMarker(position: position)
-            marker.icon = UIImage(named: "icon-toilet")
-//            marker.icon =
-//                .markerImageWithColor = UIColor.blueColor()
-            marker.map = mapView
+//            let marker = GMSMarker(position: position)
+//            marker.icon = UIImage(named: "icon-toilet")
+////            marker.icon =
+////                .markerImageWithColor = UIColor.blueColor()
+//            marker.map = mapView
             
 
             
@@ -196,25 +199,21 @@ extension MapViewController: CLLocationManagerDelegate {
         
     }
     func setMarkers(){
-        // set makers for toilets
-        let  position = CLLocationCoordinate2DMake(121.529381, 25.117036)
-        mapView.camera = GMSCameraPosition(target: position, zoom: 15, bearing: 0, viewingAngle: 0)
+        setMapDelegation()
+        
+       let  position = CLLocationCoordinate2DMake(25.033408000000001, 121.564099)
         let marker = GMSMarker(position: position)
         marker.icon = UIImage(named: "icon-toilet")
-        //            marker.icon =
-        //                .markerImageWithColor = UIColor.blueColor()
         marker.map = mapView
+        
         
         for toilet in downtownToilets {
             let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
             let marker = GMSMarker(position: position)
             marker.icon = UIImage(named: "icon-toilet")
-            //            marker.icon =
-            //                .markerImageWithColor = UIColor.blueColor()
             marker.map = mapView
         }
     }
-
 }
 
 // Model
@@ -235,19 +234,26 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                             print("get JSON data online sucessfull")
                            // print(dictionary)
                             self.getToiletFromJson(dictionary)
-                            
+                            self.fetchCoreData()
+                            dispatch_async(dispatch_get_main_queue(), {
+                                
+                                self.setMarkers()
+                                
+                            })
                             //self.self.getFollowingPageData()
                             
                         } else{
-                            print("get data from CoreData")
+                            print("get data from CoreData still")
                             //self.getDataFromCoreData()
                             //self.getStationInfoFromCoreData()
                             
                         }
                         
+                        
                     case .Failure(let error):
                         print("get data from CoreData offline")
                     }
+                    
             }
         }  //end of dispatch
     } // end of func sendAGetRequestToServer()
@@ -281,6 +287,8 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 
                 // abstracting individual info from Json we need
                 getInfo(results)
+                
+                
             } else {
                 print("no toilet data")
             }
@@ -313,13 +321,13 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as! String
                 downtownToilet.kind = eachToiletData["\u{884c}\u{653f}\u{5340}"] as! String
                 
-                if let temp = eachToiletData["\u{7d93}\u{5ea6}"] as? String {
+                if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
                     let latitude = Double(temp)
                     
                     downtownToilet.latitude = latitude!
                 }
                 
-                if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
+                if let temp = eachToiletData["\u{7d93}\u{5ea6}"] as? String {
                     let longitude = Double(temp)
                     
                     downtownToilet.longitude = longitude!
@@ -370,19 +378,20 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
         }
 
         // 執行 dispatch
-        dispatch_async(dispatch_get_main_queue(),{
-            self.fetchCoreData()
-            self.setMarkers()
-//            self.mapView.startRendering()
-  
-            //self.locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
-//            // update some UI
-//            self.setStationVariables()
-            //self.viewDidLoad()
-            
-            
-            
-        })
+//        dispatch_async(dispatch_get_main_queue(),{
+//            
+//            
+////            self.mapView.startRendering()
+//  
+//            //self.locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+////            // update some UI
+////            self.setStationVariables()
+//            //self.viewDidLoad()
+//            
+//            
+//            
+//        })
+       
         
     }
     func fetchCoreData(){
