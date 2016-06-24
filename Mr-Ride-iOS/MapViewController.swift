@@ -11,6 +11,11 @@ import GoogleMaps
 import Alamofire
 import CoreData
 
+enum PickerViewCases {
+    case Toilets
+    case UbikeStations
+}
+
 class DowntownToilet: NSManagedObject {
     @NSManaged var name: String?
     @NSManaged var latitude: Double
@@ -45,13 +50,18 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var infoView: UIView!
+    @IBOutlet weak var selectionView: UIView!
+    @IBOutlet weak var pickView: UIPickerView!
     
 
     @IBOutlet weak var mapView: GMSMapView!
     
-    @IBOutlet weak var Picker: UIPickerView!
+
     
      var fetchResultController: NSFetchedResultsController!
+    // set station data variables for CoreData
+    var station: Stations!
+    var stations: [Stations] = []
     
     // set toilet data variables for CoreData
     var downtownToilet: DowntownToilet!
@@ -66,19 +76,35 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     // for Picker
     let pickerData = ["Ubike Station", "Toilet"]
     
-    @IBAction func lookForButtonTapped(sender: UIButton) {
+    @IBAction func lookForButtonTapped(sender: UIButton){
+        selectionView.hidden = false
+        
+//        let selectionViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("SelectionViewController") as? SelectionViewController
+//        self.addChildViewController(selectionViewController!)
+//        selectionViewController!.view.frame = CGRectMake(0, self.view.frame.height-261, self.view.frame.width, 261 )
+//        self.view.addSubview((selectionViewController?.view)!)
+//        selectionViewController?.didMoveToParentViewController(self)
+        
     }
     
+    @IBAction func doneButtonTapped(sender: UIButton) {
+        selectionView.hidden = true
+        
+    }
+    
+    @IBAction func cancelButtonTapped(sender: UIButton) {
+        selectionView.hidden = true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         infoView.hidden = true
+        selectionView.hidden = true
         getToiletAndStations()
         setView()
         setMap()
-        fetchCoreData()
-        setMarkers()
-
-        //setPickerView()
+        fetchCoreData(.Toilets)
+        
+        
     }
 
 
@@ -100,8 +126,8 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     }
     
     func setPickerView(){
-        Picker.dataSource = self
-        Picker.delegate = self
+        pickView.dataSource = self
+        pickView.delegate = self
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -117,7 +143,15 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        //myLabel.text = pickerData[row]
+        var dataType = PickerViewCases.Toilets
+        switch row {
+        case 0:
+            dataType = PickerViewCases.UbikeStations
+        default:
+            dataType = PickerViewCases.Toilets
+        }
+  
+        setMarkers(dataType)
     }
     
     
@@ -145,7 +179,6 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
 }
 
 
-
 extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
     func setMap(){
         setMapDelegation()
@@ -171,10 +204,8 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
         
         if let location = locations.last {
             
-            
-            
-////            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-//            
+            mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
+//
 //            let  position = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
 
     
@@ -187,9 +218,13 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
 //                
 //            }
             
+        } else {
+            let location  = CLLocationCoordinate2DMake(25.0408578889, 121.567904444)
+            mapView.camera = GMSCameraPosition(target: location, zoom: 15, bearing: 0, viewingAngle: 0)
         }
         
     }
+    
     func mapView(mapView: GMSMapView, didTapMarker marker: GMSMarker) -> Bool {
 
         if marker.userData != nil{
@@ -217,54 +252,100 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
         return false
     }
 
-    func setMarkers(){
+    func setMarkers(pickerViewData: PickerViewCases){
         setMapDelegation()
         mapView.clear()
         
-        if downtownToilets.count > 0 {
-            for toilet in downtownToilets {
-                if locationManager.location?.distanceFromLocation(CLLocation(latitude: toilet.latitude, longitude: toilet.longitude)) < 1000 {
-                    let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
-                    let marker = GMSMarker(position: position)
+        switch pickerViewData {
+        case .Toilets:
+            if downtownToilets.count > 0 {
+                for toilet in downtownToilets {
+                    if locationManager.location?.distanceFromLocation(CLLocation(latitude: toilet.latitude, longitude: toilet.longitude)) < 1000 {
+                        let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
+                        let marker = GMSMarker(position: position)
+                        
+                        let imageView = UIImageView(image: UIImage(named: "icon-toilet"))
+                        let markerBase = UIView()
+                        
+                        markerBase.frame.size = CGSize(width: 40, height: 40)
+                        
+                        markerBase.layer.cornerRadius = 20
+                        markerBase.backgroundColor = UIColor.whiteColor()
+                        imageView.frame.origin.x = markerBase.frame.origin.x + 10
+                        imageView.frame.origin.y = markerBase.frame.origin.y + 10
+                        markerBase.addSubview(imageView)
+                        
+                        
+                        marker.iconView = markerBase
+                        marker.title = toilet.name
+                        
+                        var myData = Dictionary<String, AnyObject>()
+                        myData["name"] = toilet.name
+                        myData["address"] = toilet.address
+                        myData["kind"] = toilet.kind
+                        marker.userData = myData
+                        marker.map = mapView
+                    }
+                    //marker.icon = UIImage(named: "icon-toilet")
                     
-                    let imageView = UIImageView(image: UIImage(named: "icon-toilet"))
-                    let markerBase = UIView()
-                    
-                    markerBase.frame.size = CGSize(width: 40, height: 40)
-                    
-                    markerBase.layer.cornerRadius = 20
-                    markerBase.backgroundColor = UIColor.whiteColor()
-                    imageView.frame.origin.x = markerBase.frame.origin.x + 10
-                    imageView.frame.origin.y = markerBase.frame.origin.y + 10
-                    markerBase.addSubview(imageView)
-                    
-                    
-                    marker.iconView = markerBase
-                    marker.title = toilet.name
-                    
-                    var myData = Dictionary<String, AnyObject>()
-                    myData["name"] = toilet.name
-                    myData["address"] = toilet.address
-                    myData["kind"] = toilet.kind
-                    marker.userData = myData
-                    marker.map = mapView
                 }
-                //marker.icon = UIImage(named: "icon-toilet")
-                
+            }
+        case .UbikeStations:
+            
+            let url = NSBundle.mainBundle().URLForResource("YouBikeTP", withExtension: "gz") // call Json file
+            
+            let data = NSData(contentsOfURL: url!)
+            if let dataObject =  try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) {
+                getDataFromJson(.UbikeStations, object: dataObject)
                 
             }
+            
+            fetchCoreData(.UbikeStations)
+            //print (stations)
+            if stations.count > 0 {
+                for station in stations {
+                    if locationManager.location?.distanceFromLocation(CLLocation(latitude: station.latitude, longitude: station.longitude)) < 1000 {
+                        let  position = CLLocationCoordinate2DMake(station.latitude, station.longitude)
+                        let marker = GMSMarker(position: position)
+                        
+                        let imageView = UIImageView(image: UIImage(named: "icon-bike"))
+                        let markerBase = UIView()
+                        markerBase.frame.size = CGSize(width: 40, height: 40)
+                        
+                        markerBase.layer.cornerRadius = 20
+                        markerBase.backgroundColor = UIColor.whiteColor()
+                        imageView.frame.origin.x = markerBase.frame.origin.x + 10
+                        imageView.frame.origin.y = markerBase.frame.origin.y + 10
+                        markerBase.addSubview(imageView)
+                        marker.iconView = markerBase
+                        marker.title = station.name
+                        
+                        var myData = Dictionary<String, AnyObject>()
+                        myData["name"] = station.name
+                        myData["address"] = station.address
+                        myData["kind"] = station.dist
+                        marker.userData = myData
+                        marker.map = mapView
+
+                    }
+                    
+                }
+            }
+            
         }
     }
 }
 
 // Model
 extension MapViewController: NSFetchedResultsControllerDelegate {
-    func sendAGetRequestToServer(){
+    func sendAGetRequestToServer() {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
             // request Json file from internet
             //let code = self.SetJWTCode()
             let url = "http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=008ed7cf-2340-4bc4-89b0-e258a5573be2"
-            
+//            func request(URLRequest: URLRequestConvertible) -> Request {
+//                return Manager.sharedInstance.request(URLRequest.URLRequest)
+//            }
             Alamofire.request(.GET, url)
                 //.validate()
                 .responseJSON {response in
@@ -274,11 +355,11 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                         if let dictionary = response.result.value{
                             print("get JSON data online sucessfull")
                            // print(dictionary)
-                            self.getToiletFromJson(dictionary)
-                            self.fetchCoreData()
+                            self.getDataFromJson(PickerViewCases.Toilets, object: dictionary)
+                            self.fetchCoreData(.Toilets)
                             dispatch_async(dispatch_get_main_queue(), {
                                 
-                                self.setMarkers()
+                                self.setMarkers(.Toilets)
                                 
                             })
                             //self.self.getFollowingPageData()
@@ -296,6 +377,7 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                     
             }
         }  //end of dispatch
+        //return request
     } // end of func sendAGetRequestToServer()
     
     
@@ -320,85 +402,167 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
     }
     
 
-    func getToiletFromJson(object: AnyObject) -> AnyObject? {
+    func getDataFromJson(Cases: PickerViewCases ,object: AnyObject) -> AnyObject? {
         // removing the outside and middle side of info in JSon
         if let data = object as? AnyObject {
-            if let results = data["result"]!!["results"] as? [AnyObject] {
-                
-                // abstracting individual info from Json we need
-                getInfo(results)
-                
-                
-            } else {
-                print("no toilet data")
-            }
+            switch Cases {
+            case .UbikeStations:
+                if data["retVal"] != nil {
+                    let temp = data["retVal"] as! [String: AnyObject]
+                    var results = [AnyObject]()
+                    for t in temp {
+                        results.append(t.1)
+                    }
+                     getInfo(.UbikeStations, results: results)
+                    
+                    
+                } else {print ("fail in get Data from Json for Station")}
 
+                
+            default:
+                //print(data["result"]!!["results"])
+
+                if let results = data["result"]!!["results"] as? [AnyObject] {
+                    getInfo(.Toilets, results: results)
+                
+                } else {
+                    print("no toilet data")
+                }
+            }
 
             return data
         }
-        else {return nil}
+            
+        else {
+            return nil
+        }
         
     } // end of fuct getStationFromJson()
     
     // Following are fuctions for getting indivual station data
-    func getInfo(results: [AnyObject]) {
-        cleanUpCoreData()
-        for eachToiletData in results {
-            // save eachData in CoreData
-            //print(eachToiletData)
-                
-            if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
-                downtownToilet = NSEntityDescription.insertNewObjectForEntityForName("DowntownToilet", inManagedObjectContext: managedObjectContext) as! DowntownToilet
-                downtownToilet.name = eachToiletData["\u{55ae}\u{4f4d}\u{540d}\u{7a31}"] as! String
-                downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as! String
-                downtownToilet.kind = eachToiletData["\u{985e}\u{5225}"] as! String
-                
-                if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
-                    let latitude = Double(temp)
+    func getInfo(Cases: PickerViewCases, results: [AnyObject]) {
+        switch Cases {
+        case .UbikeStations:
+            //print (results)
+            for eachStationData in results {
+                //print(eachStationData)
+                if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+                    station = NSEntityDescription.insertNewObjectForEntityForName("Stations", inManagedObjectContext: managedObjectContext) as! Stations
                     
-                    downtownToilet.latitude = latitude!
+                    station.name = eachStationData["snaen"] as! String
+                    station.address = eachStationData["aren"] as! String
+                    station.dist = eachStationData["sareaen"] as! String
+                    
+                    if let temp = eachStationData["lat"] as? String {
+                        let latitude = Double(temp)
+                        
+                        station.latitude = latitude!
+                    }
+                    
+                    if let temp = eachStationData["lng"] as? String {
+                        let longitude = Double(temp)
+                        
+                        station.longitude = longitude!
+                    }
+                    
+                    do{
+                        try managedObjectContext.save()
+                        
+                    } catch {
+                        print(error)
+                        return
+                    }
+                    
                 }
                 
-                if let temp = eachToiletData["\u{7d93}\u{5ea6}"] as? String {
-                    let longitude = Double(temp)
-                    
-                    downtownToilet.longitude = longitude!
-                }
-                
-                do{
-                    try managedObjectContext.save()
-                    
-                } catch {
-                    print(error)
-                    return
-                }
-            
-
             }
             
+        default:
+            cleanUpCoreData()
+            for eachToiletData in results {
+                // save eachData in CoreData
+                //print(eachToiletData)
+                
+                if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+                    downtownToilet = NSEntityDescription.insertNewObjectForEntityForName("DowntownToilet", inManagedObjectContext: managedObjectContext) as! DowntownToilet
+                    downtownToilet.name = eachToiletData["\u{55ae}\u{4f4d}\u{540d}\u{7a31}"] as! String
+                    downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as! String
+                    downtownToilet.kind = eachToiletData["\u{985e}\u{5225}"] as! String
+                    
+                    if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
+                        let latitude = Double(temp)
+                        
+                        downtownToilet.latitude = latitude!
+                    }
+                    
+                    if let temp = eachToiletData["\u{7d93}\u{5ea6}"] as? String {
+                        let longitude = Double(temp)
+                        
+                        downtownToilet.longitude = longitude!
+                    }
+                    
+                    do{
+                        try managedObjectContext.save()
+                        
+                    } catch {
+                        print(error)
+                        return
+                    }
+    
+                }
+                
+            }
         }
         
     }
-    func fetchCoreData(){
-        let fetchRequest = NSFetchRequest(entityName: "DowntownToilet")
+    
+    func fetchCoreData(Cases: PickerViewCases){
+        switch Cases {
+        case .UbikeStations:
+            let fetchRequest = NSFetchRequest(entityName: "Stations")
             let sortData = NSSortDescriptor(key: "latitude", ascending: true)
-                    fetchRequest.sortDescriptors = [sortData]
-        
-        if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+            fetchRequest.sortDescriptors = [sortData]
             
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-            
-            do {
-                //performBlockAndWait
-                try fetchResultController.performFetch()
-                downtownToilets = fetchResultController.fetchedObjects as! [DowntownToilet]
-                //print(downtownToilets)
+            if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                 
-            } catch {
-                print(error)
+                fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+                fetchResultController.delegate = self
+                
+                do {
+                    //performBlockAndWait
+                    try fetchResultController.performFetch()
+                    
+                    stations = fetchResultController.fetchedObjects as! [Stations]
+                    
+                    
+                } catch {
+                    print(error)
+                }
+            }
+            
+        default:
+            let fetchRequest = NSFetchRequest(entityName: "DowntownToilet")
+            let sortData = NSSortDescriptor(key: "latitude", ascending: true)
+            fetchRequest.sortDescriptors = [sortData]
+            
+            if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
+                
+                fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+                fetchResultController.delegate = self
+                
+                do {
+                    //performBlockAndWait
+                    try fetchResultController.performFetch()
+                    
+                    downtownToilets = fetchResultController.fetchedObjects as! [DowntownToilet]
+                    //print(downtownToilets)
+                    
+                } catch {
+                    print(error)
+                }
             }
         }
+
     }
 
 }

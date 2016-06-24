@@ -37,8 +37,10 @@
 		8931B1F31CFD300700017D01 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8931B1F21CFD300700017D01 /* RecordViewModel.swift */; };
 		893741A41CF68088001EEB52 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893741A31CF68088001EEB52 /* StatisticsViewController.swift */; };
 		8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */; };
+		896B60101D1CD32C00835F70 /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896B600F1D1CD32C00835F70 /* SelectionViewController.swift */; };
 		899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */; };
 		899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B51CF5A093009A16DF /* RecordViewController.swift */; };
+		89C666A31D1CBEC30012B568 /* YouBikeTP.gz in Resources */ = {isa = PBXBuildFile; fileRef = 89C666A21D1CBEC30012B568 /* YouBikeTP.gz */; };
 		89C9FFBB1D17BE5C00E14604 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C9FFB91D17BE5C00E14604 /* Fabric.framework */; };
 		89C9FFBC1D17BE5C00E14604 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */; };
 		89C9FFC51D17C9B600E14604 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89C9FFC41D17C9B600E14604 /* GoogleService-Info.plist */; };
@@ -158,8 +160,10 @@
 		8931B1F21CFD300700017D01 /* RecordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
 		893741A31CF68088001EEB52 /* StatisticsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HistoryTableViewCell.swift; path = ../HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		896B600F1D1CD32C00835F70 /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+YBKAdditions (1).swift"; sourceTree = "<group>"; };
 		899082B51CF5A093009A16DF /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		89C666A21D1CBEC30012B568 /* YouBikeTP.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = YouBikeTP.gz; sourceTree = SOURCE_ROOT; };
 		89C9FFB91D17BE5C00E14604 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		89C9FFC41D17C9B600E14604 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
@@ -244,6 +248,7 @@
 				8922A9861CF40D800010B66D /* LaunchScreen.storyboard */,
 				8922A9891CF40D800010B66D /* Info.plist */,
 				8922A9811CF40D800010B66D /* Mr_Ride_iOS.xcdatamodeld */,
+				896B600F1D1CD32C00835F70 /* SelectionViewController.swift */,
 			);
 			path = "Mr-Ride-iOS";
 			sourceTree = "<group>";
@@ -303,6 +308,7 @@
 		8922A9D71CF423280010B66D /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				89C666A21D1CBEC30012B568 /* YouBikeTP.gz */,
 				8931B1F21CFD300700017D01 /* RecordViewModel.swift */,
 				899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */,
 				8922A9C01CF423170010B66D /* Roboto_Mono */,
@@ -492,6 +498,7 @@
 				8922A9CE1CF423170010B66D /* RobotoMono-BoldItalic.ttf in Resources */,
 				8922A9D01CF423170010B66D /* RobotoMono-Light.ttf in Resources */,
 				8922A9CD1CF423170010B66D /* RobotoMono-Bold.ttf in Resources */,
+				89C666A31D1CBEC30012B568 /* YouBikeTP.gz in Resources */,
 				8922A9D11CF423170010B66D /* RobotoMono-LightItalic.ttf in Resources */,
 				8922A9881CF40D800010B66D /* LaunchScreen.storyboard in Resources */,
 				8922A9851CF40D800010B66D /* Assets.xcassets in Resources */,
@@ -593,6 +600,7 @@
 				8922A9BF1CF41A020010B66D /* HistoryViewController.swift in Sources */,
 				8922A9BB1CF40F6B0010B66D /* UIViewController+MMDrawerController.m in Sources */,
 				8922A97B1CF40D800010B66D /* AppDelegate.swift in Sources */,
+				896B60101D1CD32C00835F70 /* SelectionViewController.swift in Sources */,
 				8931B1F31CFD300700017D01 /* RecordViewModel.swift in Sources */,
 				8922A9BD1CF415710010B66D /* MenuTableViewCell.swift in Sources */,
 				899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */,

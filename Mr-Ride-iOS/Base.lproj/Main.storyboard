@@ -863,6 +863,66 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EMc-E7-HOd" userLabel="SelectionView">
+                                <rect key="frame" x="0.0" y="339" width="600" height="261"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4rT-8d-kL1" userLabel="cancelAndDoneView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Look" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMb-PA-A17">
+                                                <rect key="frame" x="281" y="11" width="38" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drR-se-vJB">
+                                                <rect key="frame" x="540" y="7" width="37" height="30"/>
+                                                <state key="normal" title="Done"/>
+                                                <connections>
+                                                    <action selector="doneButtonTapped:" destination="5al-Fz-r1A" eventType="touchUpInside" id="RfM-Mv-uyz"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsn-aL-3ie">
+                                                <rect key="frame" x="22" y="7" width="48" height="30"/>
+                                                <state key="normal" title="Cancel"/>
+                                                <connections>
+                                                    <action selector="cancelButtonTapped:" destination="5al-Fz-r1A" eventType="touchUpInside" id="cLj-uf-v3z"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="1" blue="0.054166666670000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="Wsn-aL-3ie" firstAttribute="centerY" secondItem="4rT-8d-kL1" secondAttribute="centerY" id="Uin-WK-ae4"/>
+                                            <constraint firstItem="drR-se-vJB" firstAttribute="centerY" secondItem="4rT-8d-kL1" secondAttribute="centerY" id="gqL-wI-Wgt"/>
+                                            <constraint firstItem="WMb-PA-A17" firstAttribute="centerX" secondItem="4rT-8d-kL1" secondAttribute="centerX" id="i4n-0C-Q24"/>
+                                            <constraint firstItem="WMb-PA-A17" firstAttribute="centerY" secondItem="4rT-8d-kL1" secondAttribute="centerY" id="oPu-6s-NPP"/>
+                                            <constraint firstAttribute="trailing" secondItem="drR-se-vJB" secondAttribute="trailing" constant="23" id="w5h-JE-BBh"/>
+                                            <constraint firstItem="Wsn-aL-3ie" firstAttribute="leading" secondItem="4rT-8d-kL1" secondAttribute="leading" constant="22" id="wJT-YR-J2M"/>
+                                        </constraints>
+                                    </view>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgH-lE-faP">
+                                        <rect key="frame" x="0.0" y="43" width="600" height="218"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="218" id="x9J-Dt-zGr"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="dataSource" destination="5al-Fz-r1A" id="R0t-L8-Gcz"/>
+                                            <outlet property="delegate" destination="5al-Fz-r1A" id="Sib-4C-4pZ"/>
+                                        </connections>
+                                    </pickerView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="RgH-lE-faP" firstAttribute="leading" secondItem="4rT-8d-kL1" secondAttribute="leading" id="9Aw-Vf-Mgw"/>
+                                    <constraint firstAttribute="trailing" secondItem="4rT-8d-kL1" secondAttribute="trailing" id="EyD-3s-l4P"/>
+                                    <constraint firstAttribute="height" constant="261" id="FVm-yf-eM8"/>
+                                    <constraint firstItem="RgH-lE-faP" firstAttribute="bottom" secondItem="4rT-8d-kL1" secondAttribute="bottom" constant="217" id="Fib-lE-OBA"/>
+                                    <constraint firstAttribute="bottom" secondItem="RgH-lE-faP" secondAttribute="bottom" id="Q4v-Mf-ULi"/>
+                                    <constraint firstItem="RgH-lE-faP" firstAttribute="trailing" secondItem="4rT-8d-kL1" secondAttribute="trailing" id="jcb-WD-5Cc"/>
+                                    <constraint firstItem="4rT-8d-kL1" firstAttribute="leading" secondItem="EMc-E7-HOd" secondAttribute="leading" id="qKs-MM-pVW"/>
+                                    <constraint firstItem="4rT-8d-kL1" firstAttribute="top" secondItem="EMc-E7-HOd" secondAttribute="top" id="wrQ-M4-PUf"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.38823530077934265" green="0.84313726425170898" blue="0.96470588445663452" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
@@ -872,10 +932,13 @@
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="FDY-8m-9sp"/>
                             <constraint firstItem="g9j-zo-NkL" firstAttribute="leading" secondItem="8qf-PI-dE1" secondAttribute="leading" id="FFD-HD-6Ae"/>
                             <constraint firstAttribute="trailingMargin" secondItem="9pq-tc-3Ki" secondAttribute="trailing" constant="2" id="Va3-uK-1Fl"/>
+                            <constraint firstItem="EMc-E7-HOd" firstAttribute="width" secondItem="kSO-jE-d59" secondAttribute="width" id="Z4U-Fs-KC7"/>
                             <constraint firstItem="8qf-PI-dE1" firstAttribute="top" secondItem="wwM-8K-qDm" secondAttribute="bottom" constant="21" id="bsf-eb-nGK"/>
                             <constraint firstItem="9pq-tc-3Ki" firstAttribute="leading" secondItem="kSO-jE-d59" secondAttribute="leadingMargin" constant="2" id="dTZ-yB-MJp"/>
+                            <constraint firstItem="EMc-E7-HOd" firstAttribute="centerX" secondItem="g9j-zo-NkL" secondAttribute="centerX" id="edn-1Z-bUp"/>
                             <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="9pq-tc-3Ki" secondAttribute="bottom" constant="17" id="iC0-Ps-fQB"/>
                             <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="8qf-PI-dE1" secondAttribute="bottom" constant="85" id="p0I-vy-ZxH"/>
+                            <constraint firstItem="fXd-1G-Lku" firstAttribute="top" secondItem="EMc-E7-HOd" secondAttribute="bottom" id="pZZ-Bn-UyO"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Yjb-2u-lJ6">
@@ -892,6 +955,8 @@
                         <outlet property="kindLabel" destination="VIK-G0-7aa" id="Q54-nc-Jy7"/>
                         <outlet property="mapView" destination="8qf-PI-dE1" id="skG-KX-RzC"/>
                         <outlet property="nameLabel" destination="dJQ-Mc-rme" id="ceh-Mu-ykX"/>
+                        <outlet property="pickView" destination="RgH-lE-faP" id="B9E-oT-qyb"/>
+                        <outlet property="selectionView" destination="EMc-E7-HOd" id="Wed-nV-ZgW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mup-bf-FlI" userLabel="First Responder" sceneMemberID="firstResponder"/>
