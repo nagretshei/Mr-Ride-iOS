@@ -810,13 +810,6 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-arrow-down" translatesAutoresizingMaskIntoConstraints="NO" id="zHZ-t2-i5U">
-                                        <rect key="frame" x="521" y="20" width="13" height="7"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="7" id="9gT-Zp-fI2"/>
-                                            <constraint firstAttribute="width" constant="13" id="T9K-AC-OXt"/>
-                                        </constraints>
-                                    </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3H-MS-XoM" userLabel="BarView">
                                         <rect key="frame" x="161" y="0.0" width="2" height="48"/>
                                         <color key="backgroundColor" red="0.38823530080000002" green="0.84313726430000002" blue="0.96470588450000005" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -837,6 +830,13 @@
                                             <action selector="lookForButtonTapped:" destination="5al-Fz-r1A" eventType="touchUpInside" id="KTL-mX-BxM"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon-arrow-down" translatesAutoresizingMaskIntoConstraints="NO" id="zHZ-t2-i5U">
+                                        <rect key="frame" x="521" y="20" width="13" height="7"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="7" id="9gT-Zp-fI2"/>
+                                            <constraint firstAttribute="width" constant="13" id="T9K-AC-OXt"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <constraints>
@@ -953,6 +953,7 @@
                         <outlet property="addressLabel" destination="jTg-Qp-KIK" id="g8Z-HR-4Nw"/>
                         <outlet property="infoView" destination="g9j-zo-NkL" id="qWI-NW-db9"/>
                         <outlet property="kindLabel" destination="VIK-G0-7aa" id="Q54-nc-Jy7"/>
+                        <outlet property="lookFor" destination="hzV-Lh-w5M" id="onw-ji-s35"/>
                         <outlet property="mapView" destination="8qf-PI-dE1" id="skG-KX-RzC"/>
                         <outlet property="nameLabel" destination="dJQ-Mc-rme" id="ceh-Mu-ykX"/>
                         <outlet property="pickView" destination="RgH-lE-faP" id="B9E-oT-qyb"/>

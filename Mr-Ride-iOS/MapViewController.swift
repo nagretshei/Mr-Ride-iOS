@@ -53,6 +53,7 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     @IBOutlet weak var selectionView: UIView!
     @IBOutlet weak var pickView: UIPickerView!
     
+    @IBOutlet weak var lookFor: UIButton!
 
     @IBOutlet weak var mapView: GMSMapView!
     
@@ -74,10 +75,13 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     var startToRecordMyPath = false
     
     // for Picker
+    var pickIndex = Int()
     let pickerData = ["Ubike Station", "Toilet"]
     
     @IBAction func lookForButtonTapped(sender: UIButton){
         selectionView.hidden = false
+        
+ 
         
 //        let selectionViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("SelectionViewController") as? SelectionViewController
 //        self.addChildViewController(selectionViewController!)
@@ -89,7 +93,10 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     @IBAction func doneButtonTapped(sender: UIButton) {
         selectionView.hidden = true
-        
+//        lookFor.titleLabel!.text = pickerData[pickIndex]
+//       
+//        lookFor.titleLabel?.drawTextInRect(CGRect (origin: CGPoint(x: 0, y: 0), size: CGSize(width: 233, height: 24)))
+
     }
     
     @IBAction func cancelButtonTapped(sender: UIButton) {
@@ -143,10 +150,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     }
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        pickIndex = row
         var dataType = PickerViewCases.Toilets
         switch row {
         case 0:
             dataType = PickerViewCases.UbikeStations
+           
         default:
             dataType = PickerViewCases.Toilets
         }
@@ -255,27 +264,24 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
     func setMarkers(pickerViewData: PickerViewCases){
         setMapDelegation()
         mapView.clear()
+        let imageViewToilet = UIImageView(image: UIImage(named: "icon-toilet"))
+        let imageViewBike = UIImageView(image: UIImage(named: "icon-bike"))
+        let markerBase = UIView()
+        markerBase.frame.size = CGSize(width: 40, height: 40)
+        markerBase.layer.cornerRadius = 20
+        markerBase.backgroundColor = UIColor.whiteColor()
         
         switch pickerViewData {
         case .Toilets:
             if downtownToilets.count > 0 {
+                
                 for toilet in downtownToilets {
                     if locationManager.location?.distanceFromLocation(CLLocation(latitude: toilet.latitude, longitude: toilet.longitude)) < 1000 {
                         let  position = CLLocationCoordinate2DMake(toilet.latitude, toilet.longitude)
                         let marker = GMSMarker(position: position)
-                        
-                        let imageView = UIImageView(image: UIImage(named: "icon-toilet"))
-                        let markerBase = UIView()
-                        
-                        markerBase.frame.size = CGSize(width: 40, height: 40)
-                        
-                        markerBase.layer.cornerRadius = 20
-                        markerBase.backgroundColor = UIColor.whiteColor()
-                        imageView.frame.origin.x = markerBase.frame.origin.x + 10
-                        imageView.frame.origin.y = markerBase.frame.origin.y + 10
-                        markerBase.addSubview(imageView)
-                        
-                        
+                
+                        imageViewToilet.frame.origin.y = markerBase.frame.origin.y + 10
+                        markerBase.addSubview(imageViewToilet)
                         marker.iconView = markerBase
                         marker.title = toilet.name
                         
@@ -301,22 +307,14 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
             }
             
             fetchCoreData(.UbikeStations)
-            //print (stations)
+
             if stations.count > 0 {
                 for station in stations {
                     if locationManager.location?.distanceFromLocation(CLLocation(latitude: station.latitude, longitude: station.longitude)) < 1000 {
                         let  position = CLLocationCoordinate2DMake(station.latitude, station.longitude)
                         let marker = GMSMarker(position: position)
-                        
-                        let imageView = UIImageView(image: UIImage(named: "icon-bike"))
-                        let markerBase = UIView()
-                        markerBase.frame.size = CGSize(width: 40, height: 40)
-                        
-                        markerBase.layer.cornerRadius = 20
-                        markerBase.backgroundColor = UIColor.whiteColor()
-                        imageView.frame.origin.x = markerBase.frame.origin.x + 10
-                        imageView.frame.origin.y = markerBase.frame.origin.y + 10
-                        markerBase.addSubview(imageView)
+ 
+                        markerBase.addSubview(imageViewBike)
                         marker.iconView = markerBase
                         marker.title = station.name
                         
