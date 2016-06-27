@@ -40,6 +40,7 @@ class Stations: NSManagedObject {
     @NSManaged var longitude: Double
     @NSManaged var address: String?
     @NSManaged var dist: String?
+    @NSManaged var bikeLeft: String?
     
 }
 
@@ -77,10 +78,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     // for Picker
     var pickIndex = Int()
     let pickerData = ["Ubike Station", "Toilet"]
+    var pickerCase = PickerViewCases.Toilets
     
     @IBAction func lookForButtonTapped(sender: UIButton){
         selectionView.hidden = false
-        
+    
+    
  
         
 //        let selectionViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("SelectionViewController") as? SelectionViewController
@@ -151,15 +154,15 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickIndex = row
-        var dataType = PickerViewCases.Toilets
+//        var dataType = PickerViewCases.Toilets
         switch row {
         case 0:
-            dataType = PickerViewCases.UbikeStations
-            sendAGetRequestToServer(.UbikeStations)
+            pickerCase = PickerViewCases.UbikeStations
+            sendAGetRequestToServer(pickerCase)
            
         default:
-            dataType = PickerViewCases.Toilets
-            setMarkers(dataType)
+            pickerCase = PickerViewCases.Toilets
+            setMarkers(pickerCase)
         }
   
         
@@ -246,9 +249,26 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
             if let address = marker.userData!["address"] {
                 addressLabel.text = String(address!)
             }
+            
             if let kind = marker.userData!["kind"] {
                 kindLabel.text = String(kind!)
             }
+            
+//            if pickerCase == PickerViewCases.UbikeStations {
+//
+//            } else if pickerCase == PickerViewCases.Toilets {
+//                                if let bikeLeft = marker.userData!["bikeLeft"] {
+//                                    kindLabel.text = String(bikeLeft!)
+//                                }
+//            }
+//            switch Cases {
+//            case .UbikeStations:
+
+//
+//            default:
+
+//            }
+
         }
         
         switch infoView.hidden {
@@ -323,7 +343,7 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
                         imageViewBike.frame.origin.y = markerBase.frame.origin.y + 5
                         
                         marker.iconView = markerBase
-                        marker.title = station.name
+                        marker.title = "\(station.bikeLeft!) bikes left"
                         markerBase.addSubview(imageViewBike)
                         var myData = Dictionary<String, AnyObject>()
                         myData["name"] = station.name
@@ -474,15 +494,17 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
         switch Cases {
         case .UbikeStations:
             cleanUpCoreData(.UbikeStations)
-            print (results.count)
+            //print (results.count)
             
             for eachStationData in results {
+                //print (eachStationData)
                 if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                     station = NSEntityDescription.insertNewObjectForEntityForName("Stations", inManagedObjectContext: managedObjectContext) as! Stations
 
                     station.name = eachStationData["snaen"] as! String
                     station.address = eachStationData["aren"] as! String
                     station.dist = eachStationData["sareaen"] as! String
+                    station.bikeLeft = eachStationData["sbi"] as! String
                     
                     if let temp = eachStationData["lat"] as? String {
                         let latitude = Double(temp)
