@@ -36,6 +36,7 @@
     </entity>
     <entity name="Stations" representedClassName=".Stations" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bikeLeft" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dist" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
@@ -47,11 +48,11 @@
         <attribute name="totalDistanceInHistory" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
     </entity>
     <elements>
+        <element name="DowntownToilet" positionX="-135" positionY="99" width="128" height="120"/>
         <element name="Locations" positionX="27" positionY="159" width="128" height="105"/>
         <element name="Record" positionX="-290" positionY="-45" width="128" height="225"/>
-        <element name="TotalValue" positionX="-20" positionY="-12" width="128" height="90"/>
-        <element name="DowntownToilet" positionX="-135" positionY="99" width="128" height="120"/>
         <element name="RiversideToilet" positionX="-126" positionY="108" width="128" height="120"/>
-        <element name="Stations" positionX="-117" positionY="117" width="128" height="120"/>
+        <element name="Stations" positionX="-117" positionY="117" width="128" height="135"/>
+        <element name="TotalValue" positionX="-20" positionY="-12" width="128" height="90"/>
     </elements>
 </model>
