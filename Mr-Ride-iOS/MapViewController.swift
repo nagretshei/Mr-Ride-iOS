@@ -92,17 +92,25 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
     }
     
+
+ // MARK: - Action
+    
     @IBAction func doneButtonTapped(sender: UIButton) {
         selectionView.hidden = true
-//        lookFor.titleLabel!.text = pickerData[pickIndex]
-//       
-//        lookFor.titleLabel?.drawTextInRect(CGRect (origin: CGPoint(x: 0, y: 0), size: CGSize(width: 233, height: 24)))
 
     }
     
     @IBAction func cancelButtonTapped(sender: UIButton) {
         selectionView.hidden = true
     }
+
+
+    @IBAction func MenuButtonTapped(sender: AnyObject) {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
+    }
+    
+// MARK: - Controller
     override func viewDidLoad() {
         super.viewDidLoad()
         infoView.hidden = true
@@ -114,13 +122,6 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         
     }
-
-
-    @IBAction func MenuButtonTapped(sender: AnyObject) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
-    }
-    
 
 
     override func didReceiveMemoryWarning() {
@@ -162,14 +163,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             dataType = PickerViewCases.Toilets
             setMarkers(dataType)
         }
-  
         
     }
     
     
 // View
     func setView(){
-//        setLabelAndButton()
         setNavigationBar()
         
     }

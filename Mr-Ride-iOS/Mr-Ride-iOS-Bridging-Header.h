@@ -11,6 +11,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "MMDrawerController.h"
 #import <Google/Analytics.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 
 #endif /* Mr_Ride_iOS_Bridging_Header_h */
