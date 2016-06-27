@@ -1182,6 +1182,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="loginButton" destination="OYp-6E-FVM" id="OEj-c7-peH"/>
                         <outlet property="scrollView" destination="9AC-Xd-a3B" id="vnZ-8R-sso"/>
                     </connections>
                 </viewController>

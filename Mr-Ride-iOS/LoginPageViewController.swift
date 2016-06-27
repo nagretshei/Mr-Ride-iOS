@@ -15,22 +15,24 @@ import FBSDKLoginKit
 class LoginPageViewController: UIViewController {
     let gradientLayer = CAGradientLayer()
     
+    // set FB button
+//    let loginButton: FBSDKLoginButton = {
+//        let button = FBSDKLoginButton()
+//        button.readPermissions = ["public_profile","email"]
+//        return button
+//        
+//    }()
+    
     @IBOutlet weak var scrollView: UIScrollView!
+    
+    @IBOutlet weak var loginButton: UIButton!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setGradientBackground()
-//        let loginButton: FBSDKLoginButton = {
-//            let button = FBSDKLoginButton()
-//            button.readPermissions = ["public_profile","email"]
-//            return button
-//            
-//        }()
-        let loginButton = FBSDKLoginButton()
-        loginButton.center = self.view.center
-        self.view.addSubview(loginButton)
 
-        // Do any additional setup after loading the view.
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -46,6 +48,11 @@ class LoginPageViewController: UIViewController {
         gradientLayer.locations = [0.5, 1.0]
         scrollView.layer.insertSublayer(gradientLayer, atIndex: 2)
         
+    }
+    
+    func setFBLoginButton(){
+        
+
     }
 }
 
@@ -65,10 +72,32 @@ class LoginPageViewController: UIViewController {
 extension LoginPageViewController {
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
+        let login = FBSDKLoginManager()
+        login.logInWithPublishPermissions(["public_profile", "publish_actions"], fromViewController: self, handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if error != nil {
+                NSLog(error.localizedFailureReason!)
+            } else if result.isCancelled {
+                NSLog("Canceled")
+            } else if result.grantedPermissions.contains("publish_actions") {
+                //self.loginFacebookButtin.hidden = true
+            }  
+        })
         
+        
+//        FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
+//        [login
+//        logInWithReadPermissions: @[@"public_profile"]
+//        fromViewController:self
+//        handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+//        if (error) {
+//        NSLog(@"Process error");
+//        } else if (result.isCancelled) {
+//        NSLog(@"Cancelled");
+//        } else {
+//        NSLog(@"Logged in");
+//        }
+//        }];
     }
-
-        
 }
 
 

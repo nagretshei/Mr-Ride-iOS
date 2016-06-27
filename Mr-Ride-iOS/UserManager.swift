@@ -7,4 +7,19 @@
 //
 
 //import Foundation
-//import FBSDKLiginKit
+import FBSDKCoreKit
+import FBSDKShareKit
+import FBSDKLoginKit
+
+//class UserManager {
+//    struct Static {
+//        static let Identifier = "UserManager"
+//    }
+//    
+//    static let sharedManager = UserManager()
+//    private(set) var user: UserModel? { didSet { userDidSet() } }
+//    var isLoggedIn: Bool { return (user != nil) }
+//    
+//    // MARK
+//    
+//}
