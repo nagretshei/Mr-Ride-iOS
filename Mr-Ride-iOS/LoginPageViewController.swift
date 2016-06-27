@@ -26,11 +26,14 @@ class LoginPageViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var hight: UITextField!
     
+    @IBOutlet weak var weight: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setGradientBackground()
+//        if hight.secureTextEntry
 
 
     }
@@ -73,30 +76,30 @@ extension LoginPageViewController {
     
     @IBAction func loginButtonTapped(sender: AnyObject) {
         let login = FBSDKLoginManager()
-        login.logInWithPublishPermissions(["public_profile", "publish_actions"], fromViewController: self, handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-            if error != nil {
-                NSLog(error.localizedFailureReason!)
-            } else if result.isCancelled {
-                NSLog("Canceled")
-            } else if result.grantedPermissions.contains("publish_actions") {
-                //self.loginFacebookButtin.hidden = true
-            }  
-        })
-        
-        
-//        FBSDKLoginManager *login = [[FBSDKLoginManager alloc] init];
-//        [login
-//        logInWithReadPermissions: @[@"public_profile"]
-//        fromViewController:self
-//        handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
-//        if (error) {
-//        NSLog(@"Process error");
-//        } else if (result.isCancelled) {
-//        NSLog(@"Cancelled");
-//        } else {
-//        NSLog(@"Logged in");
-//        }
-//        }];
+        login.logInWithReadPermissions(["public_profile"], handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+                        if error != nil {
+                            NSLog(error.localizedFailureReason!)
+            
+                        } else if result.isCancelled {
+                            NSLog("Canceled")
+            
+                        } else if result.grantedPermissions.contains("publish_actions") {
+                            self.loginButton.hidden = true
+                        }  
+                    })
+
+//        login.logInWithPublishPermissions(["publish_actions"], fromViewController: self, handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+//            if error != nil {
+//                NSLog(error.localizedFailureReason!)
+//                
+//            } else if result.isCancelled {
+//                NSLog("Canceled")
+//                
+//            } else if result.grantedPermissions.contains("publish_actions") {
+//                self.loginButton.hidden = true
+//            }  
+//        })
+
     }
 }
 

@@ -1182,8 +1182,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="hight" destination="VgD-QB-VUA" id="Si3-u0-qj1"/>
                         <outlet property="loginButton" destination="OYp-6E-FVM" id="OEj-c7-peH"/>
                         <outlet property="scrollView" destination="9AC-Xd-a3B" id="vnZ-8R-sso"/>
+                        <outlet property="weight" destination="Id2-D2-Hr6" id="lV2-8h-mDu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dyp-TD-SlV" userLabel="First Responder" sceneMemberID="firstResponder"/>

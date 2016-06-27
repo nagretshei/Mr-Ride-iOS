@@ -25,8 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-
-        
         // other debug sdk
         Fabric.with([Crashlytics.self])
         Amplitude.instance().initializeApiKey("d8aef5ecae2ef333c22397233745d423")
@@ -41,11 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gai.trackUncaughtExceptions = true  // report uncaught exceptions
         gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
         
-
-        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
-        
-
         
         var rootViewController = self.window!.rootViewController
         // Facebook
