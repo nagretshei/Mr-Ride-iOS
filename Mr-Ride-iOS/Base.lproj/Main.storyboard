@@ -872,7 +872,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Look" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMb-PA-A17">
                                                 <rect key="frame" x="281" y="11" width="38" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="drR-se-vJB">
@@ -1182,7 +1182,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="hight" destination="VgD-QB-VUA" id="Si3-u0-qj1"/>
+                        <outlet property="height" destination="VgD-QB-VUA" id="Hp9-DK-vHz"/>
                         <outlet property="loginButton" destination="OYp-6E-FVM" id="OEj-c7-peH"/>
                         <outlet property="scrollView" destination="9AC-Xd-a3B" id="vnZ-8R-sso"/>
                         <outlet property="weight" destination="Id2-D2-Hr6" id="lV2-8h-mDu"/>

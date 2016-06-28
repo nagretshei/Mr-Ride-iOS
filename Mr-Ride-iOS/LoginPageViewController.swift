@@ -12,7 +12,7 @@ import FBSDKShareKit
 import FBSDKLoginKit
 
 
-class LoginPageViewController: UIViewController {
+class LoginPageViewController: UIViewController, UITextFieldDelegate {
     let gradientLayer = CAGradientLayer()
     
     // set FB button
@@ -26,13 +26,22 @@ class LoginPageViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var hight: UITextField!
+    @IBOutlet weak var height: UITextField!
     
     @IBOutlet weak var weight: UITextField!
+    
+    weak var delegate: UITextFieldDelegate?
+    
+    var userHeight: Double = 0.0
+    var userWeight: Double = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setGradientBackground()
+        weight.delegate = self
+        height.delegate = self
+
+        
 //        if hight.secureTextEntry
 
 
@@ -41,6 +50,29 @@ class LoginPageViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if height == textField {
+            print("height")
+            if let number = Double(textField.text!){
+                userHeight = number
+            }
+        } else if  weight == textField {
+            if let number = Double(textField.text!){
+                userWeight = number
+            }
+        }
+        print(userHeight)
+        print(userWeight)
+        print(textField)
+//        if let number = Double(textField.text){
+//            
+//        }
+//        
+        return false
     }
     
     func setGradientBackground(){
@@ -74,6 +106,13 @@ class LoginPageViewController: UIViewController {
 // MARK: - Action
 extension LoginPageViewController {
     
+//    @IBAction func weightButtonClicked(sender: AnyObject) {
+//        weight.resignFirstResponder()
+//        print(weight.text)
+//        print(weight)
+//        
+//        
+//    }
     @IBAction func loginButtonTapped(sender: AnyObject) {
         let login = FBSDKLoginManager()
         login.logInWithReadPermissions(["public_profile"], handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
