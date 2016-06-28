@@ -139,33 +139,37 @@ extension LoginPageViewController {
                 
             } else if result.grantedPermissions.contains("public_profile") {
                 print(3)
-                //self.loginButton.hidden = true
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-
-                let theviewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-                
-                
-                let centerViewContainer = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-                let menuViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
-                
-                let menuSideNav = UINavigationController(rootViewController: menuViewController)
-                let centerNav = UINavigationController(rootViewController: centerViewContainer)
-                
-                appDelegate.centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
-                
-                appDelegate.centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
-                appDelegate.centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
-                
-                appDelegate.centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
-                
-                appDelegate.window!.rootViewController = appDelegate.centerContainer
-                appDelegate.window!.makeKeyAndVisible()
-
-//                self.view.window?.rootViewController = theviewController
-                
+                self.getToViewController()
+               
             } else {
             print ("unknown error in loggin Facebook")}
         })
+
+    }
+    
+    func getToViewController(){
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let theviewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        
+        
+        let centerViewContainer = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        let menuViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
+        
+        let menuSideNav = UINavigationController(rootViewController: menuViewController)
+        let centerNav = UINavigationController(rootViewController: centerViewContainer)
+        
+        appDelegate.centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
+        
+        appDelegate.centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
+        appDelegate.centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
+        
+        appDelegate.centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
+        
+        appDelegate.window!.rootViewController = appDelegate.centerContainer
+        appDelegate.window!.makeKeyAndVisible()
+        
+        //                self.view.window?.rootViewController = theviewController
 
     }
 }

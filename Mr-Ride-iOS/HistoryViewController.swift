@@ -111,7 +111,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let distanceInM = myRecord.valueForKey("distance") as! Double
                 let distanceInKm = distanceInM / 1000
                 yForDistance.insert(distanceInKm, atIndex: 0)
-                //print ("before")
+                
                 if xForDate.count > 7 {
                     xForDate.removeLast()
                     timeForData.removeLast()
@@ -122,6 +122,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 
                 setChartView(xForDate, values: yForDistance)
+                
             } else if date.compare(timeForData[0]) == .OrderedDescending {
                 xForDate.append(dateStamp)
                 let distanceInM = myRecord.valueForKey("distance") as! Double
