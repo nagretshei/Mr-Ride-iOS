@@ -13,15 +13,7 @@ import FBSDKLoginKit
 
 
 class LoginPageViewController: UIViewController, UITextFieldDelegate {
-    let gradientLayer = CAGradientLayer()
     
-    // set FB button
-//    let loginButton: FBSDKLoginButton = {
-//        let button = FBSDKLoginButton()
-//        button.readPermissions = ["public_profile","email"]
-//        return button
-//        
-//    }()
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -32,6 +24,8 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
     
     weak var delegate: UITextFieldDelegate?
     
+    let gradientLayer = CAGradientLayer()
+    var userDefault = NSUserDefaults.standardUserDefaults()
     var userHeight: Double = 0.0
     var userWeight: Double = 0.0
     
@@ -41,10 +35,6 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
         weight.delegate = self
         height.delegate = self
 
-        
-//        if hight.secureTextEntry
-
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -52,27 +42,74 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
 
+    func textFieldDidEndEditing(textField: UITextField) {
+        textField.resignFirstResponder()
+        if textField.text?.characters.count > 0 && textField.text?.characters.count < 7 {
+            if height == textField {
+                print("height")
+                if let number = Double(textField.text!){
+                    userDefault.setDouble(number, forKey: "userHeight")
+                    
+                } else {
+                    let alert = UIAlertView.init(title: "Notification", message: "Please enter numbers only", delegate: self, cancelButtonTitle: "Ok")
+                    alert.show()
+                  
+                }
+                
+            } else if  weight == textField {
+                if let number = Double(textField.text!){
+                    userDefault.setDouble(number, forKey: "userWeight")
+                }  else {let alert = UIAlertView.init(title: "Notification", message: "Please enter numbers only", delegate: self, cancelButtonTitle: "Ok")
+                    alert.show()
+                   
+                }
+            }
+            
+        } else {
+            let alert = UIAlertView.init(title: "Notification", message: "Please don't enter more than 6 characters", delegate: self, cancelButtonTitle: "Ok")
+            alert.show()
+           
+        }
+        
+        userDefault.synchronize()
+        let theight = userDefault.doubleForKey("userHeight")
+        let tweight = userDefault.doubleForKey("userWeight")
+        print(theight, tweight)
+
+    }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        if height == textField {
-            print("height")
-            if let number = Double(textField.text!){
-                userHeight = number
+        if textField.text?.characters.count > 0 && textField.text?.characters.count < 7 {
+            if height == textField {
+                print("height")
+                if let number = Double(textField.text!){
+                    userDefault.setDouble(number, forKey: "userHeight")
+                    
+                } else {
+                    let alert = UIAlertView.init(title: "Notification", message: "Please enter numbers only", delegate: self, cancelButtonTitle: "Ok")
+                    alert.show()
+                    return false
+                }
+                
+            } else if  weight == textField {
+                if let number = Double(textField.text!){
+                    userDefault.setDouble(number, forKey: "userWeight")
+                }  else {let alert = UIAlertView.init(title: "Notification", message: "Please enter numbers only", delegate: self, cancelButtonTitle: "Ok")
+                    alert.show()
+                    return false
+                }
             }
-        } else if  weight == textField {
-            if let number = Double(textField.text!){
-                userWeight = number
-            }
+
+            
+        } else {
+            let alert = UIAlertView.init(title: "Notification", message: "Please don't enter more than 6 characters", delegate: self, cancelButtonTitle: "Ok")
+            alert.show()
+            return false
         }
-        print(userHeight)
-        print(userWeight)
-        print(textField)
-//        if let number = Double(textField.text){
-//            
-//        }
-//        
-        return false
+        
+        userDefault.synchronize()
+        return true
     }
     
     func setGradientBackground(){
@@ -84,60 +121,51 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
         scrollView.layer.insertSublayer(gradientLayer, atIndex: 2)
         
     }
-    
-    func setFBLoginButton(){
-        
 
-    }
 }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 
 
 // MARK: - Action
 extension LoginPageViewController {
-    
-//    @IBAction func weightButtonClicked(sender: AnyObject) {
-//        weight.resignFirstResponder()
-//        print(weight.text)
-//        print(weight)
-//        
-//        
-//    }
+
     @IBAction func loginButtonTapped(sender: AnyObject) {
         let login = FBSDKLoginManager()
-        login.logInWithReadPermissions(["public_profile"], handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-                        if error != nil {
-                            NSLog(error.localizedFailureReason!)
-            
-                        } else if result.isCancelled {
-                            NSLog("Canceled")
-            
-                        } else if result.grantedPermissions.contains("publish_actions") {
-                            self.loginButton.hidden = true
-                        }  
-                    })
+        login.logInWithReadPermissions(["public_profile"], fromViewController: self, handler:  { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if error != nil {
+                NSLog(error.localizedFailureReason!)
+                
+            } else if result.isCancelled {
+                NSLog("Canceled")
+                
+            } else if result.grantedPermissions.contains("public_profile") {
+                print(3)
+                //self.loginButton.hidden = true
+                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 
-//        login.logInWithPublishPermissions(["publish_actions"], fromViewController: self, handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-//            if error != nil {
-//                NSLog(error.localizedFailureReason!)
-//                
-//            } else if result.isCancelled {
-//                NSLog("Canceled")
-//                
-//            } else if result.grantedPermissions.contains("publish_actions") {
-//                self.loginButton.hidden = true
-//            }  
-//        })
+                let theviewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+                
+                
+                let centerViewContainer = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+                let menuViewController = self.storyboard?.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
+                
+                let menuSideNav = UINavigationController(rootViewController: menuViewController)
+                let centerNav = UINavigationController(rootViewController: centerViewContainer)
+                
+                appDelegate.centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
+                
+                appDelegate.centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
+                appDelegate.centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
+                
+                appDelegate.centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
+                
+                appDelegate.window!.rootViewController = appDelegate.centerContainer
+                appDelegate.window!.makeKeyAndVisible()
+
+//                self.view.window?.rootViewController = theviewController
+                
+            } else {
+            print ("unknown error in loggin Facebook")}
+        })
 
     }
 }

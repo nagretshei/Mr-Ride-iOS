@@ -99,8 +99,9 @@ class RecordViewController: UIViewController {
     
     
     // for calculating carolies
-    var height = 175.3 //cm
-    var weight = 65.6 //kg
+    let userDefault = NSUserDefaults.standardUserDefaults()
+    let height = 0.0 //userDefault.doubleForKey("userHeight")
+    let weight = 0.0 //userDefault.doubleForKey("userHeight")
     var totalCal = 0.0
     var averageSpeedNumber = 0.0
     
@@ -172,6 +173,8 @@ class RecordViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        let height = userDefault.doubleForKey("userHeight")
+        let weight = userDefault.doubleForKey("userHeight")
         setView()
         setMap()
     }

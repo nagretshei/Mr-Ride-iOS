@@ -43,7 +43,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var rootViewController = self.window!.rootViewController
         // Facebook
-        //window?.rootViewController = YBAppManager.sharedManager.rootViewController
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -52,6 +51,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if (FBSDKAccessToken.currentAccessToken() != nil) {
+            print("get ready")
             //initialViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LoginPageViewController") as! LoginPageViewController
             
             let centerViewContainer = mainStoryboard.instantiateViewControllerWithIdentifier("ViewController") as! ViewController

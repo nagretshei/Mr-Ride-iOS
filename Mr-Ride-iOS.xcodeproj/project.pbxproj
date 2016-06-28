@@ -41,8 +41,6 @@
 		899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */; };
 		899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B51CF5A093009A16DF /* RecordViewController.swift */; };
 		89A8F0551D20E88D00AE8269 /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8F0541D20E88D00AE8269 /* LoginPageViewController.swift */; };
-		89A8F05A1D20EE1E00AE8269 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8F0591D20EE1E00AE8269 /* UserModel.swift */; };
-		89A8F05D1D20EF6D00AE8269 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8F05C1D20EF6D00AE8269 /* UserManager.swift */; };
 		89A8F0631D20F9A500AE8269 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A8F0601D20F9A500AE8269 /* FBSDKCoreKit.framework */; };
 		89A8F0641D20F9A500AE8269 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A8F0611D20F9A500AE8269 /* FBSDKLoginKit.framework */; };
 		89A8F0651D20F9A500AE8269 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A8F0621D20F9A500AE8269 /* FBSDKShareKit.framework */; };
@@ -170,8 +168,6 @@
 		899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+YBKAdditions (1).swift"; sourceTree = "<group>"; };
 		899082B51CF5A093009A16DF /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
 		89A8F0541D20E88D00AE8269 /* LoginPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
-		89A8F0591D20EE1E00AE8269 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		89A8F05C1D20EF6D00AE8269 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		89A8F0601D20F9A500AE8269 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		89A8F0611D20F9A500AE8269 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		89A8F0621D20F9A500AE8269 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -350,8 +346,6 @@
 			isa = PBXGroup;
 			children = (
 				89A8F0541D20E88D00AE8269 /* LoginPageViewController.swift */,
-				89A8F0591D20EE1E00AE8269 /* UserModel.swift */,
-				89A8F05C1D20EF6D00AE8269 /* UserManager.swift */,
 			);
 			name = Users;
 			sourceTree = "<group>";
@@ -636,10 +630,8 @@
 				899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */,
 				8922A9B91CF40F6B0010B66D /* MMDrawerController.m in Sources */,
 				8922A9831CF40D800010B66D /* Mr_Ride_iOS.xcdatamodeld in Sources */,
-				89A8F05A1D20EE1E00AE8269 /* UserModel.swift in Sources */,
 				8922A9BA1CF40F6B0010B66D /* MMDrawerVisualState.m in Sources */,
 				893741A41CF68088001EEB52 /* StatisticsViewController.swift in Sources */,
-				89A8F05D1D20EF6D00AE8269 /* UserManager.swift in Sources */,
 				89F85B9C1D13D3FC00AC9976 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

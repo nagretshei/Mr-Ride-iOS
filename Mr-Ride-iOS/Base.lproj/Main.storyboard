@@ -1190,25 +1190,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dyp-TD-SlV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1919" y="-298"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="4FX-be-Jcj">
-            <objects>
-                <viewController id="rKi-7Q-KFj" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="IkM-8J-TB9"/>
-                        <viewControllerLayoutGuide type="bottom" id="SY9-yL-eab"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="E26-3K-O1D">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BmO-bJ-ta8" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1175" y="-304"/>
+            <point key="canvasLocation" x="-1295" y="-304"/>
         </scene>
         <!--Side Menu View Controller-->
         <scene sceneID="jtX-kV-Mna">
