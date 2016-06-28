@@ -11,7 +11,7 @@ import CoreData
 import Fabric
 import Crashlytics
 import Amplitude_iOS
-
+import FBSDKCoreKit
 
 
 @UIApplicationMain
@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        // other debug sdk
         Fabric.with([Crashlytics.self])
         Amplitude.instance().initializeApiKey("d8aef5ecae2ef333c22397233745d423")
         
@@ -37,33 +39,70 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gai.trackUncaughtExceptions = true  // report uncaught exceptions
         gai.logger.logLevel = GAILogLevel.Verbose  // remove before app release
         
-
-        
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         
         var rootViewController = self.window!.rootViewController
+        // Facebook
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let centerViewContainer = mainStoryboard.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-        let menuViewController = mainStoryboard.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
         
-        let menuSideNav = UINavigationController(rootViewController: menuViewController)
-        let centerNav = UINavigationController(rootViewController: centerViewContainer)
-       
-        centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
+        var initialViewController: UIViewController
         
-        centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
-        centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
         
-        centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
-        
-        window!.rootViewController = centerContainer
-        window!.makeKeyAndVisible()
+        if (FBSDKAccessToken.currentAccessToken() != nil) {
+            print("get ready")
+            //initialViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LoginPageViewController") as! LoginPageViewController
+            
+            let centerViewContainer = mainStoryboard.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+            let menuViewController = mainStoryboard.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
+            
+            let menuSideNav = UINavigationController(rootViewController: menuViewController)
+            let centerNav = UINavigationController(rootViewController: centerViewContainer)
+            
+            centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
+            
+            centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
+            centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
+            
+            centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
+            
+            window!.rootViewController = centerContainer
+            window!.makeKeyAndVisible()
+
+            
+
+        } else {
+            initialViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LoginPageViewController") as! LoginPageViewController
+        }
+//        
+//        let centerViewContainer = mainStoryboard.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+//        let menuViewController = mainStoryboard.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
+//        
+//        let menuSideNav = UINavigationController(rootViewController: menuViewController)
+//        let centerNav = UINavigationController(rootViewController: centerViewContainer)
+//       
+//        centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
+//        
+//        centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
+//        centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
+//        
+//        centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
+//        
+//        window!.rootViewController = centerContainer
+//        window!.makeKeyAndVisible()
 
         GMSServices.provideAPIKey(googleMapsApiKey)
  
         return true
     }
-
+    
+    // FaceBook
+    func applicationDidBecomeActive(application: UIApplication) { FBSDKAppEvents.activateApp() }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool { return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation) }
+    
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -78,9 +117,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
+//    func applicationDidBecomeActive(application: UIApplication) {
+//        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//    }
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.

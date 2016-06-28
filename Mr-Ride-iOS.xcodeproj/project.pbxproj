@@ -40,6 +40,10 @@
 		896B60101D1CD32C00835F70 /* SelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 896B600F1D1CD32C00835F70 /* SelectionViewController.swift */; };
 		899082B41CF537D0009A16DF /* UIColor+YBKAdditions (1).swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */; };
 		899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 899082B51CF5A093009A16DF /* RecordViewController.swift */; };
+		89A8F0551D20E88D00AE8269 /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89A8F0541D20E88D00AE8269 /* LoginPageViewController.swift */; };
+		89A8F0631D20F9A500AE8269 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A8F0601D20F9A500AE8269 /* FBSDKCoreKit.framework */; };
+		89A8F0641D20F9A500AE8269 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A8F0611D20F9A500AE8269 /* FBSDKLoginKit.framework */; };
+		89A8F0651D20F9A500AE8269 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A8F0621D20F9A500AE8269 /* FBSDKShareKit.framework */; };
 		89C666A31D1CBEC30012B568 /* YouBikeTP.gz in Resources */ = {isa = PBXBuildFile; fileRef = 89C666A21D1CBEC30012B568 /* YouBikeTP.gz */; };
 		89C9FFBB1D17BE5C00E14604 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C9FFB91D17BE5C00E14604 /* Fabric.framework */; };
 		89C9FFBC1D17BE5C00E14604 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */; };
@@ -163,6 +167,10 @@
 		896B600F1D1CD32C00835F70 /* SelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionViewController.swift; sourceTree = "<group>"; };
 		899082B31CF537D0009A16DF /* UIColor+YBKAdditions (1).swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+YBKAdditions (1).swift"; sourceTree = "<group>"; };
 		899082B51CF5A093009A16DF /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		89A8F0541D20E88D00AE8269 /* LoginPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
+		89A8F0601D20F9A500AE8269 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		89A8F0611D20F9A500AE8269 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		89A8F0621D20F9A500AE8269 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKShareKit.framework; sourceTree = "<group>"; };
 		89C666A21D1CBEC30012B568 /* YouBikeTP.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = YouBikeTP.gz; sourceTree = SOURCE_ROOT; };
 		89C9FFB91D17BE5C00E14604 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
@@ -178,7 +186,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89A8F0631D20F9A500AE8269 /* FBSDKCoreKit.framework in Frameworks */,
 				AB5AEE1438C3C4625DF00CB6 /* Pods_Mr_Ride_iOS.framework in Frameworks */,
+				89A8F0641D20F9A500AE8269 /* FBSDKLoginKit.framework in Frameworks */,
+				89A8F0651D20F9A500AE8269 /* FBSDKShareKit.framework in Frameworks */,
 				892D6E351D0FEBA300A5B245 /* Charts.framework in Frameworks */,
 				89C9FFBC1D17BE5C00E14604 /* Crashlytics.framework in Frameworks */,
 				89C9FFBB1D17BE5C00E14604 /* Fabric.framework in Frameworks */,
@@ -205,6 +216,9 @@
 		8922A96E1CF40D800010B66D = {
 			isa = PBXGroup;
 			children = (
+				89A8F0601D20F9A500AE8269 /* FBSDKCoreKit.framework */,
+				89A8F0611D20F9A500AE8269 /* FBSDKLoginKit.framework */,
+				89A8F0621D20F9A500AE8269 /* FBSDKShareKit.framework */,
 				89C9FFB91D17BE5C00E14604 /* Fabric.framework */,
 				89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */,
 				892D6E261D0FEAE800A5B245 /* Charts.xcodeproj */,
@@ -244,6 +258,7 @@
 				899082B51CF5A093009A16DF /* RecordViewController.swift */,
 				8922A9AB1CF40F0F0010B66D /* SideMenuViewController.swift */,
 				8922A97C1CF40D800010B66D /* ViewController.swift */,
+				89A8F05B1D20EE2800AE8269 /* Users */,
 				8922A9841CF40D800010B66D /* Assets.xcassets */,
 				8922A9861CF40D800010B66D /* LaunchScreen.storyboard */,
 				8922A9891CF40D800010B66D /* Info.plist */,
@@ -325,6 +340,14 @@
 				892D6E341D0FEAE800A5B245 /* ChartsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		89A8F05B1D20EE2800AE8269 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				89A8F0541D20E88D00AE8269 /* LoginPageViewController.swift */,
+			);
+			name = Users;
 			sourceTree = "<group>";
 		};
 		B5A1AE10084115E95A17CEBC /* Pods */ = {
@@ -595,6 +618,7 @@
 				89F85B981D13A67400AC9976 /* ViewController.swift in Sources */,
 				8922A9AC1CF40F0F0010B66D /* SideMenuViewController.swift in Sources */,
 				8944AC4D1CF6BC280026C8F0 /* HistoryTableViewCell.swift in Sources */,
+				89A8F0551D20E88D00AE8269 /* LoginPageViewController.swift in Sources */,
 				8922A9B81CF40F6B0010B66D /* MMDrawerBarButtonItem.m in Sources */,
 				899082B61CF5A093009A16DF /* RecordViewController.swift in Sources */,
 				8922A9BF1CF41A020010B66D /* HistoryViewController.swift in Sources */,

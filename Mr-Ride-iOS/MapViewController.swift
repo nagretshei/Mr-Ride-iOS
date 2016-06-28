@@ -94,17 +94,25 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
     }
     
+
+ // MARK: - Action
+    
     @IBAction func doneButtonTapped(sender: UIButton) {
         selectionView.hidden = true
-//        lookFor.titleLabel!.text = pickerData[pickIndex]
-//       
-//        lookFor.titleLabel?.drawTextInRect(CGRect (origin: CGPoint(x: 0, y: 0), size: CGSize(width: 233, height: 24)))
 
     }
     
     @IBAction func cancelButtonTapped(sender: UIButton) {
         selectionView.hidden = true
     }
+
+
+    @IBAction func MenuButtonTapped(sender: AnyObject) {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
+    }
+    
+// MARK: - Controller
     override func viewDidLoad() {
         super.viewDidLoad()
         infoView.hidden = true
@@ -116,13 +124,6 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         
         
     }
-
-
-    @IBAction func MenuButtonTapped(sender: AnyObject) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
-    }
-    
 
 
     override func didReceiveMemoryWarning() {
@@ -164,14 +165,12 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
             pickerCase = PickerViewCases.Toilets
             setMarkers(pickerCase)
         }
-  
         
     }
     
     
 // View
     func setView(){
-//        setLabelAndButton()
         setNavigationBar()
         
     }
@@ -318,15 +317,6 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
             }
         case .UbikeStations:
             mapView.clear()
-            //marker.map = nil
-//            
-//            let url = NSBundle.mainBundle().URLForResource("YouBikeTP", withExtension: "gz") // call Json file
-//            
-//            let data = NSData(contentsOfURL: url!)
-//            if let dataObject =  try? NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) {
-//                getDataFromJson(.UbikeStations, object: dataObject)
-//                
-//            }
             
             //fetchCoreData(.UbikeStations)
             if stations.count > 0 {
@@ -343,7 +333,17 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
                         imageViewBike.frame.origin.y = markerBase.frame.origin.y + 5
                         
                         marker.iconView = markerBase
+<<<<<<< HEAD
                         marker.title = "\(station.bikeLeft!) bikes left"
+=======
+                        
+                        if station.bikeLeft == "0" || station.bikeLeft == "1" {
+                            marker.title = "\(station.bikeLeft!) bike left"
+                        } else {
+                            marker.title = "\(station.bikeLeft!) bikes left"
+                        }
+                        
+>>>>>>> week12
                         markerBase.addSubview(imageViewBike)
                         var myData = Dictionary<String, AnyObject>()
                         myData["name"] = station.name
@@ -501,10 +501,17 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                     station = NSEntityDescription.insertNewObjectForEntityForName("Stations", inManagedObjectContext: managedObjectContext) as! Stations
 
+<<<<<<< HEAD
                     station.name = eachStationData["snaen"] as! String
                     station.address = eachStationData["aren"] as! String
                     station.dist = eachStationData["sareaen"] as! String
                     station.bikeLeft = eachStationData["sbi"] as! String
+=======
+                    station.name = eachStationData["snaen"] as? String
+                    station.address = eachStationData["aren"] as? String
+                    station.dist = eachStationData["sareaen"] as? String
+                    station.bikeLeft = eachStationData["sbi"] as? String
+>>>>>>> week12
                     
                     if let temp = eachStationData["lat"] as? String {
                         let latitude = Double(temp)
@@ -537,9 +544,9 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
             for eachToiletData in results {
                 if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                     downtownToilet = NSEntityDescription.insertNewObjectForEntityForName("DowntownToilet", inManagedObjectContext: managedObjectContext) as! DowntownToilet
-                    downtownToilet.name = eachToiletData["\u{55ae}\u{4f4d}\u{540d}\u{7a31}"] as! String
-                    downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as! String
-                    downtownToilet.kind = eachToiletData["\u{985e}\u{5225}"] as! String
+                    downtownToilet.name = eachToiletData["\u{55ae}\u{4f4d}\u{540d}\u{7a31}"] as? String
+                    downtownToilet.address = eachToiletData["\u{5730}\u{5740}"] as? String
+                    downtownToilet.kind = eachToiletData["\u{985e}\u{5225}"] as? String
                     
                     if let temp = eachToiletData["\u{7def}\u{5ea6}"] as? String {
                         let latitude = Double(temp)
