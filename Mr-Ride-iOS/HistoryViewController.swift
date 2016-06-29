@@ -60,7 +60,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
 // set table view
-    
     // set table view header
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?
     {
@@ -78,6 +77,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
         if sections.count > 0 {
             headerLabel.text = sections[section].name
+            
         } else {
             headerLabel.text = "month"
         }
