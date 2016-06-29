@@ -13,6 +13,7 @@
 #import <Google/Analytics.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
+#import <Google/Analytics.h>
 
 
 #endif /* Mr_Ride_iOS_Bridging_Header_h */

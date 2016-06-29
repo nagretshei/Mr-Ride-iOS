@@ -130,7 +130,7 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
 // MARK: - Action
 extension LoginPageViewController {
 
-    @IBAction func loginButtonTapped(sender: AnyObject) {
+    @IBAction func loginButtonTapped(sender: UIButton) {
         let login = FBSDKLoginManager()
         login.logInWithReadPermissions(["public_profile"], fromViewController: self, handler:  { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if error != nil {

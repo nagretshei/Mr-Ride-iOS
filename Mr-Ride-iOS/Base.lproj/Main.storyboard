@@ -678,18 +678,38 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wyk-V9-kk5">
+                                        <rect key="frame" x="228" y="530" width="162" height="38"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="FCN-9l-kWD"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="162" id="ZWS-7M-wey"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="38" id="lQe-DQ-brY"/>
+                                            <constraint firstAttribute="width" constant="162" id="y5U-ND-IFH"/>
+                                        </constraints>
+                                        <state key="normal" image="facebook-share-button">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="shareButtonTapped:" destination="iTi-JM-l80" eventType="touchUpInside" id="Dan-83-4rG"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="XDy-cm-08o" firstAttribute="top" secondItem="R7q-PK-QXo" secondAttribute="top" constant="216" id="05C-On-wqV"/>
                                     <constraint firstItem="qcI-xH-Jyn" firstAttribute="top" secondItem="saW-Kt-OoL" secondAttribute="bottom" constant="5" id="0wf-C0-aAV"/>
                                     <constraint firstItem="rDl-2f-Aoz" firstAttribute="leading" secondItem="R7q-PK-QXo" secondAttribute="leading" constant="38" id="5Mm-v3-IGd"/>
+                                    <constraint firstAttribute="bottom" secondItem="wyk-V9-kk5" secondAttribute="bottom" constant="-40" id="7cL-ns-bgL"/>
                                     <constraint firstItem="lya-le-Mrt" firstAttribute="top" secondItem="R7q-PK-QXo" secondAttribute="top" constant="165" id="Ab3-ri-Gzk"/>
                                     <constraint firstItem="Tu6-bY-Y2y" firstAttribute="top" secondItem="R7q-PK-QXo" secondAttribute="top" constant="151" id="Dhl-bi-KaZ"/>
                                     <constraint firstItem="CtM-Mh-k4s" firstAttribute="centerX" secondItem="R7q-PK-QXo" secondAttribute="centerX" id="GbC-IX-RDr"/>
+                                    <constraint firstAttribute="height" constant="600" id="L1x-9N-gsQ"/>
                                     <constraint firstItem="saW-Kt-OoL" firstAttribute="leading" secondItem="R7q-PK-QXo" secondAttribute="leading" constant="284" id="Mez-be-jhx"/>
                                     <constraint firstItem="xmF-Pa-Ott" firstAttribute="top" secondItem="R7q-PK-QXo" secondAttribute="top" constant="100" id="Mux-qs-NQ6"/>
                                     <constraint firstItem="qcI-xH-Jyn" firstAttribute="centerX" secondItem="saW-Kt-OoL" secondAttribute="centerX" id="Nv7-kE-DUR"/>
+                                    <constraint firstAttribute="width" constant="600" id="SQe-kr-ziQ"/>
                                     <constraint firstItem="YWn-OC-sI1" firstAttribute="top" secondItem="R7q-PK-QXo" secondAttribute="top" constant="35" id="Tle-gA-MT8"/>
+                                    <constraint firstItem="wyk-V9-kk5" firstAttribute="centerX" secondItem="R7q-PK-QXo" secondAttribute="centerX" constant="9.5" id="XhF-61-4cj"/>
                                     <constraint firstItem="rDl-2f-Aoz" firstAttribute="top" secondItem="R7q-PK-QXo" secondAttribute="top" constant="230" id="ZgV-TN-K4i"/>
                                     <constraint firstItem="Tu6-bY-Y2y" firstAttribute="leading" secondItem="R7q-PK-QXo" secondAttribute="leading" constant="38" id="aF2-KV-JRT"/>
                                     <constraint firstItem="8o7-Gb-s3D" firstAttribute="leading" secondItem="R7q-PK-QXo" secondAttribute="leading" constant="38" id="bKE-ic-LIG"/>
@@ -1260,11 +1280,28 @@
                                     <outlet property="delegate" destination="MMw-Rf-L56" id="9Vn-E0-5Ts"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FH4-QR-8a7">
+                                <rect key="frame" x="225" y="519" width="150" height="32"/>
+                                <color key="backgroundColor" red="0.054901961237192154" green="0.20784313976764679" blue="0.25098040699958801" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="GMe-zy-8qb"/>
+                                    <constraint firstAttribute="height" constant="32" id="o6g-kT-jk5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="LogOut">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logOutButtonTapped:" destination="MMw-Rf-L56" eventType="touchUpInside" id="een-xt-hZE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.054901961239999998" green="0.20784313979999999" blue="0.25098040700000002" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="kgn-IO-zx5" firstAttribute="leading" secondItem="lI6-0X-jHA" secondAttribute="leadingMargin" constant="-20" id="HVn-LE-Oeq"/>
                             <constraint firstItem="kgn-IO-zx5" firstAttribute="top" secondItem="nvN-xD-bVa" secondAttribute="bottom" constant="64" id="LuS-fz-xRl"/>
+                            <constraint firstItem="mbh-HM-stu" firstAttribute="top" secondItem="FH4-QR-8a7" secondAttribute="bottom" constant="49" id="anG-QK-Hhz"/>
+                            <constraint firstItem="FH4-QR-8a7" firstAttribute="centerX" secondItem="lI6-0X-jHA" secondAttribute="centerX" id="sDR-hs-jR2"/>
                         </constraints>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
@@ -1371,6 +1408,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="facebook-share-button" width="243" height="59"/>
         <image name="icon-arrow-down" width="14" height="14"/>
         <image name="icon-menu" width="30" height="30"/>
         <image name="image-history-background" width="1536" height="1021"/>

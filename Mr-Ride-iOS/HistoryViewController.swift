@@ -16,6 +16,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var xForDate =  [String]()
     var yForDistance = [Double]()
     var timeForData = [NSDate]()
+//var timeForData: Set<NSDate> = Set()
     
     // variables for giving indexPath
     
@@ -95,10 +96,83 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     func configureCell(cell: UITableViewCell, indexPath: NSIndexPath) {
 
+//        let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
+//
+////        let date =  myRecord.valueForKey("date") as! NSDate
+//        if let date =  myRecord.valueForKey("date") as? NSDate {
+//            print (1)
+//            timeForData.insert(date)
+//            print(timeForData)
+//            
+//            if timeForData.contains(date) == true {
+//              print (2)
+//                
+//                let DateFormatter = NSDateFormatter()
+//                DateFormatter.dateFormat = "M/dd"
+//                let dateStamp = DateFormatter.stringFromDate(date)
+//                
+//                //print(timeForData)
+//                
+//                // slide up with inserting, slide down with apend
+//
+//                    if date.compare(timeForData.first!) == .OrderedAscending {
+//                        xForDate.insert(dateStamp, atIndex: 0)
+//                        let distanceInM = myRecord.valueForKey("distance") as! Double
+//                        let distanceInKm = distanceInM / 1000
+//                        yForDistance.insert(distanceInKm, atIndex: 0)
+//                        
+//                        if xForDate.count > 7 {
+//                            xForDate.removeLast()
+//                            timeForData.dropLast()
+//                            print(timeForData)
+//                        }
+//                        
+//                        if yForDistance.count > 7 {
+//                            //xForDate.removeLast()
+//                            yForDistance.removeLast()
+//                        }
+//                        
+//                        setChartView(xForDate, values: yForDistance)
+//                        
+//                    } else if date.compare(timeForData.first!) == .OrderedDescending {
+//                        xForDate.append(dateStamp)
+//                        let distanceInM = myRecord.valueForKey("distance") as! Double
+//                        let distanceInKm = distanceInM / 1000
+//                        yForDistance.append(distanceInKm)
+//                        
+//                        print(xForDate, yForDistance)
+//                        
+//                        if xForDate.count > 7 {
+//                            xForDate.removeFirst()
+//                            timeForData.removeFirst()
+//                        }
+//                        
+//                        if yForDistance.count > 7 {
+//                            yForDistance.removeFirst()
+//                        }
+//                        
+//                        setChartView(xForDate, values: yForDistance)
+//                        
+//                    } else {
+//                        xForDate.append(dateStamp)
+//                        let distanceInM = myRecord.valueForKey("distance") as! Double
+//                        let distanceInKm = distanceInM / 1000
+//                        yForDistance.append(distanceInKm)
+//                        setChartView(xForDate, values: yForDistance)
+//                    }
+//
+//            
+//            }
+//            
+//            print("have record")
+//            
+//        }
+        
+        
         let myRecord = fetchResultController.objectAtIndexPath(indexPath) as! Record
         let date =  myRecord.valueForKey("date") as! NSDate
-        
         timeForData.append(date)
+        //timeForData.insert(date)
         print(timeForData)
         
         let DateFormatter = NSDateFormatter()
@@ -154,9 +228,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 yForDistance.append(distanceInKm)
                 setChartView(xForDate, values: yForDistance)
             }
-            
-            
-            
         }
         print(xForDate, yForDistance)
     }

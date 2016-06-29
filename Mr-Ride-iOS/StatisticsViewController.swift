@@ -9,6 +9,9 @@
 import UIKit
 import CoreData
 import GoogleMaps
+import FBSDKCoreKit
+import FBSDKShareKit
+import FBSDKLoginKit
 
 protocol IndexDelegate: class {
 
@@ -184,17 +187,53 @@ class StatisticsViewController: UIViewController, NSFetchedResultsControllerDele
             }
         }
     }
-   
-    
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+
+extension StatisticsViewController {
+ // FB Sharing
+    @IBAction func shareButtonTapped(sender: AnyObject) {
+        let sharedRecord = self.printScreen()
+        FBSDKAccessToken.currentAccessToken()
+        let loginManager = FBSDKLoginManager()
+        
+        loginManager.logInWithPublishPermissions(["publish_actions"], fromViewController: self, handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
+            if error != nil {
+                NSLog(error.localizedFailureReason!)
+                
+            } else if result.isCancelled {
+                NSLog("Canceled")
+                
+            } else if result.grantedPermissions.contains("publish_actions") {
+                print(3)
+                let photo = FBSDKSharePhoto()
+                photo.image = self.printScreen()
+                photo.userGenerated = true
+                let content = FBSDKSharePhotoContent()
+                content.photos = [photo]
+                
+                FBSDKShareAPI.shareWithContent(content, delegate: nil)
+                FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: nil)                
+                
+            } else {
+                print ("unknown error in loggin Facebook")}
+        })
+       
+        
     }
-    */
+    
+    func printScreen() ->  UIImage {
+        //UIGraphicsBeginImageContextWithOptions(CGSizeMake(320,320), false, 0)
+        UIGraphicsBeginImageContext(view.frame.size)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        
+        //self.view?.drawViewHierarchyInRect(CGRectMake(-30, -30, self.frame.size.width, self.frame.size.height), afterScreenUpdates: true)
+        let screenShot  = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+    return screenShot
+    }
 
 }
 
