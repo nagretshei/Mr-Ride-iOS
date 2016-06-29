@@ -99,14 +99,18 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         let date =  myRecord.valueForKey("date") as! NSDate
         
         timeForData.append(date)
+        print(timeForData)
         
         let DateFormatter = NSDateFormatter()
         DateFormatter.dateFormat = "M/dd"
         let dateStamp = DateFormatter.stringFromDate(date)
+        print()
+        
         
         // slide up with inserting, slide down with apend
         if timeForData.count > 0 {
             if date.compare(timeForData[0]) == .OrderedAscending {
+                
                 xForDate.insert(dateStamp, atIndex: 0)
                 let distanceInM = myRecord.valueForKey("distance") as! Double
                 let distanceInKm = distanceInM / 1000
@@ -118,7 +122,8 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 }
                 
                 if yForDistance.count > 7 {
-                    xForDate.removeLast()
+                    //xForDate.removeLast()
+                    yForDistance.removeLast()
                 }
                 
                 setChartView(xForDate, values: yForDistance)
@@ -129,26 +134,31 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
                 let distanceInKm = distanceInM / 1000
                 yForDistance.append(distanceInKm)
                 
+                print(xForDate, yForDistance)
+                
                 if xForDate.count > 7 {
                     xForDate.removeFirst()
                     timeForData.removeFirst()
                 }
                 
                 if yForDistance.count > 7 {
-                    xForDate.removeFirst()
+                    yForDistance.removeFirst()
                 }
-                print("after")
+                
+                setChartView(xForDate, values: yForDistance)
+                
+            } else {
+                xForDate.append(dateStamp)
+                let distanceInM = myRecord.valueForKey("distance") as! Double
+                let distanceInKm = distanceInM / 1000
+                yForDistance.append(distanceInKm)
                 setChartView(xForDate, values: yForDistance)
             }
             
+            
+            
         }
-        
-
-        
-        
-        
-        // Populate cell from the NSManagedObject instance
-   
+        print(xForDate, yForDistance)
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -268,8 +278,10 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         var dataEntries: [ChartDataEntry] = []
         
         for i in 0..<dataPoints.count {
+           // print("draw")
             let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
             dataEntries.append(dataEntry)
+            //print(dataEntries)
         }
         
         let lineChartDataSet = LineChartDataSet(yVals: dataEntries, label: "")

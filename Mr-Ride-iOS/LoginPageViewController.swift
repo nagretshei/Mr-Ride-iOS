@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKShareKit
 import FBSDKLoginKit
+import Amplitude_iOS
 
 
 class LoginPageViewController: UIViewController, UITextFieldDelegate {
@@ -31,6 +32,7 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Amplitude.instance().printEventsCount()
         setGradientBackground()
         weight.delegate = self
         height.delegate = self

@@ -333,9 +333,9 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
                         imageViewBike.frame.origin.y = markerBase.frame.origin.y + 5
                         
                         marker.iconView = markerBase
-<<<<<<< HEAD
+
                         marker.title = "\(station.bikeLeft!) bikes left"
-=======
+
                         
                         if station.bikeLeft == "0" || station.bikeLeft == "1" {
                             marker.title = "\(station.bikeLeft!) bike left"
@@ -343,7 +343,7 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
                             marker.title = "\(station.bikeLeft!) bikes left"
                         }
                         
->>>>>>> week12
+
                         markerBase.addSubview(imageViewBike)
                         var myData = Dictionary<String, AnyObject>()
                         myData["name"] = station.name
@@ -501,17 +501,14 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                     station = NSEntityDescription.insertNewObjectForEntityForName("Stations", inManagedObjectContext: managedObjectContext) as! Stations
 
-<<<<<<< HEAD
                     station.name = eachStationData["snaen"] as! String
                     station.address = eachStationData["aren"] as! String
                     station.dist = eachStationData["sareaen"] as! String
                     station.bikeLeft = eachStationData["sbi"] as! String
-=======
                     station.name = eachStationData["snaen"] as? String
                     station.address = eachStationData["aren"] as? String
                     station.dist = eachStationData["sareaen"] as? String
                     station.bikeLeft = eachStationData["sbi"] as? String
->>>>>>> week12
                     
                     if let temp = eachStationData["lat"] as? String {
                         let latitude = Double(temp)

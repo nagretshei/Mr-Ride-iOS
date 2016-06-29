@@ -83,6 +83,8 @@ class ViewController: UIViewController {
         setView()
         setValueForChart()
         setChartView(xForDate, values: yForDistance)
+        
+            //.printEventsCount()
         //Amplitude.instance().logEvent(<#T##eventType: String!##String!#>)
 
     }
@@ -95,6 +97,7 @@ class ViewController: UIViewController {
 
     
     @IBAction func letsRideButtonTapped(sender: UIButton) {
+        Amplitude.instance().logEvent("select_ride_in_home")
 
         let recordPage = storyboard?.instantiateViewControllerWithIdentifier("RecordViewController") as! RecordViewController
         let statisticPage = storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as! StatisticsViewController
