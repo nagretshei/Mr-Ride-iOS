@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import Charts
 import Amplitude_iOS
-//import Google/Analytics.h
+
 
 class ViewController: UIViewController {
     
@@ -50,22 +50,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var letsRideButton: UIButton!
     
+    
 //    override func viewWillAppear(animated: Bool) {
 //        super.viewWillAppear(true)
-//        
 //        let name = "Pattern~\(self.title!)"
-//        
-//        // The UA-XXXXX-Y tracker ID is loaded automatically from the
-//        // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
-//        // If you're copying this to an app just using Analytics, you'll
-//        // need to configure your tracking ID here.
-//        // [START screen_view_hit_swift]
-////        Analytics tracking ID
-////        UA-5432312-1
-////        Google Analytics Account
-////        yicheng.zoe
-////        Analytics Property
-////        http://sites.google.com/site/nagretshei/
 //        
 //        let tracker = GAI.sharedInstance().defaultTracker
 //        tracker.set(kGAIScreenName, value: name)
@@ -73,28 +61,41 @@ class ViewController: UIViewController {
 //        let builder = GAIDictionaryBuilder.createScreenView()
 //        tracker.send(builder.build() as [NSObject : AnyObject])
 //        // [END screen_view_hit_swift]
+//        // The UA-XXXXX-Y tracker ID is loaded automatically from the
+//        // GoogleService-Info.plist by the `GGLContext` in the AppDelegate.
+//        // If you're copying this to an app just using Analytics, you'll
+//        // need to configure your tracking ID here.
+//        // [START screen_view_hit_swift]
 //        
+//        //        Analytics tracking ID
+//        //        UA-5432312-1
+//        //        Google Analytics Account
+//        //        yicheng.zoe
+//        //        Analytics Property
+//                http://sites.google.com/site/nagretshei/
 //        
 //    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        Amplitude.instance().logEvent("view_in_home")
         fetchCoreData()
         fetchCoreDataForTotalValue()
         setView()
         setValueForChart()
         setChartView(xForDate, values: yForDistance)
-        //Amplitude.instance().logEvent(<#T##eventType: String!##String!#>)
 
     }
     
     @IBAction func MenuButtonTapped(sender: AnyObject) {
+        Amplitude.instance().logEvent("select_menu_in_home")
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
         appDelegate.centerContainer!.toggleDrawerSide(MMDrawerSide.Left, animated: true, completion: nil)
     }
 
     
     @IBAction func letsRideButtonTapped(sender: UIButton) {
+        Amplitude.instance().logEvent("select_ride_in_home")
 
         let recordPage = storyboard?.instantiateViewControllerWithIdentifier("RecordViewController") as! RecordViewController
         let statisticPage = storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as! StatisticsViewController

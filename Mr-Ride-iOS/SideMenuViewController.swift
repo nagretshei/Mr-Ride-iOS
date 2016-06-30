@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Amplitude_iOS
 
 class SideMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -19,6 +20,7 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Amplitude.instance().logEvent("view_in_menu")
         setView()
       
     }
@@ -65,6 +67,8 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
         switch (indexPath.row) {
             
         case 0:
+            Amplitude.instance().logEvent("select_home_in_menu")
+            
             let centerViewController = self.storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
             
             let centerNavController = UINavigationController(rootViewController: centerViewController)
@@ -77,6 +81,7 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
             break
             
         case 1:
+            Amplitude.instance().logEvent("select_history_in_menu")
             let historyViewController = self.storyboard?.instantiateViewControllerWithIdentifier("HistoryViewController") as! HistoryViewController
             
             let historyNavController = UINavigationController(rootViewController: historyViewController)
@@ -88,6 +93,7 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
             break;
             
         case 2:
+            Amplitude.instance().logEvent("select_map_in_menu")
             let mapViewController = self.storyboard?.instantiateViewControllerWithIdentifier("MapViewController") as! MapViewController
             
             let mapNavController = UINavigationController(rootViewController: mapViewController)
@@ -116,18 +122,28 @@ class SideMenuViewController: UIViewController, UITableViewDelegate, UITableView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+extension SideMenuViewController {
+    
+    @IBAction func logOutButtonTapped(sender: UIButton) {
+        FBSDKAccessToken.currentAccessToken()
+        let loginManager = FBSDKLoginManager()
+        loginManager.logOut()
+        self.goBackToLoginPage()
+        
     }
-    */
-
+    
+    func goBackToLoginPage(){
+        Amplitude.instance().logEvent("select_log_out_in_menu")
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        let theviewController = self.storyboard?.instantiateViewControllerWithIdentifier("LoginPageViewController") as! LoginPageViewController
+        
+        self.view.window?.rootViewController = theviewController
+    
+    }
+    
+    
 }

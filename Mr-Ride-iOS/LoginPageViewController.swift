@@ -10,6 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKShareKit
 import FBSDKLoginKit
+import Amplitude_iOS
 
 
 class LoginPageViewController: UIViewController, UITextFieldDelegate {
@@ -31,6 +32,7 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Amplitude.instance().printEventsCount()
         setGradientBackground()
         weight.delegate = self
         height.delegate = self
@@ -128,7 +130,7 @@ class LoginPageViewController: UIViewController, UITextFieldDelegate {
 // MARK: - Action
 extension LoginPageViewController {
 
-    @IBAction func loginButtonTapped(sender: AnyObject) {
+    @IBAction func loginButtonTapped(sender: UIButton) {
         let login = FBSDKLoginManager()
         login.logInWithReadPermissions(["public_profile"], fromViewController: self, handler:  { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
             if error != nil {

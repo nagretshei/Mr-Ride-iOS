@@ -75,22 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             initialViewController = mainStoryboard.instantiateViewControllerWithIdentifier("LoginPageViewController") as! LoginPageViewController
         }
-//        
-//        let centerViewContainer = mainStoryboard.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
-//        let menuViewController = mainStoryboard.instantiateViewControllerWithIdentifier("SideMenuViewController") as! SideMenuViewController
-//        
-//        let menuSideNav = UINavigationController(rootViewController: menuViewController)
-//        let centerNav = UINavigationController(rootViewController: centerViewContainer)
-//       
-//        centerContainer = MMDrawerController(centerViewController: centerNav, leftDrawerViewController: menuSideNav)
-//        
-//        centerContainer!.openDrawerGestureModeMask = MMOpenDrawerGestureMode.PanningCenterView
-//        centerContainer!.closeDrawerGestureModeMask = MMCloseDrawerGestureMode.PanningCenterView
-//        
-//        centerContainer?.setMaximumLeftDrawerWidth(260, animated: true, completion: nil)
-//        
-//        window!.rootViewController = centerContainer
-//        window!.makeKeyAndVisible()
 
         GMSServices.provideAPIKey(googleMapsApiKey)
  

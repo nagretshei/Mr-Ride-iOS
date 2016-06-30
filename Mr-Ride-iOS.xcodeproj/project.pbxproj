@@ -47,7 +47,7 @@
 		89C666A31D1CBEC30012B568 /* YouBikeTP.gz in Resources */ = {isa = PBXBuildFile; fileRef = 89C666A21D1CBEC30012B568 /* YouBikeTP.gz */; };
 		89C9FFBB1D17BE5C00E14604 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C9FFB91D17BE5C00E14604 /* Fabric.framework */; };
 		89C9FFBC1D17BE5C00E14604 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */; };
-		89C9FFC51D17C9B600E14604 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89C9FFC41D17C9B600E14604 /* GoogleService-Info.plist */; };
+		89E2BA271D239B6D00F59254 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 89E2BA261D239B6D00F59254 /* GoogleService-Info.plist */; };
 		89F85B981D13A67400AC9976 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8922A97C1CF40D800010B66D /* ViewController.swift */; };
 		89F85B9C1D13D3FC00AC9976 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F85B9B1D13D3FC00AC9976 /* MapViewController.swift */; };
 		AB5AEE1438C3C4625DF00CB6 /* Pods_Mr_Ride_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 013FB7199B8FAE77000CE6C6 /* Pods_Mr_Ride_iOS.framework */; };
@@ -174,7 +174,8 @@
 		89C666A21D1CBEC30012B568 /* YouBikeTP.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; path = YouBikeTP.gz; sourceTree = SOURCE_ROOT; };
 		89C9FFB91D17BE5C00E14604 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		89C9FFBA1D17BE5C00E14604 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		89C9FFC41D17C9B600E14604 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		89E2BA261D239B6D00F59254 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		89E2BA2B1D239C8F00F59254 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		89F2C4AD1CF7D89200B4D400 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
 		89F2C4AE1CF7D89200B4D400 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		89F85B9B1D13D3FC00AC9976 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -244,16 +245,17 @@
 		8922A9791CF40D800010B66D /* Mr-Ride-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				89C9FFC41D17C9B600E14604 /* GoogleService-Info.plist */,
 				8922A9AE1CF40F6A0010B66D /* Mr-Ride-iOS-Bridging-Header.h */,
 				8922A9AD1CF40F510010B66D /* MySideMenu */,
 				8922A9D71CF423280010B66D /* SupportingFiles */,
 				8922A97A1CF40D800010B66D /* AppDelegate.swift */,
 				8922A97E1CF40D800010B66D /* Main.storyboard */,
 				8922A9BC1CF415710010B66D /* MenuTableViewCell.swift */,
+				89E2BA2B1D239C8F00F59254 /* GoogleService-Info.plist */,
 				89F85B9B1D13D3FC00AC9976 /* MapViewController.swift */,
 				8922A9BE1CF41A020010B66D /* HistoryViewController.swift */,
 				8944AC4C1CF6BC280026C8F0 /* HistoryTableViewCell.swift */,
+				89E2BA261D239B6D00F59254 /* GoogleService-Info.plist */,
 				893741A31CF68088001EEB52 /* StatisticsViewController.swift */,
 				899082B51CF5A093009A16DF /* RecordViewController.swift */,
 				8922A9AB1CF40F0F0010B66D /* SideMenuViewController.swift */,
@@ -516,7 +518,6 @@
 			files = (
 				8922A9CF1CF423170010B66D /* RobotoMono-Italic.ttf in Resources */,
 				8922A9D31CF423170010B66D /* RobotoMono-MediumItalic.ttf in Resources */,
-				89C9FFC51D17C9B600E14604 /* GoogleService-Info.plist in Resources */,
 				8922A9CC1CF423170010B66D /* LICENSE.txt in Resources */,
 				8922A9CE1CF423170010B66D /* RobotoMono-BoldItalic.ttf in Resources */,
 				8922A9D01CF423170010B66D /* RobotoMono-Light.ttf in Resources */,
@@ -526,6 +527,7 @@
 				8922A9881CF40D800010B66D /* LaunchScreen.storyboard in Resources */,
 				8922A9851CF40D800010B66D /* Assets.xcassets in Resources */,
 				8922A9801CF40D800010B66D /* Main.storyboard in Resources */,
+				89E2BA271D239B6D00F59254 /* GoogleService-Info.plist in Resources */,
 				8922A9D21CF423170010B66D /* RobotoMono-Medium.ttf in Resources */,
 				8922A9D41CF423170010B66D /* RobotoMono-Regular.ttf in Resources */,
 				8922A9D51CF423170010B66D /* RobotoMono-Thin.ttf in Resources */,
