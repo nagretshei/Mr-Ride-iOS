@@ -9,9 +9,11 @@
 import UIKit
 import GoogleMaps
 import CoreData
+import AVFoundation
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
 class Record: NSManagedObject {
+
     @NSManaged var averageSpeed: Double
     @NSManaged var calories: Double
     @NSManaged var date: NSDate?
@@ -45,6 +47,8 @@ protocol DismissDelegation: class {
 }
 
 class RecordViewController: UIViewController {
+    
+    
     
     weak var dismissDelegation: DismissDelegation?
 
@@ -105,13 +109,20 @@ class RecordViewController: UIViewController {
     var totalCal = 0.0
     var averageSpeedNumber = 0.0
     
+    // for music
+    var backgroundMusicPlayer =  AVAudioPlayer()
+    var resumeTime = Double()
+    var lastStopTime = Double()
+    
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         dismissDelegation?.showLabels()
         dismissViewControllerAnimated(true, completion: nil)
+        backgroundMusicPlayer.stop()
     }
     
     @IBAction func FinishButtonTapped(sender: UIBarButtonItem) {
+        backgroundMusicPlayer.stop()
         timer.invalidate()
         startToRecordMyPath = false
         savingDataForMultiplePaths()
@@ -128,6 +139,7 @@ class RecordViewController: UIViewController {
 
         statisticsViewController?.dismissDelegation1 = self.dismissDelegation
         self.navigationController?.pushViewController(statisticsViewController!, animated: true)
+        
     }
     
     @IBAction func startRecording(sender: UIButton) {
@@ -137,18 +149,31 @@ class RecordViewController: UIViewController {
         startToRecordMyPath = true
         distanceOfAPath = 0.0
         
+        // play music
+        let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
+        
+        do {
+            try backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: bgMusicURL)
+        } catch {
+            print("cannot fetch music")
+        }
+        backgroundMusicPlayer.numberOfLoops = 3
+        backgroundMusicPlayer.prepareToPlay()
+        backgroundMusicPlayer.currentTime = resumeTime
+        backgroundMusicPlayer.play()
+        
         if !timer.valid {
-            
             if pause == false {
                 startTime = NSDate.timeIntervalSinceReferenceDate()
             }
+                
             else {
                 
                 let currentTime = NSDate.timeIntervalSinceReferenceDate()
                 let stopTime = currentTime - previousStopTime
                 
                 totalStopTime += stopTime
-                
+
             }
             
             let aSelector : Selector = #selector(RecordViewController.updateTime)
@@ -163,13 +188,18 @@ class RecordViewController: UIViewController {
         previousStopTime = NSDate.timeIntervalSinceReferenceDate()
         timer.invalidate()
         calculateAverageSpeed()
-        
+    
         pause = true
         startToRecordMyPath = false
         savingDataForMultiplePaths()
         myEntirePathInCoordinate.append(myPathInCoordinate)
         myPath.removeAllCoordinates()
         myPathInCoordinate = [CLLocation]()
+        resumeTime = backgroundMusicPlayer.currentTime
+        backgroundMusicPlayer.pause()
+        
+        
+       
     }
     override func viewDidLoad() {
         super.viewDidLoad()
