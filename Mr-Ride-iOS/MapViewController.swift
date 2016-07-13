@@ -501,9 +501,9 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 if let managedObjectContext = (UIApplication.sharedApplication().delegate as? AppDelegate)?.managedObjectContext {
                     station = NSEntityDescription.insertNewObjectForEntityForName("Stations", inManagedObjectContext: managedObjectContext) as! Stations
 
-                    station.name = eachStationData["snaen"] as! String
-                    station.address = eachStationData["aren"] as! String
-                    station.dist = eachStationData["sareaen"] as! String
+                    station.name = eachStationData["snaen"] as? String
+                    station.address = eachStationData["aren"] as? String
+                    station.dist = eachStationData["sareaen"] as? String
                     station.bikeLeft = eachStationData["sbi"] as! String
                     station.name = eachStationData["snaen"] as? String
                     station.address = eachStationData["aren"] as? String

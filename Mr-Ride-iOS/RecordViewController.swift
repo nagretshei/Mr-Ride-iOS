@@ -10,6 +10,8 @@ import UIKit
 import GoogleMaps
 import CoreData
 import AVFoundation
+import Crashlytics
+
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
 class Record: NSManagedObject {
@@ -113,16 +115,19 @@ class RecordViewController: UIViewController {
     var backgroundMusicPlayer =  AVAudioPlayer()
     var resumeTime = Double()
     var lastStopTime = Double()
+    var playing = false
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         dismissDelegation?.showLabels()
         dismissViewControllerAnimated(true, completion: nil)
-        backgroundMusicPlayer.stop()
+        
+        if playing == true {
+            backgroundMusicPlayer.stop()
+        }
     }
     
     @IBAction func FinishButtonTapped(sender: UIBarButtonItem) {
-        backgroundMusicPlayer.stop()
         timer.invalidate()
         startToRecordMyPath = false
         savingDataForMultiplePaths()
@@ -133,6 +138,11 @@ class RecordViewController: UIViewController {
         if recordWithValue == true {
             saveCoreData()
             calculateTotalValuesForCoreData()
+        }
+        
+        if playing == true {
+            backgroundMusicPlayer.stop()
+            backgroundMusicPlayer.stop()
         }
         
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
@@ -154,6 +164,7 @@ class RecordViewController: UIViewController {
         
         do {
             try backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: bgMusicURL)
+            playing = true
         } catch {
             print("cannot fetch music")
         }
@@ -207,6 +218,7 @@ class RecordViewController: UIViewController {
         let weight = userDefault.doubleForKey("userHeight")
         setView()
         setMap()
+
     }
     
     override func viewDidLayoutSubviews() {

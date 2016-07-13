@@ -12,6 +12,8 @@ import Charts
 import Amplitude_iOS
 
 
+
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var lineChartView: LineChartView!
@@ -147,7 +149,7 @@ class ViewController: UIViewController {
                     let date =  record.date
                     let DateFormatter = NSDateFormatter()
                     DateFormatter.dateFormat = "dd"
-                    let dateStamp = DateFormatter.stringFromDate(date! as! NSDate)
+                    let dateStamp = DateFormatter.stringFromDate(date! )
                     xForDate.insert(dateStamp, atIndex: 0)
                     
                     let distanceInM = record.distance
