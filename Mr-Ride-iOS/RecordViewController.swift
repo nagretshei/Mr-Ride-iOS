@@ -159,19 +159,25 @@ class RecordViewController: UIViewController {
         startToRecordMyPath = true
         distanceOfAPath = 0.0
         
-        // play music
-        let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
         
-        do {
-            try backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: bgMusicURL)
-            playing = true
-        } catch {
-            print("cannot fetch music")
-        }
-        backgroundMusicPlayer.numberOfLoops = 3
-        backgroundMusicPlayer.prepareToPlay()
-        backgroundMusicPlayer.currentTime = resumeTime
-        backgroundMusicPlayer.play()
+        // play music
+        let dispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        dispatch_async(dispatchQueue, { let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
+            
+            do {
+                let session = AVAudioSession.sharedInstance()
+                try session.setCategory(AVAudioSessionCategoryPlayback)
+                try session.setActive(true)
+                try self.backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: bgMusicURL)
+                self.playing = true
+            } catch {
+                print("cannot fetch music")
+            }
+            self.backgroundMusicPlayer.numberOfLoops = 3
+            self.backgroundMusicPlayer.prepareToPlay()
+            self.backgroundMusicPlayer.currentTime = self.resumeTime
+            self.backgroundMusicPlayer.play()
+        })
         
         if !timer.valid {
             if pause == false {
