@@ -101,7 +101,7 @@ class RecordViewController: UIViewController {
     private var myCurrentCoordinate = CLLocation()
     private var myPathInCoordinate = [CLLocation]()
     private var myEntirePathInCoordinate = [[CLLocation]]()
-    private var speed: CLLocationSpeed = CLLocationSpeed()
+    private var speed: CLLocationSpeed = abs(CLLocationSpeed())
     
     
     // for calculating carolies
@@ -181,10 +181,8 @@ class RecordViewController: UIViewController {
             else {
                 
                 let currentTime = NSDate.timeIntervalSinceReferenceDate()
-                let stopTime = currentTime - previousStopTime
-                
+                let stopTime = currentTime - previousStopTime                
                 totalStopTime += stopTime
-
             }
             
             let aSelector : Selector = #selector(RecordViewController.updateTime)
@@ -343,7 +341,7 @@ class RecordViewController: UIViewController {
     }
     
     func calculateCarolies(){
-        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime / 3600)
+        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: weight, time: elapsedTime / 3600)
         totalCal += kCalBurned
         caloriesNum.text = String(format:"%.2f kcal",totalCal)
     }
@@ -403,7 +401,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
                     // get average speed
-                    speed = locationManager.location!.speed
+                    speed = abs(locationManager.location!.speed)
                     averageSpeedNum.text = "\(Int(round(speed * 1.609344 / 1000 * 3600))) km / h"
                     
                     //for drawing polyline

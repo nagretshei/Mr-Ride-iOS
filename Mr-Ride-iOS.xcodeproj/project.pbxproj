@@ -447,6 +447,11 @@
 					8922A9761CF40D800010B66D = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = Z5WT7BQXZK;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					8922A98D1CF40D800010B66D = {
 						CreatedOnToolsVersion = 7.3.1;
