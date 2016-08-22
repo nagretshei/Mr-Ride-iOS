@@ -162,7 +162,9 @@ class RecordViewController: UIViewController {
         
         // play music
         let dispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-        dispatch_async(dispatchQueue, { let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
+        dispatch_async(dispatchQueue, {
+            
+            let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
             
             do {
                 let session = AVAudioSession.sharedInstance()
@@ -173,7 +175,7 @@ class RecordViewController: UIViewController {
             } catch {
                 print("cannot fetch music")
             }
-            self.backgroundMusicPlayer.numberOfLoops = 3
+            self.backgroundMusicPlayer.numberOfLoops = 2
             self.backgroundMusicPlayer.prepareToPlay()
             self.backgroundMusicPlayer.currentTime = self.resumeTime
             self.backgroundMusicPlayer.play()
@@ -354,12 +356,6 @@ class RecordViewController: UIViewController {
 
 }
 
-
-//func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
-//    //need to check TimeStamp
-//    //NSTime for not checking the location so many times so that we can save space in core data
-//    // 三軸感應來算速度
-//}
 
 // MARK: - CLLocationManagerDelegate
 

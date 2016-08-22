@@ -27,7 +27,6 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     var isPresented = false
     // variables for CorData
     var fetchResultController: NSFetchedResultsController!
-    //var fetchResultController1: NSFetchedResultsController!
     var record: Record!
     var records: [Record] = []
     var locations: [Locations] = []

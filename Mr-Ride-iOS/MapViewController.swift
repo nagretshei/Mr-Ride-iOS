@@ -82,15 +82,6 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     @IBAction func lookForButtonTapped(sender: UIButton){
         selectionView.hidden = false
-    
-    
- 
-        
-//        let selectionViewController =  self.storyboard?.instantiateViewControllerWithIdentifier("SelectionViewController") as? SelectionViewController
-//        self.addChildViewController(selectionViewController!)
-//        selectionViewController!.view.frame = CGRectMake(0, self.view.frame.height-261, self.view.frame.width, 261 )
-//        self.view.addSubview((selectionViewController?.view)!)
-//        selectionViewController?.didMoveToParentViewController(self)
         
     }
     
@@ -155,7 +146,7 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
     
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         pickIndex = row
-//        var dataType = PickerViewCases.Toilets
+
         switch row {
         case 0:
             pickerCase = PickerViewCases.UbikeStations
@@ -180,8 +171,7 @@ class MapViewController: UIViewController, UIPickerViewDataSource, UIPickerViewD
         self.navigationController?.navigationBar.barTintColor = UIColor.mrLightblueColor()
         self.navigationController?.navigationBar.translucent = false
         // delete the shadow
-        
-        //self.navigationController!.navigationBar.backgroundColor = UIColor.mrLightblueColor()
+  
         let shadowImg = UIImage()
         self.navigationController?.navigationBar.shadowImage = shadowImg
         self.navigationController?.navigationBar.setBackgroundImage(shadowImg, forBarMetrics: .Default)
@@ -209,7 +199,6 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
             locationManager.startUpdatingLocation()
             mapView.myLocationEnabled = true
             mapView.settings.myLocationButton = true
-            //mapView.accessibilityElementsHidden = false
         }
     }
     
@@ -218,18 +207,6 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
         if let location = locations.last {
             
             mapView.camera = GMSCameraPosition(target: location.coordinate, zoom: 15, bearing: 0, viewingAngle: 0)
-//
-//            let  position = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-
-    
-//            //set camera moves
-//            if let lastLocation = locations.last {
-//                
-//                let currentLocation = CLLocationCoordinate2DMake(lastLocation.coordinate.latitude, lastLocation.coordinate.longitude)
-//                let vancouverCam = GMSCameraUpdate.setTarget(currentLocation)
-//                mapView.moveCamera(vancouverCam)
-//                
-//            }
             
         } else {
             let location  = CLLocationCoordinate2DMake(25.0408578889, 121.567904444)
@@ -252,21 +229,6 @@ extension MapViewController: CLLocationManagerDelegate, GMSMapViewDelegate {
             if let kind = marker.userData!["kind"] {
                 kindLabel.text = String(kind!)
             }
-            
-//            if pickerCase == PickerViewCases.UbikeStations {
-//
-//            } else if pickerCase == PickerViewCases.Toilets {
-//                                if let bikeLeft = marker.userData!["bikeLeft"] {
-//                                    kindLabel.text = String(bikeLeft!)
-//                                }
-//            }
-//            switch Cases {
-//            case .UbikeStations:
-
-//
-//            default:
-
-//            }
 
         }
         
@@ -368,9 +330,7 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
             switch pickerViewData {
             case .Toilets:
                 url = "http://data.taipei/opendata/datalist/apiAccess?scope=resourceAquire&rid=008ed7cf-2340-4bc4-89b0-e258a5573be2"
-                //            func request(URLRequest: URLRequestConvertible) -> Request {
-                //                return Manager.sharedInstance.request(URLRequest.URLRequest)
-            //            }
+
             case.UbikeStations:
                 url = "http://data.taipei/youbike"
             }
@@ -380,10 +340,11 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 .responseJSON {response in
                     switch response.result {
                     case .Success:
-                        //print("Validation Successful")
+                    
                         if let dictionary = response.result.value{
                             print("get JSON data online sucessfull")
-                           // print(dictionary)
+                        
+                     
                             self.getDataFromJson(pickerViewData, object: dictionary)
                             self.fetchCoreData(pickerViewData)
                             dispatch_async(dispatch_get_main_queue(), {
@@ -391,12 +352,10 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                                 self.setMarkers(pickerViewData)
                                 
                             })
-                            //self.self.getFollowingPageData()
+                      
                             
                         } else{
                             print("get data from CoreData still")
-                            //self.getDataFromCoreData()
-                            //self.getStationInfoFromCoreData()
                             
                         }
                         
@@ -469,8 +428,7 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                 } else {print ("fail in get Data from Json for Station")}
 
                 
-            default:
-                //print(data["result"]!!["results"])
+            default:              
 
                 if let results = data["result"]!!["results"] as? [AnyObject] {
                     getInfo(.Toilets, results: results)
@@ -612,7 +570,6 @@ extension MapViewController: NSFetchedResultsControllerDelegate {
                     try fetchResultController.performFetch()
                     
                     downtownToilets = fetchResultController.fetchedObjects as! [DowntownToilet]
-                    //print(downtownToilets)
                     
                 } catch {
                     print(error)
