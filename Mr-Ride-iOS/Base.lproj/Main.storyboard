@@ -287,17 +287,19 @@
                                     <constraint firstItem="3LM-ir-BoQ" firstAttribute="top" secondItem="F4b-Km-rmO" secondAttribute="top" constant="55" id="Cuo-rK-wqK"/>
                                     <constraint firstItem="lxF-AU-zu1" firstAttribute="top" secondItem="F4b-Km-rmO" secondAttribute="top" constant="70" id="ECR-wm-4YL"/>
                                     <constraint firstItem="9nI-5O-xdM" firstAttribute="centerX" secondItem="F4b-Km-rmO" secondAttribute="centerX" id="JUr-Px-z6e"/>
+                                    <constraint firstItem="3ym-Fn-0uQ" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" id="M9Z-o7-X8U"/>
                                     <constraint firstItem="9nI-5O-xdM" firstAttribute="top" secondItem="F4b-Km-rmO" secondAttribute="top" constant="431" id="Mwo-Wf-tv7"/>
                                     <constraint firstItem="3LM-ir-BoQ" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="Okg-if-duN"/>
+                                    <constraint firstAttribute="trailing" secondItem="3ym-Fn-0uQ" secondAttribute="trailing" id="Wfu-Wq-iGT"/>
                                     <constraint firstItem="B45-RE-Fdo" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="cMl-fl-afX"/>
                                     <constraint firstItem="gCz-bK-dmJ" firstAttribute="top" secondItem="F4b-Km-rmO" secondAttribute="top" constant="265" id="dEx-W3-nvS"/>
                                     <constraint firstItem="B45-RE-Fdo" firstAttribute="top" secondItem="F4b-Km-rmO" secondAttribute="top" constant="279" id="fda-8l-9Ph"/>
                                     <constraint firstItem="gCz-bK-dmJ" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="iVO-Tq-eBP"/>
                                     <constraint firstItem="3ym-Fn-0uQ" firstAttribute="top" secondItem="3LM-ir-BoQ" secondAttribute="bottom" constant="101" id="mJu-TF-29S"/>
+                                    <constraint firstItem="3ym-Fn-0uQ" firstAttribute="centerX" secondItem="9nI-5O-xdM" secondAttribute="centerX" id="mvT-TP-eca"/>
                                     <constraint firstItem="c6P-wX-Vr6" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="oLR-kH-BZE"/>
                                     <constraint firstItem="lxF-AU-zu1" firstAttribute="leading" secondItem="F4b-Km-rmO" secondAttribute="leading" constant="38" id="swU-nC-NoA"/>
                                     <constraint firstAttribute="bottom" secondItem="c6P-wX-Vr6" secondAttribute="bottom" constant="156" id="uJd-kg-KSm"/>
-                                    <constraint firstAttribute="trailing" secondItem="lxF-AU-zu1" secondAttribute="trailing" constant="188" id="zrT-Ob-CCr"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -305,11 +307,8 @@
                         <color key="tintColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="F4b-Km-rmO" secondAttribute="bottom" id="70P-6f-B6H"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="3ym-Fn-0uQ" secondAttribute="trailing" constant="-20" id="BF9-zM-5nI"/>
-                            <constraint firstItem="3ym-Fn-0uQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="J3l-xQ-QFG"/>
-                            <constraint firstItem="F4b-Km-rmO" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="MSJ-7e-0HO"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="F4b-Km-rmO" secondAttribute="trailing" constant="-20" id="9EH-vw-9eU"/>
                             <constraint firstItem="F4b-Km-rmO" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="NiN-xI-dNI"/>
-                            <constraint firstItem="F4b-Km-rmO" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="WQx-uu-F6t"/>
                             <constraint firstItem="F4b-Km-rmO" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="gCP-p9-2Dg"/>
                             <constraint firstItem="F4b-Km-rmO" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="mg7-H1-myh"/>
                         </constraints>
@@ -996,7 +995,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9AC-Xd-a3B">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9AC-Xd-a3B">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="image-history-background" translatesAutoresizingMaskIntoConstraints="NO" id="nkN-Ir-xjs">

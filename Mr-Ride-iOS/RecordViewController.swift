@@ -10,6 +10,8 @@ import UIKit
 import GoogleMaps
 import CoreData
 import AVFoundation
+import Crashlytics
+
 //AIzaSyD3hvVjvlfLIxu_md8QKlwJXpT7qf3o4Kc
 
 class Record: NSManagedObject {
@@ -99,7 +101,7 @@ class RecordViewController: UIViewController {
     private var myCurrentCoordinate = CLLocation()
     private var myPathInCoordinate = [CLLocation]()
     private var myEntirePathInCoordinate = [[CLLocation]]()
-    private var speed: CLLocationSpeed = CLLocationSpeed()
+    private var speed: CLLocationSpeed = abs(CLLocationSpeed())
     
     
     // for calculating carolies
@@ -113,16 +115,19 @@ class RecordViewController: UIViewController {
     var backgroundMusicPlayer =  AVAudioPlayer()
     var resumeTime = Double()
     var lastStopTime = Double()
+    var playing = false
     
     
     @IBAction func CancelButtonTapped(sender: UIBarButtonItem) {
         dismissDelegation?.showLabels()
         dismissViewControllerAnimated(true, completion: nil)
-        backgroundMusicPlayer.stop()
+        
+        if playing == true {
+            backgroundMusicPlayer.stop()
+        }
     }
     
     @IBAction func FinishButtonTapped(sender: UIBarButtonItem) {
-        backgroundMusicPlayer.stop()
         timer.invalidate()
         startToRecordMyPath = false
         savingDataForMultiplePaths()
@@ -133,6 +138,11 @@ class RecordViewController: UIViewController {
         if recordWithValue == true {
             saveCoreData()
             calculateTotalValuesForCoreData()
+        }
+        
+        if playing == true {
+            backgroundMusicPlayer.stop()
+            backgroundMusicPlayer.stop()
         }
         
         let statisticsViewController = self.storyboard?.instantiateViewControllerWithIdentifier("StatisticsViewController") as? StatisticsViewController
@@ -149,18 +159,27 @@ class RecordViewController: UIViewController {
         startToRecordMyPath = true
         distanceOfAPath = 0.0
         
-        // play music
-        let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
         
-        do {
-            try backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: bgMusicURL)
-        } catch {
-            print("cannot fetch music")
-        }
-        backgroundMusicPlayer.numberOfLoops = 3
-        backgroundMusicPlayer.prepareToPlay()
-        backgroundMusicPlayer.currentTime = resumeTime
-        backgroundMusicPlayer.play()
+        // play music
+        let dispatchQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+        dispatch_async(dispatchQueue, {
+            
+            let bgMusicURL: NSURL = NSBundle.mainBundle().URLForResource("cloudyAndRainy", withExtension: "m4a")!
+            
+            do {
+                let session = AVAudioSession.sharedInstance()
+                try session.setCategory(AVAudioSessionCategoryPlayback)
+                try session.setActive(true)
+                try self.backgroundMusicPlayer = AVAudioPlayer(contentsOfURL: bgMusicURL)
+                self.playing = true
+            } catch {
+                print("cannot fetch music")
+            }
+            self.backgroundMusicPlayer.numberOfLoops = 2
+            self.backgroundMusicPlayer.prepareToPlay()
+            self.backgroundMusicPlayer.currentTime = self.resumeTime
+            self.backgroundMusicPlayer.play()
+        })
         
         if !timer.valid {
             if pause == false {
@@ -170,10 +189,8 @@ class RecordViewController: UIViewController {
             else {
                 
                 let currentTime = NSDate.timeIntervalSinceReferenceDate()
-                let stopTime = currentTime - previousStopTime
-                
+                let stopTime = currentTime - previousStopTime                
                 totalStopTime += stopTime
-
             }
             
             let aSelector : Selector = #selector(RecordViewController.updateTime)
@@ -207,6 +224,7 @@ class RecordViewController: UIViewController {
         let weight = userDefault.doubleForKey("userHeight")
         setView()
         setMap()
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -331,19 +349,13 @@ class RecordViewController: UIViewController {
     }
     
     func calculateCarolies(){
-        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: 70.0, time: elapsedTime / 3600)
+        let kCalBurned = dataCalCulatingModel.kiloCalorieBurned(.Bike, speed: speed, weight: weight, time: elapsedTime / 3600)
         totalCal += kCalBurned
         caloriesNum.text = String(format:"%.2f kcal",totalCal)
     }
 
 }
 
-
-//func locationManager(manager: CLLocationManager, didUpdateLocations locations:[CLLocation]){
-//    //need to check TimeStamp
-//    //NSTime for not checking the location so many times so that we can save space in core data
-//    // 三軸感應來算速度
-//}
 
 // MARK: - CLLocationManagerDelegate
 
@@ -391,7 +403,7 @@ extension RecordViewController: CLLocationManagerDelegate {
                     distanceNum.text = "\(Int(round(totalDistance))) m"
                     
                     // get average speed
-                    speed = locationManager.location!.speed
+                    speed = abs(locationManager.location!.speed)
                     averageSpeedNum.text = "\(Int(round(speed * 1.609344 / 1000 * 3600))) km / h"
                     
                     //for drawing polyline

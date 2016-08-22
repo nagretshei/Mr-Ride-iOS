@@ -41,13 +41,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UIApplication.sharedApplication().statusBarStyle = .LightContent
         
-        var rootViewController = self.window!.rootViewController
+        let rootViewController = self.window!.rootViewController
         // Facebook
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        var initialViewController: UIViewController
+        let initialViewController: UIViewController
         
         
         if (FBSDKAccessToken.currentAccessToken() != nil) {
@@ -80,6 +80,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
  
         return true
     }
+    
+    func logUser() {
+        // TODO: Use the current user's information
+        // You can call any combination of these three methods
+        Crashlytics.sharedInstance().setUserEmail("user@fabric.io")
+        Crashlytics.sharedInstance().setUserIdentifier("12345")
+        Crashlytics.sharedInstance().setUserName("Test User")
+    }
+
     
     // FaceBook
     func applicationDidBecomeActive(application: UIApplication) { FBSDKAppEvents.activateApp() }
@@ -139,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
 
-            dict[NSUnderlyingErrorKey] = error as! NSError
+            dict[NSUnderlyingErrorKey] = error as NSError
             let wrappedError = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
